@@ -96,7 +96,7 @@ Các mã dưới đây là phạm vi màn hình tối thiểu phải hiện di�
 | **Thư ký Hội đồng (TK-01–TK-06)** | Queue; `Hội đồng của tôi`; Dashboard theo vai trò; tài liệu chính thức; soạn/nộp/sửa Biên bản sau Mốc chốt; kết quả trước/sau công bố theo nhiệm vụ. Không có phiếu đánh giá ở bất kỳ bề mặt nào. |
 | **Quản trị viên (QT-01–QT-06)** | Queue duyệt vai trò; danh sách Tài khoản; chi tiết Tài khoản/yêu cầu vai trò; tạo Tài khoản P.KHCN ban đầu; khóa/mở khóa/đặt lại mật khẩu; audit Tài khoản. Không có điều hướng NCKH. |
 
-Danh mục, sidebar và phạm vi tối thiểu nằm tại [Bộ màn hình theo vai trò](mockups/role-screen-atlas.html). Bằng chứng trực quan chi tiết hiện tập trung ở [luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html); các vai trò khác giữ ở mức Atlas cho đến khi có bộ mockup riêng. Tài liệu này vẫn là hợp đồng khi có xung đột.
+Danh mục, sidebar và phạm vi tối thiểu nằm tại [Bộ màn hình theo vai trò](mockups/role-screen-atlas.html). Bằng chứng trực quan chi tiết gồm [luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html) và bảy bộ actor đã hoàn thiện: [Giảng viên](mockups/giang-vien/01-viec-can-lam.html), [Trưởng đơn vị](mockups/truong-don-vi/01-viec-can-lam.html), [P.KHCN](mockups/p-khcn/01-viec-can-lam.html), [Chủ tịch Hội đồng](mockups/chu-tich-hoi-dong/01-viec-can-lam.html), [Thành viên Hội đồng](mockups/thanh-vien-hoi-dong/01-viec-can-lam.html), [Thư ký Hội đồng](mockups/thu-ky-hoi-dong/01-viec-can-lam.html) và [Quản trị viên](mockups/quan-tri-vien/01-viec-can-lam.html). Bảy bộ này dùng schema trang tường minh cho phạm vi, row, action, gate và upload mode; validator kiểm tra 47 trang phủ 69 mã. Tài liệu này vẫn là hợp đồng khi có xung đột.
 
 ## Voice and Tone
 

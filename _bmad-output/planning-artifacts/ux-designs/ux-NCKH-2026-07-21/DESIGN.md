@@ -263,7 +263,7 @@ Các composition đã chốt qua mockup dùng primitive hiện có, không tạo
 
 [ASSUMPTION] NCKH kế thừa primitive của **shadcn/ui + Radix Primitives** cho Button, Input, Checkbox, RadioGroup, Select, Dialog, Drawer/Sheet, Popover, DropdownMenu, Tabs, Tooltip, Table và Skeleton. Các primitive này giữ semantics, keyboard pattern và focus management mặc định; bảng dưới chỉ định lớp nhận diện và delta nghiệp vụ NCKH. Nếu kiến trúc thay thư viện, hệ thống thay thế phải giữ nguyên hợp đồng này.
 
-Composition thực tế hiện được tập trung trong [Bộ vai trò](mockups/index.html), [Atlas màn hình theo 8 vai trò](mockups/role-screen-atlas.html) và [Luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html); token và quy tắc trong spine này thắng khi có xung đột.
+Composition thực tế hiện được tập trung trong [Bộ vai trò](mockups/index.html), [Atlas màn hình theo 8 vai trò](mockups/role-screen-atlas.html), [Luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html) và bảy bộ chi tiết dùng chung `shared/actor.css` + `shared/actor.js`: [Giảng viên](mockups/giang-vien/01-viec-can-lam.html), [Trưởng đơn vị](mockups/truong-don-vi/01-viec-can-lam.html), [P.KHCN](mockups/p-khcn/01-viec-can-lam.html), [Chủ tịch](mockups/chu-tich-hoi-dong/01-viec-can-lam.html), [Thành viên](mockups/thanh-vien-hoi-dong/01-viec-can-lam.html), [Thư ký](mockups/thu-ky-hoi-dong/01-viec-can-lam.html) và [Quản trị viên](mockups/quan-tri-vien/01-viec-can-lam.html). Token và quy tắc trong spine này thắng khi có xung đột; output chi tiết được kiểm tra drift bằng generator và kiểm tra quyền/nhánh/gate bằng validator.
 
 | Component | Visual spec |
 |---|---|
