@@ -16,7 +16,7 @@ MOCKUPS = ROOT / "_bmad-output/planning-artifacts/ux-designs/ux-NCKH-2026-07-21/
 NAV = {
     "gv": ["Việc cần làm", "Thông báo", "Đợt đăng ký", "Xét duyệt", "Đề tài NCKH", "Hồ sơ cá nhân"],
     "td": ["Việc cần làm", "Thông báo", "Xét duyệt", "Đề tài NCKH", "Hồ sơ cá nhân"],
-    "pk": ["Việc cần làm", "Thông báo", "Đợt đăng ký", "Đề tài NCKH", "Hội đồng", "Hồ sơ cá nhân"],
+    "pk": ["Việc cần làm", "Thông báo", "Đợt đăng ký", "Đề tài NCKH", "Hội đồng", "Cuộc họp & kết quả", "Tài liệu Bước 03–07", "Audit", "Hồ sơ cá nhân"],
     "ct": ["Việc cần làm", "Thông báo", "Hội đồng của tôi", "Hồ sơ cá nhân"],
     "tv": ["Việc cần làm", "Thông báo", "Hội đồng của tôi", "Hồ sơ cá nhân"],
     "tk": ["Việc cần làm", "Thông báo", "Hội đồng của tôi", "Hồ sơ cá nhân"],
@@ -407,22 +407,43 @@ def lecturer_outputs():
     return outputs
 
 
-def page(actor, filename, codes, title, lead, *, kind="list", active=None, visibility="assigned", rows=(), actions=(), gates=(), upload="none", fields=(), tabs=()):
+def page(actor, filename, codes, title, lead, *, kind="list", active=None, visibility="assigned", rows=(), actions=(), gates=(), upload="none", fields=(), tabs=(), metrics=(), lifecycle=(), details=(), audit=()):
     return dict(actor=actor, filename=filename, codes=codes, title=title, lead=lead, kind=kind,
                 active=active or NAV[actor][0], visibility=visibility, rows=list(rows), actions=list(actions),
-                gates=list(gates), upload=upload, fields=list(fields), tabs=list(tabs))
+                gates=list(gates), upload=upload, fields=list(fields), tabs=list(tabs), metrics=list(metrics),
+                lifecycle=list(lifecycle), details=list(details), audit=list(audit))
 
 
-def row(row_id, title, meta, status, *, state="open", scope="assigned"):
-    return dict(id=row_id, title=title, meta=meta, status=status, state=state, scope=scope)
+def row(row_id, title, meta, status, *, state="open", scope="assigned", object_type="Nghiệp vụ", version="—", owner="—", next_action="", href=""):
+    return dict(id=row_id, title=title, meta=meta, status=status, state=state, scope=scope,
+                object_type=object_type, version=version, owner=owner, next_action=next_action, href=href)
 
 
-def action(action_id, label, *, branch="primary", target="page", require="none", tone="primary", result="Đã cập nhật trạng thái mô phỏng.", unlocks=""):
-    return dict(id=action_id, label=label, branch=branch, target=target, require=require, tone=tone, result=result, unlocks=unlocks)
+def action(action_id, label, *, branch="primary", target="page", require="none", tone="primary", result="Đã cập nhật trạng thái mô phỏng.", unlocks="", consequence="Trạng thái và nhật ký kiểm toán sẽ được cập nhật theo quyết định này.", result_status="Đã xử lý", result_state="done"):
+    return dict(id=action_id, label=label, branch=branch, target=target, require=require, tone=tone,
+                result=result, unlocks=unlocks, consequence=consequence, result_status=result_status,
+                result_state=result_state)
 
 
 def gate(gate_id, label, ready, detail):
     return dict(id=gate_id, label=label, ready=ready, detail=detail)
+
+
+def metric(value, label, detail, *, tone="neutral"):
+    return dict(value=value, label=label, detail=detail, tone=tone)
+
+
+def stage(stage_id, label, state, detail):
+    return dict(id=stage_id, label=label, state=state, detail=detail)
+
+
+def detail(title, kind, items):
+    return dict(title=title, kind=kind, items=list(items))
+
+
+def audit_event(action_name, actor, role, timestamp, transition, version="—", reason=""):
+    return dict(action=action_name, actor=actor, role=role, timestamp=timestamp,
+                transition=transition, version=version, reason=reason)
 
 
 PAGES = [
@@ -489,12 +510,12 @@ PAGES = [
         row("pk-bm08", "Ghi nhận BM08 V3", "Báo cáo tiến độ · đủ chữ ký Chủ nhiệm và Trưởng đơn vị", "Chờ ghi nhận"),
         row("pk-bm13", "Xác nhận BM13 giải trình", "Hậu nghiệm thu · yêu cầu 02 của BM12 V3", "Chờ xác nhận"),
         row("pk-bm14", "Lưu BM14 hoàn chỉnh", "Hoàn tất Bước 07 · đề tài có hợp đồng phải thanh lý", "Chờ lưu")]),
-    page("pk", "02-quan-ly-dot.html", ["PK-02", "PK-03", "PK-04"], "Quản lý Đợt đăng ký", "Tạo, cập nhật, công bố và thống kê dựa trên cùng fixture danh sách.", kind="form", active="Đợt đăng ký", visibility="pk", fields=[("round-name", "Tên Đợt đăng ký", "text", "Đợt NCKH Giảng viên 2026", True), ("round-type", "Loại Đợt", "select", "Giảng viên đăng ký|Sinh viên đăng ký|Đề tài giao trực tiếp", True), ("round-direct-topics", "Danh mục đề tài giao trực tiếp (nếu áp dụng)", "textarea", "Không áp dụng cho loại đợt hiện tại.", False), ("round-start", "Bắt đầu", "datetime-local", "2026-07-01T08:00", True), ("round-end", "Kết thúc", "datetime-local", "2026-07-31T17:00", True)], gates=[gate("round-fields", "Đủ loại, tên và thời gian hợp lệ", True, "Kết thúc sau bắt đầu; danh mục bắt buộc khi giao trực tiếp.")], rows=[row("round-draft", "Đợt NCKH Giảng viên 2026", "12 nháp · 0 đã nộp · thống kê cập nhật theo fixture", "Nháp", state="draft")], actions=[action("save-round", "Lưu cấu hình Đợt", branch="save-round", target="round-draft", require="form", tone="secondary", result="Đã lưu bản nháp cấu hình Đợt."), action("update-round", "Cập nhật Đợt", branch="update-round", target="round-draft", require="form", tone="secondary", result="Đợt và số liệu danh sách đã cập nhật."), action("publish-round", "Công bố Đợt", branch="publish", target="round-draft", require="form,gate:round-fields", result="Đợt đã công bố; số liệu giữ đồng bộ với danh sách.")]),
-    page("pk", "03-de-tai-va-huy.html", ["PK-05", "PK-06", "PK-07"], "Đề tài và yêu cầu hủy", "Xem chi tiết và xử lý yêu cầu; chấp thuận không xóa dữ liệu.", active="Đề tài NCKH", visibility="pk", rows=[row("cancel-request-011", "NCKH-GV-2026-011 · Yêu cầu hủy", "Đang thực hiện · lý do: thiếu thiết bị", "Chờ quyết định")], actions=[action("approve-cancel", "Chấp thuận hủy", branch="approve-cancel", target="cancel-request-011", require="reason", tone="danger", result="Đề tài chuyển Đã hủy; lịch sử và tài liệu được giữ lại."), action("reject-cancel", "Từ chối yêu cầu", branch="reject-cancel", target="cancel-request-011", require="reason", tone="secondary", result="Đề tài tiếp tục và Chủ nhiệm nhận lý do.")]),
-    page("pk", "04-hoi-dong-readiness.html", ["PK-08", "PK-09", "PK-10", "PK-11"], "Hội đồng và readiness", "Tạo/cập nhật Hội đồng, dashboard và checklist dựa trên fixture thực; không hard-code một cổng chung.", kind="form", active="Hội đồng", visibility="pk", fields=[("council-stage", "Giai đoạn Hội đồng", "select", "Nghiệm thu|Xét duyệt hồ sơ|Xét duyệt thuyết minh", True), ("council-input", "Hồ sơ đầu vào chính thức", "select", "BM09 V2 + 3 sản phẩm|BM01 hiện hành|BM04 hiện hành", True), ("council-chair", "Chủ tịch", "select", "TS. Dũng Nguyễn", True), ("council-secretary", "Thư ký (ngoài mẫu số)", "select", "ThS. Mai Minh", True), ("council-members", "Thành viên đánh giá", "textarea", "TS. Hùng Hoàng; TS. Linh Phạm; TS. Sơn Trần; TS. An Lê", True)], gates=[gate("chair", "Đúng một Chủ tịch", True, "TS. Dũng Nguyễn đã chấp nhận."), gate("secretary", "Đúng một Thư ký độc quyền", True, "ThS. Mai Minh không thuộc mẫu số."), gate("members", "Tất cả người ngoài đã chấp nhận lời mời", False, "Còn 1 lời mời chưa chấp nhận."), gate("official-input", "Đã chọn official input", True, "BM09 V2 và 3 sản phẩm đã kiểm tra.")], rows=[row("meeting-draft", "HĐNT-2026-006", "Nghiệm thu · 5 người đánh giá + 1 Thư ký · 1 lời mời chờ", "Chưa sẵn sàng", state="blocked")], actions=[action("save-council", "Lưu/cập nhật Hội đồng", branch="save-council", target="meeting-draft", require="form", tone="secondary", result="Đã kiểm tra cơ cấu và lưu cấu hình nháp."), action("accept-last-invite", "Mô phỏng chấp nhận lời mời cuối", branch="accept-invite", target="meeting-draft", tone="secondary", result="Lời mời cuối đã chấp nhận; readiness được tính lại.", unlocks="members"), action("open-meeting", "Mở Cuộc họp", branch="open", target="meeting-draft", require="form,gate:chair,gate:secretary,gate:members,gate:official-input", result="Cuộc họp đã mở và cấu trúc bị khóa.")]),
-    page("pk", "05-cuoc-hop-ket-qua.html", ["PK-12", "PK-13", "PK-14", "PK-15"], "Cuộc họp và kết quả", "Bốn nhánh độc lập: hủy/thay thế, kết thúc, công bố và điều chỉnh.", active="Hội đồng", visibility="pk", gates=[gate("votes", "Đủ 5/5 phiếu hợp lệ", True, "Snapshot CP-2026-006 không thể thay đổi."), gate("minutes", "BM12 đủ hai chữ ký", False, "Đang chờ Chủ tịch tải bản đủ hai chữ ký."), gate("ended", "Cuộc họp đã kết thúc", False, "Chỉ đạt sau cổng phiếu và Biên bản."), gate("publish-source", "Đúng BM12 hiện hành", True, "BM12 V3 là nguồn dự kiến.")], rows=[row("meeting-live", "HĐNT-2026-006", "Đang diễn ra · checkpoint CP-2026-006", "Chờ hoàn tất BM12")], actions=[action("receive-minutes", "Ghi nhận BM12 đủ hai chữ ký", branch="receive-minutes", target="meeting-live", tone="secondary", result="Đã ghi nhận đúng BM12 V3 đủ hai chữ ký.", unlocks="minutes"), action("cancel-meeting", "Hủy Cuộc họp", branch="cancel-meeting", target="meeting-live", require="reason", tone="danger", result="Cuộc họp đã hủy; dùng hành động tạo Cuộc họp thay thế."), action("replace-meeting", "Tạo Cuộc họp thay thế", branch="replace-meeting", target="meeting-live", require="form", tone="secondary", result="Đã tạo namespace mới; không sao chép phiếu hoặc Biên bản hợp lệ."), action("end-meeting", "Kết thúc Cuộc họp", branch="end", target="meeting-live", require="gate:votes,gate:minutes", result="Cuộc họp kết thúc và chuyển Chờ công bố.", unlocks="ended"), action("publish-result", "Công bố kết quả", branch="publish", target="meeting-live", require="gate:ended,gate:publish-source", result="Đã mở quyền xem đúng actor và tạo thông báo."), action("adjust-result", "Công bố phiên bản điều chỉnh", branch="adjust", target="meeting-live", require="reason,gate:publish-source", tone="secondary", result="Bản điều chỉnh trở thành published-current; bản cũ mất hiệu lực.")], fields=[("replacement-note", "Ghi chú cấu hình Cuộc họp thay thế", "textarea", "Tái xác nhận cơ cấu và gửi lời mời mới.", True)]),
-    page("pk", "06-tai-lieu-buoc-03-07.html", ["PK-16", "PK-17", "PK-18", "PK-19", "PK-20", "PK-21", "PK-22"], "Vận hành tài liệu Bước 03–07", "Mỗi BM05–BM14 và cổng Hoàn tất Bước 07 có action riêng.", kind="documents", active="Đề tài NCKH", visibility="pk", upload="pk-official", rows=[row("pk-bm05", "BM05 · Quyết định HĐ thuyết minh", "Tệp lập/ký bên ngoài", "Chờ công bố"), row("pk-bm08", "BM08 · Tiếp nhận báo cáo tiến độ", "V3 · đủ chữ ký Chủ nhiệm và Trưởng đơn vị", "Chờ ghi nhận"), row("pk-bm09", "BM09 · Báo cáo tổng kết và sản phẩm", "Thiếu phụ lục dữ liệu", "Cần trả bổ sung", state="blocked"), row("pk-bm10", "BM10 · Quyết định HĐ nghiệm thu", "Tệp lập/ký bên ngoài", "Chờ công bố"), row("pk-bm13", "BM13 · Giải trình", "V2 · liên kết yêu cầu 02 của BM12", "Chờ xác nhận"), row("pk-bm14", "BM14 · Thanh lý hợp đồng", "Đề tài có hợp đồng phải thanh lý", "Chưa lưu", state="blocked"), row("pk-step07", "Hoàn tất Bước 07", "Nghiệm thu đạt · BM13 đã xác nhận · còn thiếu BM14", "Bị chặn", state="blocked")], gates=[gate("step07-bm12", "BM12 nghiệm thu đạt", True, "BM12 V3 hiện hành."), gate("step07-bm13", "BM13 đã xác nhận khi áp dụng", True, "Yêu cầu giải trình 02 đã đóng."), gate("step07-bm14", "BM14 đã lưu khi bắt buộc", False, "Đề tài này có hợp đồng phải thanh lý.")], actions=[action("publish-bm05", "Công bố BM05", branch="publish-bm05", target="pk-bm05", require="file:pk-bm05-file", result="BM05 đã công bố và có thể dùng làm official input."), action("accept-bm08", "Ghi nhận đã nhận BM08", branch="accept-bm08", target="pk-bm08", result="BM08 V3 hoàn tất tuyến; P.KHCN không ký."), action("return-bm09", "Trả BM09 bổ sung", branch="return-bm09", target="pk-bm09", require="reason", tone="danger", result="Đã trả bộ BM09 cùng danh sách tệp thiếu."), action("publish-bm10", "Công bố BM10", branch="publish-bm10", target="pk-bm10", require="file:pk-bm10-file", result="BM10 đã công bố."), action("confirm-bm13", "Xác nhận BM13", branch="confirm-bm13", target="pk-bm13", result="Giải trình hoàn tất mà không triệu tập lại Hội đồng."), action("store-bm14", "Lưu BM14 hoàn chỉnh", branch="store-bm14", target="pk-bm14", require="file:pk-bm14-file", result="BM14 đã lưu với phiên bản và thời điểm."), action("complete-step07", "Hoàn tất Bước 07", branch="complete-step07", target="pk-step07", require="gate:step07-bm12,gate:step07-bm13,gate:step07-bm14", result="Đề tài đã chuyển Hoàn tất Bước 07.")]),
-    page("pk", "07-audit-nghiep-vu.html", ["PK-23"], "Audit nghiệp vụ", "Lịch sử theo actor, vai trò, phiên bản và lý do; không cho sửa hoặc xuất.", active="Đề tài NCKH", visibility="pk-audit", rows=[row("audit-1", "Trả BM09 bổ sung", "Dũng Nguyễn · Vai trò P.KHCN · 22/07/2026 09:14 · V2", "Có lý do", state="done"), row("audit-2", "Tạo Mốc chốt phiếu", "Hệ thống · 21/07/2026 16:40 · CP-2026-006", "Bất biến", state="locked")]),
+    page("pk", "02-quan-ly-dot.html", ["PK-02", "PK-03", "PK-04"], "Quản lý Đợt đăng ký", "Tạo, cập nhật, công bố và thống kê dựa trên cùng fixture danh sách.", kind="form", active="Đợt đăng ký", visibility="pk", fields=[("round-name", "Tên Đợt đăng ký", "text", "Đợt NCKH Giảng viên 2026", True), ("round-description", "Mô tả hiển thị", "textarea", "Đợt đăng ký đề tài NCKH cấp trường năm 2026.", False), ("round-type", "Loại Đợt", "select", "Giảng viên đăng ký|Sinh viên đăng ký|Đề tài giao trực tiếp", True), ("round-direct-topics", "Danh mục đề tài giao trực tiếp (nếu áp dụng)", "textarea", "Không áp dụng cho loại đợt hiện tại.", False), ("round-start", "Bắt đầu", "datetime-local", "2026-07-01T08:00", True), ("round-end", "Kết thúc", "datetime-local", "2026-07-31T17:00", True)], gates=[gate("round-fields", "Đủ loại, tên và thời gian hợp lệ", True, "Kết thúc sau bắt đầu; danh mục bắt buộc khi giao trực tiếp.")], rows=[row("round-draft", "Đợt NCKH Giảng viên 2026", "12 nháp · 0 đã nộp · thống kê cập nhật theo fixture", "Nháp", state="draft")], actions=[action("save-round", "Lưu cấu hình Đợt", branch="save-round", target="round-draft", require="form", tone="secondary", result="Đã lưu bản nháp cấu hình Đợt."), action("update-round", "Cập nhật metadata Đợt", branch="update-round", target="round-draft", require="form", tone="secondary", result="Tên/mô tả và số liệu danh sách đã cập nhật."), action("publish-round", "Công bố Đợt", branch="publish", target="round-draft", require="form,reason,gate:round-fields", result="Đợt đã công bố; số liệu giữ đồng bộ với danh sách.", result_status="Đã công bố", result_state="published")]),
+    page("pk", "03-de-tai-va-huy.html", ["PK-05", "PK-06", "PK-07"], "Đề tài và yêu cầu hủy", "Xem chi tiết và xử lý yêu cầu; chấp thuận không xóa dữ liệu.", kind="form", active="Đề tài NCKH", visibility="pk", fields=[("cancel-snapshot-version", "Phiên bản yêu cầu đang xem", "text", "REQ-CAN-011 V1", True), ("cancel-current-stage", "Giai đoạn đề tài hiện hành", "select", "Đang thực hiện|Chờ nghiệm thu", True)], rows=[row("cancel-request-011", "NCKH-GV-2026-011 · Yêu cầu hủy", "Đang thực hiện · lý do: thiếu thiết bị", "Chờ quyết định")], actions=[action("approve-cancel", "Chấp thuận hủy", branch="approve-cancel", target="cancel-request-011", require="form,reason", tone="danger", result="Đề tài chuyển Đã hủy; lịch sử và tài liệu được giữ lại.", result_status="Đã hủy", result_state="closed"), action("reject-cancel", "Từ chối yêu cầu", branch="reject-cancel", target="cancel-request-011", require="form,reason", tone="secondary", result="Đề tài tiếp tục và Chủ nhiệm nhận lý do.", result_status="Đã từ chối · đề tài tiếp tục", result_state="active")]),
+    page("pk", "04-hoi-dong-readiness.html", ["PK-08", "PK-09", "PK-10", "PK-11"], "Hội đồng và readiness", "Tạo/cập nhật Hội đồng, dashboard và checklist dựa trên fixture thực; không hard-code một cổng chung.", kind="form", active="Hội đồng", visibility="pk", fields=[("council-stage", "Giai đoạn Hội đồng", "select", "Nghiệm thu|Xét duyệt hồ sơ|Xét duyệt thuyết minh", True), ("council-input", "Hồ sơ đầu vào chính thức", "select", "BM09 V3 + 3 sản phẩm|BM01 hiện hành|BM04 hiện hành", True), ("council-chair", "Chủ tịch", "select", "TS. Dũng Nguyễn", True), ("council-secretary", "Thư ký (ngoài mẫu số)", "select", "ThS. Mai Minh", True), ("council-members", "Thành viên đánh giá", "textarea", "TS. Hùng Hoàng; TS. Linh Phạm; TS. Sơn Trần; TS. An Lê", True)], gates=[gate("chair", "Đúng một Chủ tịch", True, "TS. Dũng Nguyễn đã chấp nhận."), gate("secretary", "Đúng một Thư ký độc quyền", True, "ThS. Mai Minh không thuộc mẫu số."), gate("members", "Đủ 4 Thành viên độc quyền và tất cả lời mời đã nhận", False, "Còn 1 lời mời chưa chấp nhận."), gate("official-input", "Đã chọn official input", True, "BM09 V3 của NCKH-GV-2026-006 và 3 sản phẩm đã kiểm tra.")], rows=[row("meeting-draft", "HĐNT-2026-006", "Nghiệm thu · 5 người đánh giá + 1 Thư ký · 1 lời mời chờ", "Chưa sẵn sàng", state="blocked")], actions=[action("save-council", "Lưu/cập nhật Hội đồng", branch="save-council", target="meeting-draft", require="form", tone="secondary", result="Đã kiểm tra cơ cấu và lưu cấu hình nháp."), action("accept-last-invite", "Mô phỏng chấp nhận lời mời cuối", branch="accept-invite", target="meeting-draft", require="form", tone="secondary", result="Lời mời cuối đã chấp nhận; readiness được tính lại.", unlocks="members"), action("open-meeting", "Mở Cuộc họp", branch="open", target="meeting-draft", require="form,reason,gate:chair,gate:secretary,gate:members,gate:official-input", result="Cuộc họp đã mở và cấu trúc bị khóa.", result_status="Đang diễn ra", result_state="active")]),
+    page("pk", "05-cuoc-hop-ket-qua.html", ["PK-12", "PK-13", "PK-14", "PK-15"], "Cuộc họp và kết quả", "Bốn nhánh độc lập: hủy/thay thế, kết thúc, công bố và điều chỉnh.", active="Cuộc họp & kết quả", visibility="pk", gates=[gate("votes", "Đủ 5/5 phiếu hợp lệ", True, "Snapshot CP-2026-006 không thể thay đổi."), gate("minutes", "BM12 đủ hai chữ ký", False, "Đang chờ Chủ tịch tải bản đủ hai chữ ký."), gate("ended", "Cuộc họp đã kết thúc", False, "Chỉ đạt sau cổng phiếu và Biên bản."), gate("publish-source", "Đúng BM12 hiện hành", True, "BM12 V3 là nguồn dự kiến.")], rows=[row("meeting-live", "HĐNT-2026-006", "Đang diễn ra · checkpoint CP-2026-006", "Chờ hoàn tất BM12")], actions=[action("receive-minutes", "Ghi nhận BM12 đủ hai chữ ký", branch="receive-minutes", target="meeting-live", tone="secondary", result="Đã ghi nhận đúng BM12 V3 đủ hai chữ ký.", unlocks="minutes", result_status="BM12 đủ hai chữ ký"), action("cancel-meeting", "Hủy Cuộc họp", branch="cancel-meeting", target="meeting-live", require="reason", tone="danger", result="Cuộc họp đã hủy; dùng hành động tạo Cuộc họp thay thế.", result_status="Đã hủy", result_state="closed"), action("replace-meeting", "Tạo Cuộc họp thay thế", branch="replace-meeting", target="meeting-live", require="form,reason", tone="secondary", result="Đã tạo namespace mới; không sao chép phiếu hoặc Biên bản hợp lệ."), action("end-meeting", "Kết thúc Cuộc họp", branch="end", target="meeting-live", require="reason,gate:votes,gate:minutes", result="Cuộc họp kết thúc và chuyển Chờ công bố.", unlocks="ended", result_status="Chờ công bố", result_state="waiting"), action("publish-result", "Công bố kết quả", branch="publish", target="meeting-live", require="reason,gate:ended,gate:publish-source", result="Đã mở quyền xem đúng actor và tạo thông báo.", result_status="Đã công bố", result_state="published"), action("adjust-result", "Công bố phiên bản điều chỉnh", branch="adjust", target="meeting-live", require="reason,gate:publish-source", tone="secondary", result="Bản điều chỉnh trở thành published-current; bản cũ mất hiệu lực.", result_status="Đã công bố V2", result_state="published")], fields=[("replacement-note", "Ghi chú cấu hình Cuộc họp thay thế", "textarea", "Tái xác nhận cơ cấu và gửi lời mời mới.", True)]),
+    page("pk", "06-tai-lieu-buoc-03-07.html", ["PK-16", "PK-17", "PK-18", "PK-19", "PK-20", "PK-21", "PK-22"], "Vận hành tài liệu Bước 03–07", "Mỗi BM05–BM14 và cổng Hoàn tất Bước 07 có action riêng.", kind="documents", active="Tài liệu Bước 03–07", visibility="pk", upload="pk-official", fields=[("pk-bm05-attestation", "Đối chiếu BM05", "select", "Đúng bản chính thức đã ký|Chưa đối chiếu", True), ("pk-bm10-attestation", "Đối chiếu BM10", "select", "Đúng bản chính thức đã ký|Chưa đối chiếu", True), ("pk-bm14-attestation", "Đối chiếu BM14", "select", "Đúng bản hoàn chỉnh đã ký|Chưa đối chiếu", True)], rows=[row("pk-bm05", "BM05 · Quyết định HĐ thuyết minh", "Tệp lập/ký bên ngoài", "Chờ công bố"), row("pk-bm08", "BM08 · Tiếp nhận báo cáo tiến độ", "V3 · đủ chữ ký Chủ nhiệm và Trưởng đơn vị", "Chờ ghi nhận"), row("pk-bm09", "BM09 · Báo cáo tổng kết và sản phẩm", "NCKH-SV-2025-018 · thiếu phụ lục dữ liệu", "Cần trả bổ sung", state="blocked"), row("pk-bm10", "BM10 · Quyết định HĐ nghiệm thu", "Tệp lập/ký bên ngoài", "Chờ công bố"), row("pk-bm13", "BM13 · Giải trình", "V2 · liên kết yêu cầu 02 của BM12", "Chờ xác nhận"), row("pk-bm14", "BM14 · Thanh lý hợp đồng", "Đề tài có hợp đồng phải thanh lý", "Chưa lưu", state="blocked"), row("pk-step07", "Hoàn tất Bước 07", "Nghiệm thu đạt · BM13 đã xác nhận · còn thiếu BM14", "Bị chặn", state="blocked")], gates=[gate("bm09-components-complete", "BM09 và từng sản phẩm đủ thành phần", False, "BM09 V2 của NCKH-SV-2025-018 còn thiếu phụ lục dữ liệu."), gate("step07-bm12", "BM12 nghiệm thu đạt", True, "BM12 V3 hiện hành."), gate("step07-bm13", "BM13 đã xác nhận khi áp dụng", True, "Yêu cầu giải trình 02 đã đóng."), gate("step07-bm14", "BM14 đã lưu hoặc được đánh dấu N/A hợp lệ", False, "Đề tài này có hợp đồng phải thanh lý.")], actions=[action("publish-bm05", "Công bố BM05", branch="publish-bm05", target="pk-bm05", require="form,reason,file:pk-bm05-file", result="BM05 đã công bố và có thể dùng làm official input.", result_status="Đã công bố", result_state="published"), action("accept-bm08", "Ghi nhận đã nhận BM08", branch="accept-bm08", target="pk-bm08", result="BM08 V3 hoàn tất tuyến; P.KHCN không ký.", result_status="Đã ghi nhận"), action("return-bm09", "Trả BM09 bổ sung", branch="return-bm09", target="pk-bm09", require="reason", tone="danger", result="Đã trả bộ BM09 cùng danh sách tệp thiếu.", result_status="Đã trả bổ sung"), action("refresh-bm09", "Mô phỏng nhận BM09 V3 đã bổ sung", branch="refresh-bm09", target="pk-bm09", tone="secondary", result="Đã nhận BM09 V3 đủ phụ lục và tính lại cổng.", unlocks="bm09-components-complete", result_status="BM09 V3 · đủ thành phần", result_state="open"), action("publish-bm10", "Công bố BM10", branch="publish-bm10", target="pk-bm10", require="form,reason,file:pk-bm10-file", result="BM10 đã công bố.", result_status="Đã công bố", result_state="published"), action("confirm-bm13", "Xác nhận BM13", branch="confirm-bm13", target="pk-bm13", result="Giải trình hoàn tất mà không triệu tập lại Hội đồng.", result_status="Đã xác nhận"), action("store-bm14", "Lưu BM14 hoàn chỉnh", branch="store-bm14", target="pk-bm14", require="form,reason,file:pk-bm14-file", result="BM14 đã lưu với phiên bản và thời điểm.", result_status="Đã lưu", result_state="done"), action("mark-bm14-na", "Đánh dấu BM14 không áp dụng", branch="mark-bm14-na", target="pk-bm14", require="reason", tone="secondary", result="BM14 được đánh dấu N/A theo căn cứ không có hợp đồng.", unlocks="step07-bm14", result_status="Không áp dụng", result_state="done"), action("complete-step07", "Hoàn tất Bước 07", branch="complete-step07", target="pk-step07", require="reason,gate:step07-bm12,gate:step07-bm13,gate:step07-bm14", result="Đề tài đã chuyển Hoàn tất Bước 07.", result_status="Hoàn tất Bước 07", result_state="closed")]),
+    page("pk", "07-audit-nghiep-vu.html", ["PK-23"], "Audit nghiệp vụ", "Lịch sử theo actor, vai trò, phiên bản và lý do; không cho sửa hoặc xuất.", active="Audit", visibility="pk-audit", rows=[row("audit-1", "Trả BM09 bổ sung", "Dũng Nguyễn · Vai trò P.KHCN · 22/07/2026 09:14 · V2", "Có lý do", state="done"), row("audit-2", "Tạo Mốc chốt phiếu", "Hệ thống · 22/07/2026 13:42 · CP-2026-006", "Bất biến", state="locked")]),
 
     # Chủ tịch — 8 pages / 8 codes
     page("ct", "01-viec-can-lam.html", ["CT-01"], "Việc cần làm", "Phiếu cá nhân, review Biên bản và chữ ký thứ hai trong assignment.", rows=[row("ct-ballot", "Nộp BM11 của bạn", "HĐNT-2026-006", "Chưa nộp"), row("ct-minutes", "Review BM12 V3", "Đã có chữ ký Thư ký", "Chờ Chủ tịch")]),
@@ -531,11 +552,174 @@ PAGES = [
     page("qt", "06-audit-tai-khoan.html", ["QT-06"], "Audit Tài khoản", "Chỉ lịch sử quản trị Tài khoản; không lẫn audit nghiệp vụ.", active="Tài khoản", visibility="account-audit", rows=[row("qt-audit-1", "Khóa Tài khoản Bình Trần", "Quỳnh Anh · Quản trị viên · 20/07/2026 10:18", "Có lý do", state="done"), row("qt-audit-2", "Duyệt vai trò Giảng viên cho An Nguyễn", "Quỳnh Anh · 18/07/2026 08:20", "Bất biến", state="locked")]),
 ]
 
+# Cấu hình chuyên sâu cho bảy workspace P.KHCN. PK-01–PK-23 vẫn là mã
+# canonical; phần dưới chỉ làm giàu fixture, bằng chứng và điều hướng giữa các
+# workspace, không tạo thêm màn hình hay trao quyền Hội đồng cho vai trò P.KHCN.
+def pk_page(code):
+    return next(item for item in PAGES if code in item["codes"])
+
+
+_pk_queue = pk_page("PK-01")
+_pk_queue.update(
+    metrics=[
+        metric("8", "Tổng việc cần làm", "Cùng scope vai trò P.KHCN và cùng bộ lọc quyền.", tone="info"),
+        metric("3", "Sắp đến hạn", "Yêu cầu hủy, BM09 và BM13 cần xử lý trong 48 giờ.", tone="warning"),
+        metric("2", "Đang bị chặn", "Hội đồng chờ lời mời; Bước 07 chờ BM14.", tone="danger"),
+        metric("3", "Đang chờ actor khác", "Không tính vào tám việc P.KHCN phải thao tác.", tone="neutral"),
+    ],
+    lifecycle=[
+        stage("queue-new", "Mới nhận", "complete", "Đã đồng bộ theo vai trò và phạm vi."),
+        stage("queue-triage", "Đã phân loại", "current", "Nhóm theo Đợt, Hội đồng, tài liệu và hoàn tất."),
+        stage("queue-action", "Đang xử lý", "upcoming", "Mỗi việc dẫn tới đúng workspace và đối tượng."),
+        stage("queue-audit", "Đã ghi audit", "upcoming", "Badge và count cập nhật sau quyết định."),
+    ],
+    details=[
+        detail("Phạm vi hàng chờ", "queue-scope", [
+            ("Nguồn số đếm", "8 tác vụ", "Chỉ việc P.KHCN có quyền hành động; không gồm việc chờ người khác."),
+            ("Không đưa vào hàng chờ", "Phiếu cá nhân", "BM02/BM06/BM11 chỉ xuất hiện khi chuyển sang vai trò Hội đồng được phân công."),
+            ("Kết quả trước công bố", "Được che", "Không tạo preview thông báo cho Chủ nhiệm hoặc Thành viên."),
+        ]),
+        detail("Ưu tiên vận hành", "queue-priority", [
+            ("Hạn gần nhất", "24/07 17:00", "Kiểm tra BM09 và từng sản phẩm trước khi gắn official input."),
+            ("Rủi ro toàn vẹn", "1 Cuộc họp", "Không sửa cơ cấu HĐNT-2026-006 sau khi mở."),
+            ("Mốc hoàn tất", "1 đề tài", "BM14 bắt buộc chưa được lưu nên Bước 07 vẫn bị chặn."),
+        ]),
+    ],
+    audit=[audit_event("Đồng bộ hàng chờ", "Hệ thống", "Dịch vụ công việc", "23/07/2026 08:00 ICT", "7 → 8 việc", "snapshot Q-2307")],
+)
+_queue_routes = {
+    "pk-cancel": ("Yêu cầu hủy", "REQ-CAN-011 V1", "Dũng Nguyễn", "Xem lý do và quyết định có lý do.", "03-de-tai-va-huy.html#action-target-cancel-request-011"),
+    "pk-bm09": ("Tài liệu", "BM09 V2", "Chủ nhiệm: Nguyễn Minh An", "Đối chiếu báo cáo và 3 sản phẩm.", "06-tai-lieu-buoc-03-07.html#action-target-pk-bm09"),
+    "pk-round": ("Đợt đăng ký", "DRAFT V3", "Phòng KHCN", "Kiểm tra cổng và công bố Đợt.", "02-quan-ly-dot.html#action-target-round-draft"),
+    "pk-council": ("Hội đồng", "CFG V4", "Phòng KHCN", "Hoàn tất lời mời và readiness.", "04-hoi-dong-readiness.html#action-target-meeting-draft"),
+    "pk-minutes": ("Biên bản", "BM12 V3", "Chủ tịch Hội đồng", "Chờ bản đủ hai chữ ký; P.KHCN không ký.", "05-cuoc-hop-ket-qua.html#action-target-meeting-live"),
+    "pk-bm08": ("Tài liệu", "BM08 V3", "Trưởng đơn vị", "Ghi nhận đã nhận, không ký BM08.", "06-tai-lieu-buoc-03-07.html#action-target-pk-bm08"),
+    "pk-bm13": ("Giải trình", "BM13 V2", "Chủ nhiệm: Nguyễn Minh An", "Đối chiếu yêu cầu 02 của BM12.", "06-tai-lieu-buoc-03-07.html#action-target-pk-bm13"),
+    "pk-bm14": ("Tài liệu ngoài hệ thống", "BM14 V1", "Phòng KHCN", "Lưu bản hoàn chỉnh và mở gate Bước 07.", "06-tai-lieu-buoc-03-07.html#action-target-pk-bm14"),
+}
+for _record in _pk_queue["rows"]:
+    _record["object_type"], _record["version"], _record["owner"], _record["next_action"], _record["href"] = _queue_routes[_record["id"]]
+
+_pk_round = pk_page("PK-02")
+_pk_round.update(
+    metrics=[metric("1", "Đợt Nháp", "Có thể sửa đầy đủ trước công bố.", tone="warning"), metric("2", "Đợt đã công bố", "Chỉ sửa metadata không đổi tính hợp lệ."), metric("47", "Hồ sơ trong scope", "18 Sinh viên · 29 Giảng viên.", tone="info"), metric("31/07", "Tự đóng", "Không có thao tác đóng thủ công trước hạn.")],
+    lifecycle=[stage("round-draft-stage", "Nháp", "current", "Sửa cấu hình và danh mục."), stage("round-published-stage", "Đã công bố", "upcoming", "Khóa điều kiện ảnh hưởng hồ sơ đã nộp."), stage("round-auto-close", "Đã đóng", "upcoming", "Hệ thống tự đóng lúc 31/07/2026 17:00 ICT.")],
+    details=[
+        detail("Thống kê cùng snapshot", "round-statistics", [("Hồ sơ tạm trên trang", "12", "Chưa tạo Hồ sơ phía máy chủ."), ("Hồ sơ đã tạo", "0", "Chỉ tăng sau transaction Nộp PDF & tạo Hồ sơ."), ("Tuyến xử lý", "Trưởng đơn vị", "Không có bước P.KHCN tiếp nhận BM01.")]),
+        detail("Quy tắc sau công bố", "round-lock", [("Tên hiển thị/mô tả", "Được sửa", "Không làm đổi điều kiện hợp lệ."), ("Loại Đợt/thời gian", "Bị khóa", "Không sửa nếu ảnh hưởng Hồ sơ đã nộp."), ("Đóng trước hạn", "Không hỗ trợ", "Đợt tự đóng theo thời điểm cấu hình.")]),
+    ],
+    audit=[audit_event("Cập nhật cấu hình", "Dũng Nguyễn", "P.KHCN", "22/07/2026 16:20 ICT", "Nháp V2 → Nháp V3", "CFG V3", "Bổ sung mô tả phạm vi Khoa Công nghệ")],
+)
+_pk_round["rows"][0].update(object_type="Đợt đăng ký", version="CFG V3", owner="Phòng KHCN", next_action="Kiểm tra điều kiện và công bố.")
+
+_pk_topics = pk_page("PK-05")
+_pk_topics.update(
+    metrics=[metric("126", "Đề tài trong phạm vi", "Bước 01–07, gồm cả terminal."), metric("1", "Yêu cầu hủy chờ xử lý", "REQ-CAN-011 V1.", tone="warning"), metric("0", "Yêu cầu quá ngưỡng", "Sau Chờ nghiệm thu bị chặn từ nguồn.", tone="success"), metric("1", "Đề tài có rủi ro", "Thiếu thiết bị thí nghiệm.", tone="danger")],
+    lifecycle=[stage("cancel-requested", "Đã yêu cầu", "complete", "Chủ nhiệm gửi lý do và bằng chứng."), stage("cancel-review", "P.KHCN quyết định", "current", "Chấp thuận hoặc từ chối đều bắt buộc lý do."), stage("cancel-terminal", "Kết quả", "upcoming", "Đã hủy hoặc tiếp tục; dữ liệu không bị xóa."), stage("cancel-notify", "Thông báo & audit", "upcoming", "Gửi Chủ nhiệm và ghi trạng thái trước/sau.")],
+    details=[
+        detail("Snapshot yêu cầu hủy", "cancel-request", [("Mã yêu cầu", "REQ-CAN-011", "Gửi 22/07/2026 09:12 ICT bởi Chủ nhiệm."), ("Trạng thái nguồn", "Đang thực hiện", "Còn trước Chờ nghiệm thu tại thời điểm gửi."), ("Lý do", "Thiếu thiết bị", "Thiết bị đo chính hỏng và chưa có phương án thay thế.")]),
+        detail("Hệ quả quyết định", "cancel-effects", [("Chấp thuận", "Đã hủy", "Khóa mutation tiếp theo nhưng giữ hồ sơ, phiên bản và audit."), ("Từ chối", "Tiếp tục", "Giữ giai đoạn hiện tại và thông báo lý do cho Chủ nhiệm."), ("Dữ liệu stale", "Chặn", "Tải lại nếu đề tài đã tới Chờ nghiệm thu.")]),
+    ],
+    audit=[audit_event("Gửi yêu cầu hủy", "TS. Nguyễn Thị Lan", "Chủ nhiệm đề tài", "22/07/2026 09:12 ICT", "Chưa có → Chờ xử lý", "REQ-CAN-011 V1", "Thiếu thiết bị thí nghiệm")],
+)
+_pk_topics["rows"][0].update(object_type="Đề tài NCKH", version="REQ-CAN-011 V1", owner="TS. Nguyễn Thị Lan", next_action="Chọn quyết định và nhập lý do.")
+
+_pk_council = pk_page("PK-08")
+_pk_council.update(
+    metrics=[metric("3", "Hội đồng Nháp", "Có thể cập nhật cơ cấu."), metric("5", "Người đánh giá", "Gồm Chủ tịch; không gồm Thư ký.", tone="info"), metric("1", "Thư ký ngoài mẫu số", "Vai trò độc quyền, không nộp phiếu.", tone="success"), metric("1", "Lời mời chờ", "Chặn Mở Cuộc họp.", tone="danger")],
+    lifecycle=[stage("council-config", "Cấu hình", "complete", "Đúng giai đoạn và official input."), stage("council-invites", "Lời mời", "current", "Còn một chuyên gia chưa chấp nhận."), stage("council-open", "Mở Cuộc họp", "blocked", "Chỉ mở khi tất cả điều kiện đạt."), stage("council-lock", "Khóa cấu trúc", "upcoming", "Không thêm/xóa/đổi vai trò sau mở.")],
+    details=[
+        detail("Official input snapshot", "official-snapshot", [("Nguồn nghiệm thu", "BM09 V2 · NCKH-GV-2026-006", "SHA-256 84f2…a91c · nộp 21/07/2026 10:30 ICT."), ("Sản phẩm", "3 tệp", "SP-01 V1, SP-02 V2, SP-03 V1 đều đủ thành phần."), ("Quyết định", "BM10 V1", "Bản published-current đã gắn đúng Hội đồng trước khi mở.")]),
+        detail("Cơ cấu và lời mời", "council-roster", [("Chủ tịch", "1 · đã nhận", "TS. Dũng Nguyễn thuộc mẫu số đánh giá."), ("Thành viên", "4 · 3 đã nhận", "TS. An Lê còn chờ chấp nhận lời mời."), ("Thư ký", "1 · đã nhận", "ThS. Mai Minh đứng ngoài mẫu số và không có phiếu.")]),
+    ],
+    audit=[audit_event("Chọn official input", "Dũng Nguyễn", "P.KHCN", "22/07/2026 14:05 ICT", "Chưa chọn → BM09 V2 của NCKH-GV-2026-006 + 3 sản phẩm", "CFG V4")],
+)
+_pk_council["rows"][0].update(object_type="Cuộc họp Hội đồng", version="CFG V4", owner="Phòng KHCN", next_action="Hoàn tất lời mời cuối rồi mở Cuộc họp.")
+_pk_council["fields"] = [tuple(value.replace("BM09 V3", "BM09 V2") if isinstance(value, str) else value for value in field) for field in _pk_council["fields"]]
+next(gate_item for gate_item in _pk_council["gates"] if gate_item["id"] == "official-input")["detail"] = "BM09 V2 của NCKH-GV-2026-006 và 3 sản phẩm đã kiểm tra."
+_pk_council["fields"].insert(2, ("council-decision", "Quyết định giai đoạn hiện hành", "select", "BM10 V1 published-current|Không áp dụng (xét duyệt hồ sơ)|BM05 V1 published-current", True))
+_pk_council["gates"].append(gate("stage-decision", "Đã gắn quyết định đúng giai đoạn", True, "BM10 V1 published-current được gắn vào snapshot nghiệm thu."))
+next(action_item for action_item in _pk_council["actions"] if action_item["id"] == "open-meeting")["require"] += ",gate:stage-decision"
+next(action_item for action_item in _pk_council["actions"] if action_item["id"] == "accept-last-invite").update(result_status="Sẵn sàng mở", result_state="open")
+
+_pk_meeting = pk_page("PK-12")
+_pk_meeting.update(
+    metrics=[metric("5/5", "Phiếu hợp lệ", "100% người có trách nhiệm đánh giá.", tone="success"), metric("1", "Thư ký ngoài mẫu số", "Không có phiếu thứ sáu."), metric("CP-2026-006", "Mốc chốt bất biến", "Tự tạo lúc đủ 100%.", tone="info"), metric("1/2", "Chữ ký Biên bản", "Còn chữ ký Chủ tịch.", tone="warning")],
+    lifecycle=[stage("meeting-votes", "100% phiếu", "complete", "5/5 hợp lệ; Thư ký ngoài mẫu số."), stage("meeting-checkpoint", "Mốc chốt", "complete", "CP-2026-006 tự tạo, Tập phiếu đã khóa."), stage("meeting-minutes", "BM12 đủ 2 chữ ký", "current", "V3 đang chờ Chủ tịch hoàn tất."), stage("meeting-end", "Kết thúc", "blocked", "P.KHCN chỉ kết thúc sau BM12 hoàn tất."), stage("meeting-publish", "Công bố", "upcoming", "Action riêng sau trạng thái Chờ công bố."), stage("meeting-adjust", "Điều chỉnh", "upcoming", "Phiên bản mới, lý do bắt buộc, không ghi đè.")],
+    details=[
+        detail("Mẫu số tại Mốc chốt", "vote-denominator", [("Chủ tịch", "1/1 hợp lệ", "Thuộc nhóm đánh giá khi dùng vai trò Chủ tịch."), ("Thành viên", "4/4 hợp lệ", "Chỉ trạng thái hợp lệ; không lộ nội dung/tệp nháp."), ("Thư ký", "Ngoài mẫu số", "Không được cấp phiếu BM11 trong Cuộc họp này.")]),
+        detail("Phiên bản kết quả", "result-version", [("Nguồn hiện hành", "BM12 V3", "Chờ bản đủ hai chữ ký."), ("Kết quả V1", "Chưa công bố", "Không mở quyền xem cho Chủ nhiệm/Thành viên."), ("Điều chỉnh", "Chưa phát sinh", "Chỉ tạo sau V1 đã công bố và luôn liên kết bản trước.")]),
+    ],
+    audit=[audit_event("Tự tạo Mốc chốt phiếu", "Hệ thống", "Dịch vụ Cuộc họp", "22/07/2026 13:42 ICT", "4/5 → 5/5 · Tập phiếu khóa", "CP-2026-006"), audit_event("Nộp BM12", "Mai Minh", "Thư ký Hội đồng", "22/07/2026 15:10 ICT", "Soạn → Chờ chữ ký thứ hai", "BM12 V3")],
+)
+_pk_meeting["rows"][0].update(object_type="Cuộc họp Hội đồng", version="CP-2026-006 · BM12 V3", owner="Phòng KHCN", next_action="Chờ Chủ tịch hoàn tất BM12, sau đó kết thúc và công bố.")
+
+_pk_documents = pk_page("PK-16")
+_pk_documents.update(
+    metrics=[metric("7", "Năng lực PK-16–22", "Mỗi loại tài liệu có action và gate riêng."), metric("3", "Tệp ngoài hệ thống", "BM05, BM10, BM14 chỉ lưu/công bố.", tone="info"), metric("2", "Bộ cần kiểm tra", "BM09 và BM13 có nhánh trả.", tone="warning"), metric("1", "Gate Bước 07 còn thiếu", "BM14 bắt buộc chưa lưu.", tone="danger")],
+    lifecycle=[stage("step03", "Bước 03 · BM05", "complete", "Lưu/công bố quyết định ngoài hệ thống."), stage("step05", "Bước 05 · BM08", "complete", "Chỉ ghi nhận đã nhận, P.KHCN không ký."), stage("step06", "Bước 06 · BM09/BM10", "current", "Kiểm tra bộ sản phẩm và công bố quyết định."), stage("step07-explain", "Bước 07 · BM13", "complete", "Xác nhận giải trình nếu áp dụng, không họp lại."), stage("step07-close", "Bước 07 · BM14", "blocked", "Lưu bản hoàn chỉnh khi đề tài có hợp đồng."), stage("step07-done", "Hoàn tất Bước 07", "upcoming", "Chỉ xác nhận khi mọi gate bắt buộc đạt.")],
+    details=[
+        detail("Phân loại thao tác", "document-authority", [("BM05/BM10/BM14", "Lưu hoặc công bố", "Đã lập, xử lý và ký ngoài hệ thống; P.KHCN không soạn/ký."), ("BM08", "Ghi nhận đã nhận", "Đúng V3 đã có chữ ký Chủ nhiệm và Trưởng đơn vị; P.KHCN không ký."), ("BM09/BM13", "Kiểm tra hoặc trả", "Trả bắt buộc lý do và giữ phiên bản lịch sử.")]),
+        detail("Phiên bản và hiệu lực", "document-versions", [("BM09 V2", "Chưa đủ", "Thiếu phụ lục dữ liệu; chưa được chọn official input."), ("BM13 V2", "Hiện hành", "Liên kết yêu cầu 02 của BM12 V3."), ("BM14", "Chưa có", "Bắt buộc vì đề tài có hợp đồng phải thanh lý."), ("Đề tài không có hợp đồng", "Không áp dụng", "BM14 được đánh dấu N/A và không chặn Hoàn tất Bước 07.")]),
+    ],
+    audit=[audit_event("Ghi nhận đã nhận BM08", "Dũng Nguyễn", "P.KHCN", "18/07/2026 14:25 ICT", "Chờ P.KHCN → Hoàn tất tuyến", "BM08 V3"), audit_event("Trả BM09 bổ sung", "Dũng Nguyễn", "P.KHCN", "22/07/2026 09:14 ICT", "Chờ kiểm tra → Trả bổ sung", "BM09 V2", "Thiếu phụ lục dữ liệu")],
+)
+_doc_meta = {
+    "pk-bm05": ("Quyết định ngoài hệ thống", "BM05 V1", "Phòng KHCN", "Chọn đúng PDF đã ký và công bố."),
+    "pk-bm08": ("Báo cáo tiến độ", "BM08 V3", "Chủ nhiệm → Trưởng đơn vị", "Ghi nhận đã nhận; không tải chữ ký P.KHCN."),
+    "pk-bm09": ("Bộ nghiệm thu", "BM09 V2 + 3 sản phẩm", "Chủ nhiệm đề tài", "Trả bổ sung hoặc đánh dấu đủ thành phần."),
+    "pk-bm10": ("Quyết định ngoài hệ thống", "BM10 V1", "Phòng KHCN", "Chọn đúng PDF đã ký và công bố."),
+    "pk-bm13": ("Giải trình", "BM13 V2", "Chủ nhiệm đề tài", "Xác nhận hoặc trả chỉnh sửa có lý do."),
+    "pk-bm14": ("Tài liệu ngoài hệ thống", "BM14 V1", "Phòng KHCN", "Lưu bản hoàn chỉnh để mở gate."),
+    "pk-step07": ("Mốc vòng đời", "Gate snapshot V1", "Phòng KHCN", "Chỉ xác nhận sau khi BM14 bắt buộc đã lưu."),
+}
+for _record in _pk_documents["rows"]:
+    _record["object_type"], _record["version"], _record["owner"], _record["next_action"] = _doc_meta[_record["id"]]
+
+_pk_audit = pk_page("PK-23")
+_pk_audit.update(
+    metrics=[metric("2", "Sự kiện trong bộ lọc", "Khoảng 18–23/07/2026."), metric("2", "Vai trò nguồn", "P.KHCN và Hệ thống."), metric("2", "Đối tượng", "BM09 V2 và CP-2026-006."), metric("0", "Bản ghi có thể sửa", "Audit bất biến, không có xuất dữ liệu.", tone="success")],
+    lifecycle=[stage("audit-event", "Sự kiện nghiệp vụ", "complete", "Ghi actor, Tài khoản và vai trò."), stage("audit-transition", "Trạng thái trước/sau", "complete", "Gắn đúng đối tượng và phiên bản."), stage("audit-reason", "Lý do", "complete", "Bắt buộc với hành động trả/destructive."), stage("audit-immutable", "Bất biến", "current", "Người dùng nghiệp vụ không sửa/xóa/xuất.")],
+    details=[
+        detail("Bộ lọc kiểm toán", "audit-filter-contract", [("Khoảng thời gian", "18–23/07/2026", "Múi giờ Asia/Ho_Chi_Minh (ICT)."), ("Loại đối tượng", "Tài liệu + Cuộc họp", "Giới hạn theo quyền đọc của vai trò hiện hành."), ("Dữ liệu nhạy cảm", "Đã che", "Không hiển thị nội dung hoặc tệp nháp phiếu cá nhân.")]),
+        detail("Trường bằng chứng", "audit-fields", [("Actor/Tài khoản/Vai trò", "Bắt buộc", "Phân biệt Dũng Nguyễn ở vai trò P.KHCN với Chủ tịch."), ("Trạng thái trước/sau", "Bắt buộc", "Không dùng nhãn chung chung không truy vết."), ("Phiên bản/lý do", "Theo sự kiện", "Lý do bắt buộc với trả BM09 và các action destructive.")]),
+    ],
+    audit=[audit_event("Trả BM09 bổ sung", "Dũng Nguyễn", "P.KHCN", "22/07/2026 09:14 ICT", "Chờ kiểm tra → Trả bổ sung", "BM09 V2", "Thiếu phụ lục dữ liệu"), audit_event("Tự tạo Mốc chốt phiếu", "Hệ thống", "Dịch vụ Cuộc họp", "22/07/2026 13:42 ICT", "4/5 → 5/5 · Tập phiếu khóa", "CP-2026-006")],
+)
+for _record in _pk_audit["rows"]:
+    _record.update(object_type="Audit bất biến", version="BM09 V2" if _record["id"] == "audit-1" else "CP-2026-006", owner="P.KHCN" if _record["id"] == "audit-1" else "Hệ thống")
+
 # Các nhánh đối nghịch được khai báo bổ sung trên cùng fixture để reviewer có thể
 # kiểm tra cả bộ hợp lệ và bộ bị trả mà không nhân đôi mã màn hình Atlas.
 _pk_documents = next(p for p in PAGES if "PK-18" in p["codes"])
-_pk_documents["actions"].insert(3, action("accept-bm09", "Đánh dấu BM09 đủ thành phần", branch="accept-bm09", target="pk-bm09", result="Bộ BM09 và từng sản phẩm đã đủ thành phần để chọn làm official input."))
+_pk_documents["fields"].append(("bm14-contract-applicability", "Tình trạng hợp đồng của đề tài", "select", "Có hợp đồng|Không có hợp đồng", True))
+_pk_documents["actions"].insert(4, action("accept-bm09", "Đánh dấu BM09 đủ thành phần", branch="accept-bm09", target="pk-bm09", require="gate:bm09-components-complete", result="Bộ BM09 V3 và từng sản phẩm đã đủ thành phần để chọn làm official input.", result_status="Đã đủ thành phần", result_state="done"))
 _pk_documents["actions"].insert(6, action("return-bm13", "Trả BM13 chỉnh sửa", branch="return-bm13", target="pk-bm13", require="reason", tone="danger", result="BM13 đã trả Chủ nhiệm kèm lý do; phiên bản hiện tại được giữ lịch sử."))
+_pk_consequences = {
+    "publish-round": "Đợt chuyển sang Đã công bố; loại Đợt và điều kiện ảnh hưởng hồ sơ bị khóa, hệ thống tự đóng khi hết hạn.",
+    "approve-cancel": "Đề tài chuyển Đã hủy, mọi mutation tiếp theo bị khóa nhưng hồ sơ, tài liệu và audit vẫn được giữ.",
+    "reject-cancel": "Đề tài tiếp tục ở giai đoạn hiện tại; Chủ nhiệm nhận thông báo cùng lý do từ chối.",
+    "open-meeting": "Cấu trúc, official input và mẫu số bị khóa; sai cấu hình chỉ xử lý bằng hủy và tạo Cuộc họp thay thế.",
+    "cancel-meeting": "Cuộc họp hiện tại bị hủy vĩnh viễn; phiếu/Biên bản đã phát sinh chỉ còn giá trị lịch sử và không được tái sử dụng.",
+    "replace-meeting": "Tạo Meeting ID, lời mời, mẫu số, checkpoint và namespace bằng chứng mới; không sao chép tài liệu cũ như bằng chứng hợp lệ.",
+    "end-meeting": "Cuộc họp khóa nhận tài liệu và chuyển Chờ công bố; thao tác không đồng nghĩa với công bố kết quả.",
+    "publish-result": "Mở quyền xem kết quả published-current cho đúng actor và gửi thông báo; bản đã công bố không thể sửa trực tiếp.",
+    "adjust-result": "Tạo phiên bản kết quả bất biến mới; bản cũ mất hiệu lực nhưng vẫn truy vết được và actor đủ quyền được thông báo lại.",
+    "accept-bm08": "BM08 V3 hoàn tất tuyến ở trạng thái đã nhận; không thêm chữ ký hoặc phê duyệt P.KHCN.",
+    "publish-bm05": "BM05 V1 đã đối chiếu chữ ký trở thành published-current; actor đúng phạm vi được mở quyền xem và bản cũ vẫn truy vết được.",
+    "return-bm09": "BM09 V2 giữ lịch sử và quay về Chủ nhiệm cùng danh sách thiếu; chưa thể dùng làm official input.",
+    "refresh-bm09": "Chỉ mô phỏng sự kiện Chủ nhiệm nộp BM09 V3; P.KHCN chưa phê duyệt và BM09 V2 vẫn được giữ lịch sử.",
+    "accept-bm09": "BM09 V3 và từng sản phẩm được đánh dấu đủ thành phần, đủ điều kiện chọn làm official input nghiệm thu.",
+    "publish-bm10": "BM10 V1 đã đối chiếu chữ ký trở thành published-current; Hội đồng chỉ được gắn đúng phiên bản này làm quyết định nghiệm thu.",
+    "return-bm13": "BM13 V2 bị trả kèm lý do; Chủ nhiệm phải tạo phiên bản mới liên kết đúng yêu cầu BM12.",
+    "confirm-bm13": "Đóng yêu cầu giải trình tương ứng mà không triệu tập lại Hội đồng; audit ghi đúng BM12/BM13 hiện hành.",
+    "store-bm14": "Lưu BM14 hoàn chỉnh như bằng chứng ngoài hệ thống và mở cổng BM14; hệ thống không lập, ký hoặc xử lý tài chính.",
+    "mark-bm14-na": "Chỉ dùng khi đề tài không có hợp đồng; lưu căn cứ N/A vào audit và mở cổng mà không tạo BM14 giả.",
+    "complete-step07": "Đề tài chuyển Hoàn tất Bước 07 và khóa cổng MVP; không tạo nghiệp vụ Bước 08–09 hoặc BM15.",
+}
+for _page in (item for item in PAGES if item["actor"] == "pk"):
+    for _action in _page["actions"]:
+        _action["consequence"] = _pk_consequences.get(_action["id"], _action["consequence"])
 _ct_ballot = next(p for p in PAGES if "CT-05" in p["codes"])
 _ct_ballot["fields"].insert(0, ("ct-ballot-stage", "Fixture Cuộc họp được phân công", "select", "Nghiệm thu|Xét duyệt hồ sơ|Xét duyệt thuyết minh", True))
 _tv_ballot = next(p for p in PAGES if "TV-05" in p["codes"])
@@ -569,8 +753,13 @@ def render_rows(rows):
         return ""
     items = []
     for r in rows:
-        items.append(f'''<article class="work-row" id="{esc(r['id'])}" data-record data-state="{esc(r['state'])}" data-row-scope="{esc(r['scope'])}">
+        if r["object_type"] == "Nghiệp vụ" and r["version"] == "—" and r["owner"] == "—" and not r["next_action"]:
+            items.append(f'''<article class="work-row" id="{esc(r['id'])}" data-record data-state="{esc(r['state'])}" data-row-scope="{esc(r['scope'])}">
           <div><h3>{esc(r['title'])}</h3><p>{esc(r['meta'])}</p></div><span class="status" data-record-status>{esc(r['status'])}</span>
+        </article>''')
+        else:
+            items.append(f'''<article class="work-row" id="{esc(r['id'])}" data-record data-state="{esc(r['state'])}" data-row-scope="{esc(r['scope'])}">
+          <div><div class="record-kicker"><span>{esc(r['object_type'])}</span><span>{esc(r['version'])}</span><span>{esc(r['owner'])}</span></div><h3>{esc(r['title'])}</h3><p>{esc(r['meta'])}</p>{f'<p class="next-step"><b>Tiếp theo:</b> {esc(r["next_action"])} <a href="{esc(r["href"] or ("#action-target-" + r["id"]))}">Đi đến hành động</a></p>' if r['next_action'] else ''}</div><span class="status" data-record-status>{esc(r['status'])}</span>
         </article>''')
     return '<section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div>' + ''.join(items) + '</section>'
 
@@ -600,6 +789,41 @@ def render_gates(gates):
     return f'<aside class="gate-panel" aria-labelledby="gate-title"><h2 id="gate-title">{"Sẵn sàng" if not missing else f"Còn {missing} điều kiện"}</h2><ul>{items}</ul></aside>'
 
 
+def render_metrics(metrics):
+    if not metrics:
+        return ""
+    cards = ''.join(f'<article class="metric-card {esc(item["tone"])}" data-metric-label="{esc(item["label"])}"><strong>{esc(item["value"])}</strong><span>{esc(item["label"])}</span><p>{esc(item["detail"])}</p></article>' for item in metrics)
+    return f'<section class="metric-grid" aria-label="Tóm tắt phạm vi hiện tại">{cards}</section>'
+
+
+def render_lifecycle(lifecycle):
+    if not lifecycle:
+        return ""
+    steps = ''.join(f'<li id="{esc(item["id"])}" class="lifecycle-step {esc(item["state"])}" {"aria-current=step" if item["state"] == "current" else ""}><span aria-hidden="true"></span><div><b>{esc(item["label"])}</b><p>{esc(item["detail"])}</p></div></li>' for item in lifecycle)
+    return f'<section class="panel lifecycle-panel" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">Vòng đời và mốc khóa</h2><ol>{steps}</ol></section>'
+
+
+def render_details(details):
+    if not details:
+        return ""
+    sections = []
+    for section in details:
+        items = ''.join(f'<li><div><b>{esc(item[0])}</b><p>{esc(item[2])}</p></div><span>{esc(item[1])}</span></li>' for item in section['items'])
+        sections.append(f'<section class="panel detail-panel" data-detail-kind="{esc(section["kind"])}"><h2>{esc(section["title"])}</h2><ul>{items}</ul></section>')
+    return '<div class="detail-grid">' + ''.join(sections) + '</div>'
+
+
+def render_audit(events):
+    if not events:
+        return ""
+    rendered = []
+    for event in events:
+        reason = f'<blockquote>Lý do: {esc(event["reason"])}</blockquote>' if event["reason"] else ""
+        rendered.append(f'<li data-audit-event><span class="audit-marker" aria-hidden="true"></span><div><b>{esc(event["action"])}</b><p>{esc(event["actor"])} · Vai trò {esc(event["role"])} · {esc(event["timestamp"])}</p><p><span class="status">{esc(event["transition"])}</span> · Phiên bản {esc(event["version"])}</p>{reason}</div></li>')
+    items = ''.join(rendered)
+    return f'<section class="panel audit-panel" aria-labelledby="audit-title"><h2 id="audit-title">Dấu vết kiểm toán gần nhất</h2><ol>{items}</ol></section>'
+
+
 def upload_ids(page_data):
     ids = []
     for a in page_data["actions"]:
@@ -617,11 +841,24 @@ def render_uploads(page_data):
     return f'<section class="panel evidence" data-upload-mode="{esc(page_data["upload"])}"><h2>Bằng chứng được phép tải lên</h2>{controls}</section>'
 
 
-def render_actions(actions):
+def render_actions(actions, actor):
     if not actions:
         return ""
-    buttons = ''.join(f'''<button type="button" class="button {esc(a['tone'])}" data-action-id="{esc(a['id'])}" data-action-branch="{esc(a['branch'])}" data-target="{esc(a['target'])}" data-require="{esc(a['require'])}" data-unlocks="{esc(a['unlocks'])}" data-result="{esc(a['result'])}">{esc(a['label'])}</button>''' for a in actions)
-    return f'<section class="action-bar" aria-label="Hành động trang">{buttons}</section>'
+    if actor == "pk":
+        groups = []
+        for target in dict.fromkeys(a["target"] for a in actions):
+            target_actions = [a for a in actions if a["target"] == target]
+            target_label = next((r["title"] for p in PAGES if p["actor"] == actor for r in p["rows"] if r["id"] == target), "Hành động trang")
+            buttons = ''.join(render_action_button(a, True) for a in target_actions)
+            groups.append(f'<article class="action-group" id="action-target-{esc(target)}"><div><h3>{esc(target_label)}</h3><p>Kiểm tra lại trạng thái, phiên bản và cổng trước khi xác nhận.</p></div><div>{buttons}</div></article>')
+        return f'<section class="action-bar action-workspace" aria-label="Hành động theo đối tượng"><h2>Hành động nghiệp vụ</h2>{"".join(groups)}</section>'
+    return f'<section class="action-bar" aria-label="Hành động trang">{"".join(render_action_button(a) for a in actions)}</section>'
+
+
+def render_action_button(action_data, with_consequence=False):
+    consequence = f' data-consequence="{esc(action_data["consequence"])}"' if with_consequence else ""
+    transition = f' data-result-status="{esc(action_data["result_status"])}" data-result-state="{esc(action_data["result_state"])}"' if with_consequence else ""
+    return f'''<button type="button" class="button {esc(action_data['tone'])}" data-action-id="{esc(action_data['id'])}" data-action-branch="{esc(action_data['branch'])}" data-target="{esc(action_data['target'])}" data-require="{esc(action_data['require'])}" data-unlocks="{esc(action_data['unlocks'])}" data-result="{esc(action_data['result'])}"{transition}{consequence}>{esc(action_data['label'])}</button>'''
 
 
 def render_page(page_data):
@@ -649,7 +886,7 @@ def render_page(page_data):
 <div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng {esc(role)}"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p>{''.join(links)}</nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
 <main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>{esc(role)}</span><span>/</span><span>{esc(page_data['title'])}</span></nav>
 <div class="page-heading"><div><p class="screen-codes">{esc(' · '.join(page_data['codes']))}</p><h1>{esc(page_data['title'])}</h1><p>{esc(page_data['lead'])}</p></div><span class="scope-chip">Phạm vi: {esc(page_data['visibility'])}</span></div>
-{render_tabs(page_data['tabs'])}{render_filters(page_data['rows'])}<div class="workspace"><div>{form}{render_rows(page_data['rows'])}{render_uploads(page_data)}</div>{render_gates(page_data['gates'])}</div>{render_actions(page_data['actions'])}
+{render_metrics(page_data['metrics'])}{render_lifecycle(page_data['lifecycle'])}{render_tabs(page_data['tabs'])}{render_filters(page_data['rows'])}<div class="workspace"><div>{form}{render_rows(page_data['rows'])}{render_uploads(page_data)}{render_details(page_data['details'])}{render_audit(page_data['audit'])}</div>{render_gates(page_data['gates'])}</div>{render_actions(page_data['actions'], page_data['actor'])}
 <p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{schema_json}</script></main></div>
 <div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
 '''

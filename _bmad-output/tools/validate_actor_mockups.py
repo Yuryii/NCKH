@@ -6,7 +6,10 @@ from __future__ import annotations
 import importlib.util
 import json
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 from collections import Counter
 from html.parser import HTMLParser
 from pathlib import Path
@@ -24,6 +27,43 @@ def load_generator():
     assert spec.loader
     spec.loader.exec_module(module)
     return module
+
+
+def runtime_browser_errors():
+    """Execute critical P.KHCN state sequences in a real browser DOM."""
+    candidates = [
+        shutil.which("msedge"), shutil.which("microsoft-edge"), shutil.which("chromium"), shutil.which("google-chrome"),
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+    ]
+    browser = next((Path(item) for item in candidates if item and Path(item).exists()), None)
+    if not browser:
+        return ["runtime DOM sequence validator requires Edge/Chromium"]
+    cases = {
+        "council": "04-hoi-dong-readiness.html",
+        "documents": "06-tai-lieu-buoc-03-07.html",
+        "meeting-result": "05-cuoc-hop-ket-qua.html",
+        "meeting-replace": "05-cuoc-hop-ket-qua.html",
+        "cancel": "03-de-tai-va-huy.html",
+        "round": "02-quan-ly-dot.html",
+        "audit": "07-audit-nghiep-vu.html",
+    }
+    errors = []
+    with tempfile.TemporaryDirectory(prefix="nckh-pk-runtime-") as temp_dir:
+        for scenario, filename in cases.items():
+            url = (MOCKUPS / "p-khcn" / filename).resolve().as_uri() + f"?runtime-self-test={scenario}"
+            command = [str(browser), "--headless=new", "--disable-gpu", "--no-first-run", "--disable-background-networking", f"--user-data-dir={Path(temp_dir) / scenario}", "--dump-dom", url]
+            try:
+                completed = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20)
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                errors.append(f"runtime {scenario}: browser execution failed: {exc}")
+                continue
+            match = re.search(r'<meta name="runtime-selftest" content="([^"]+)">', completed.stdout)
+            if completed.returncode or not match:
+                errors.append(f"runtime {scenario}: self-test result missing (exit {completed.returncode})")
+            elif match.group(1) != "pass":
+                errors.append(f"runtime {scenario}: {match.group(1)}")
+    return errors
 
 
 class Doc(HTMLParser):
@@ -119,8 +159,8 @@ def main():
         "GV-07": {"approve", "return"}, "TD-03": {"approve", "return"}, "TD-04": {"sign-route", "return"},
         "PK-07": {"approve-cancel", "reject-cancel"}, "PK-12": {"cancel-meeting", "replace-meeting"},
         "PK-13": {"end"}, "PK-14": {"publish"}, "PK-15": {"adjust"},
-        "PK-16": {"publish-bm05"}, "PK-17": {"accept-bm08"}, "PK-18": {"return-bm09", "accept-bm09"},
-        "PK-19": {"publish-bm10"}, "PK-20": {"confirm-bm13", "return-bm13"}, "PK-21": {"store-bm14"},
+        "PK-16": {"publish-bm05"}, "PK-17": {"accept-bm08"}, "PK-18": {"return-bm09", "refresh-bm09", "accept-bm09"},
+        "PK-19": {"publish-bm10"}, "PK-20": {"confirm-bm13", "return-bm13"}, "PK-21": {"store-bm14", "mark-bm14-na"},
         "PK-22": {"complete-step07"}, "CT-06": {"return", "approve"}, "CT-07": {"second-signature"},
         "CT-05": {"preview", "export", "submit-ballot"}, "TV-05": {"preview", "export", "submit-ballot"},
         "TK-05": {"preview", "export", "submit-minutes", "resubmit-minutes"}, "QT-03": {"approve", "reject"},
@@ -128,13 +168,16 @@ def main():
     }
     required_fields = {
         "GV-04": {"topic", "field", "team-1-name", "team-1-email", "team-1-role", "team-2-name", "team-2-email", "team-2-role", "team-unit", "objective", "products"},
-        "PK-02": {"round-name", "round-type", "round-direct-topics", "round-start", "round-end"},
-        "PK-08": {"council-stage", "council-input", "council-chair", "council-secretary", "council-members"},
+        "PK-02": {"round-name", "round-description", "round-type", "round-direct-topics", "round-start", "round-end"},
+        "PK-07": {"cancel-snapshot-version", "cancel-current-stage"},
+        "PK-08": {"council-stage", "council-input", "council-decision", "council-chair", "council-secretary", "council-members"},
+        "PK-16": {"pk-bm05-attestation", "pk-bm10-attestation", "pk-bm14-attestation", "bm14-contract-applicability"},
         "CT-05": {"ct-ballot-stage", "ct-ballot-kind", "ct-score", "ct-comment"}, "TV-05": {"tv-ballot-stage", "tv-ballot-kind", "tv-score", "tv-comment"},
         "TK-05": {"minutes-stage", "minutes-kind", "minutes-scenario", "meeting-date", "meeting-time", "meeting-place", "minutes-conclusion"},
         "QT-04": {"pk-name", "pk-email", "pk-code"},
     }
     reason_branches = {"reject", "return", "cancel-request", "approve-cancel", "reject-cancel", "cancel-meeting", "adjust", "return-bm09", "return-bm13", "lock"}
+    irreversible_pk_actions = {"publish-round", "open-meeting", "end-meeting", "publish-result", "publish-bm05", "publish-bm10", "store-bm14", "mark-bm14-na", "complete-step07"}
 
     for path in sorted(generated):
         rel = path.relative_to(MOCKUPS)
@@ -267,11 +310,16 @@ def main():
             if input_id and not any(label.get("for") == input_id for label in doc.labels):
                 errors.append(f"{rel}: input {input_id} has no explicit label")
         for target in doc.assets + doc.links:
-            if target.startswith(("http:", "https:", "mailto:", "#")):
+            if target.startswith(("http:", "https:", "mailto:")):
                 continue
-            clean, _ = urldefrag(target)
-            if clean and not (path.parent / clean).resolve().exists():
+            clean, fragment = urldefrag(target)
+            target_path = (path.parent / clean).resolve() if clean else path.resolve()
+            if clean and not target_path.exists():
                 errors.append(f"{rel}: broken local reference {target}")
+            elif fragment and fragment.startswith("action-target-") and target_path.suffix.lower() == ".html":
+                target_doc = doc if target_path == path.resolve() else parse(target_path)
+                if fragment not in target_doc.ids:
+                    errors.append(f"{rel}: broken local anchor {target}")
         action_nodes = [attrs for _, attrs in doc.attr_nodes("data-action-id")]
         branches = {a.get("data-action-branch") for a in action_nodes}
         for code in codes:
@@ -287,6 +335,8 @@ def main():
             requirement = action_node.get("data-require", "")
             if branch in reason_branches and "reason" not in requirement:
                 errors.append(f"{rel}: branch {branch} must require a reason")
+            if page["actor"] == "pk" and action_node.get("data-action-id") in irreversible_pk_actions and "reason" not in requirement:
+                errors.append(f"{rel}: irreversible P.KHCN action {action_node.get('data-action-id')} must require a reason")
             target = action_node.get("data-target")
             if target not in doc.ids and target not in {"page", "topic-cancel", "pk-account-form", "ct-ballot", "tv-ballot", "tk-minutes"}:
                 errors.append(f"{rel}: action target {target} does not exist")
@@ -311,6 +361,55 @@ def main():
             errors.append(f"{rel}: administrator page must not upload files")
         if page["actor"] == "pk" and any(b == "submit-ballot" for b in branches):
             errors.append(f"{rel}: P.KHCN role must not submit ballots")
+        if page["actor"] == "pk":
+            if raw.count('<article class="metric-card') != 4:
+                errors.append(f"{rel}: P.KHCN workspace must expose exactly four scoped summary metrics")
+            if raw.count('class="lifecycle-step ') < 3 or not doc.attr_nodes("class", "panel lifecycle-panel"):
+                errors.append(f"{rel}: P.KHCN workspace lacks explicit lifecycle/gate sequence")
+            if len(doc.attr_nodes("data-detail-kind")) < 2:
+                errors.append(f"{rel}: P.KHCN workspace needs at least two evidence/context detail panels")
+            if not doc.attr_nodes("class", "panel audit-panel"):
+                errors.append(f"{rel}: P.KHCN workspace lacks object/version-aware audit evidence")
+            if any("data-consequence" not in action_node for action_node in action_nodes):
+                errors.append(f"{rel}: every P.KHCN action must state its confirmation consequence")
+            if branches & {"submit-ballot", "second-signature"}:
+                errors.append(f"{rel}: P.KHCN workspace leaked ballot or Chair second-signature authority")
+        if "PK-01" in codes:
+            if len(doc.records) != 8 or raw.count("Đi đến hành động") != 8:
+                errors.append(f"{rel}: queue count, fixture rows and linked actions must all equal 8")
+            for destination in ("02-quan-ly-dot.html", "03-de-tai-va-huy.html", "04-hoi-dong-readiness.html", "05-cuoc-hop-ket-qua.html", "06-tai-lieu-buoc-03-07.html"):
+                if not any(link.startswith(destination) for link in doc.links):
+                    errors.append(f"{rel}: queue lacks route to {destination}")
+            queue_routes = [link for link in doc.links if "#action-target-" in link]
+            if len(queue_routes) != 8:
+                errors.append(f"{rel}: every queue CTA must target its action group anchor")
+        if "PK-02" in codes:
+            for token in ("Nháp", "Đã công bố", "Đã đóng", "tự đóng", "Không có bước P.KHCN tiếp nhận BM01"):
+                if token not in raw:
+                    errors.append(f"{rel}: round lifecycle/PRD precedence token missing: {token}")
+        if "PK-07" in codes:
+            for token in ("REQ-CAN-011", "Còn trước Chờ nghiệm thu", "Đã hủy", "Dữ liệu stale"):
+                if token not in raw:
+                    errors.append(f"{rel}: cancellation decision context missing: {token}")
+        if "PK-08" in codes:
+            for token in ("Official input snapshot", "BM09 V2", "NCKH-GV-2026-006", "BM10 V1", "SHA-256", "5 người đánh giá", "Thư ký ngoài mẫu số", "Khóa cấu trúc", "gate:stage-decision"):
+                if token not in raw:
+                    errors.append(f"{rel}: council readiness invariant missing: {token}")
+        if "PK-12" in codes:
+            for token in ("5/5", "1", "Thư ký ngoài mẫu số", "CP-2026-006", "BM12 đủ 2 chữ ký", "Chờ công bố", "Phiên bản mới"):
+                if token not in raw:
+                    errors.append(f"{rel}: meeting/checkpoint/publication invariant missing: {token}")
+            lifecycle_match = re.search(r'<section class="panel lifecycle-panel".*?</section>', raw, re.S)
+            lifecycle_raw = lifecycle_match.group(0) if lifecycle_match else ""
+            ordered = [lifecycle_raw.find(token) for token in ("100% phiếu", "Mốc chốt", "BM12 đủ 2 chữ ký", "Kết thúc", "Công bố")]
+            if any(index < 0 for index in ordered) or ordered != sorted(ordered):
+                errors.append(f"{rel}: immutable meeting gates are not rendered in canonical order")
+        if "PK-16" in codes:
+            for token in ("BM05/BM10/BM14", "Lưu hoặc công bố", "P.KHCN không soạn/ký", "Ghi nhận đã nhận", "P.KHCN không ký", "Không áp dụng", "bm09-components-complete", "mark-bm14-na", "Đúng bản chính thức đã ký"):
+                if token not in raw:
+                    errors.append(f"{rel}: Step 03–07 authority/gate token missing: {token}")
+        if "PK-23" in codes and branches & {"export", "download"}:
+            errors.append(f"{rel}: audit export is outside MVP")
         if page["visibility"] == "published-only":
             for record in doc.records:
                 if record["attrs"].get("data-state") != "published" or record["attrs"].get("data-row-scope") != "published":
@@ -419,6 +518,9 @@ def main():
     gv_atlas = atlas_text.split("gv:{", 1)[1].split("sv:{", 1)[0]
     if "'Xét hồ sơ|1'" not in gv_atlas or "| Xét hồ sơ | ✓" not in experience:
         errors.append("lecturer IA must expose assigned review as its own navigation item")
+    for token in ("'Cuộc họp & kết quả'", "'Tài liệu Bước 03–07'", "'Audit'"):
+        if token not in atlas_text:
+            errors.append(f"P.KHCN atlas navigation missing {token}")
     deferred = (ROOT / "_bmad-output/implementation-artifacts/deferred-work.md").read_text(encoding="utf-8")
     for token in ("Đã giải quyết, không còn outstanding", "release patch round 4", "Không còn mục outstanding", "trả focus về nút mở menu"):
         if token not in deferred:
@@ -433,6 +535,27 @@ def main():
         actor_page = next(path for path in generated if parse(path).body.get("data-actor") == actor)
         if f'>{count}</span>' not in actor_page.read_text(encoding="utf-8"):
             errors.append(f"{actor}: missing role-specific task count {count}")
+
+    pk_folder = MOCKUPS / "p-khcn"
+    pk_council = (pk_folder / "04-hoi-dong-readiness.html").read_text(encoding="utf-8")
+    pk_meeting = (pk_folder / "05-cuoc-hop-ket-qua.html").read_text(encoding="utf-8")
+    pk_documents = (pk_folder / "06-tai-lieu-buoc-03-07.html").read_text(encoding="utf-8")
+    pk_audit = (pk_folder / "07-audit-nghiep-vu.html").read_text(encoding="utf-8")
+    if "BM09 V2 · NCKH-GV-2026-006" not in pk_council or "BM09 V2 của NCKH-SV-2025-018" not in pk_documents:
+        errors.append("P.KHCN cross-workspace BM09 fixtures must identify distinct topic/version snapshots")
+    checkpoint_stamp = "22/07/2026 13:42 ICT"
+    if checkpoint_stamp not in pk_meeting or checkpoint_stamp not in pk_audit or "21/07/2026 16:40" in pk_audit:
+        errors.append("CP-2026-006 immutable timestamp differs across meeting and audit workspaces")
+    for nav_token in ("Cuộc họp &amp; kết quả", "Tài liệu Bước 03–07", "Audit"):
+        if nav_token not in pk_audit:
+            errors.append(f"P.KHCN navigation missing workspace item: {nav_token}")
+    if 'class="nav-link active" href="07-audit-nghiep-vu.html"' not in pk_audit:
+        errors.append("PK-23 must activate its own Audit navigation item")
+    actor_js = (MOCKUPS / "shared/actor.js").read_text(encoding="utf-8")
+    for token in ("currentMissing = missingRequirements(action)", "cancel-current-stage", "members.length !== 4", "acceptedCouncilRoster === councilRosterFingerprint()", "store-bm14' && $('#bm14-contract-applicability')", "data-audit-event", "const haystack =", "context.before", "toLocaleString('vi-VN'", "updateMetric('Yêu cầu hủy chờ xử lý'", "updateMetric('Đợt Nháp'", "Đã công bố</span></article>", "round-description", "applyPkTransition(action, reason, context)"):
+        if token not in actor_js:
+            errors.append(f"P.KHCN runtime transition/stale/filter guard missing token: {token}")
+    errors.extend(runtime_browser_errors())
 
     if errors:
         print(f"FAIL: {len(errors)} lỗi")
