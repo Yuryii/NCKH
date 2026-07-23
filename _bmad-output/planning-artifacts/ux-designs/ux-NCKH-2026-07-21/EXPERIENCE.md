@@ -30,19 +30,19 @@ Tiếng Việt là ngôn ngữ duy nhất của MVP [ASSUMPTION]. Mọi thời �
 
 ## Information Architecture
 
-[ASSUMPTION] Sau đăng nhập, người dùng vào bề mặt mặc định của Vai trò nghiệp vụ hiện hành. Riêng **Sinh viên** vào thẳng **Danh sách đề tài**; các vai trò còn lại vào **Việc cần làm**. Desktop có sidebar; dưới 1024px sidebar thành drawer. Nhóm và thứ tự của các mục được phép là ổn định trong cùng một vai trò; tập mục giữa các vai trò được chiếu theo ma trận dưới đây.
+[ASSUMPTION] Sau đăng nhập, người dùng vào bề mặt mặc định của Vai trò nghiệp vụ hiện hành. **Sinh viên và Giảng viên** vào thẳng **Danh sách đề tài** với tab `Cần bạn xử lý`; các vai trò còn lại vào **Việc cần làm**. Hai vai trò Chủ nhiệm này dùng cùng shell, component và interaction, khác fixture/trường/quyền. Desktop có sidebar; dưới 1024px sidebar thành drawer. Nhóm và thứ tự của các mục được phép là ổn định trong cùng một vai trò; tập mục giữa các vai trò được chiếu theo ma trận dưới đây.
 
 | Mục sidebar | GV | SV | Trưởng đơn vị | P.KHCN | Chủ tịch | Thành viên | Thư ký | Quản trị viên |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Việc cần làm | ✓ | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Việc cần làm | — | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Thông báo / Hồ sơ cá nhân | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Đợt đăng ký | ✓ | ✓ | — | ✓ | — | — | — | — |
-| Xét duyệt | Khi được giao GVHD | — | ✓ | — | — | — | — | — |
-| Đề tài NCKH | Của mình/được giao | Của mình | Theo đơn vị/nhiệm vụ | ✓ | — | — | — | — |
+| Xét duyệt | — | — | ✓ | — | — | — | — | — |
+| Đề tài NCKH | Của mình + Hồ sơ Sinh viên được giao trong `Cần bạn xử lý` | Của mình | Theo đơn vị/nhiệm vụ | ✓ | — | — | — | — |
 | Hội đồng | — | — | — | ✓ | `Hội đồng của tôi` | `Hội đồng của tôi` | `Hội đồng của tôi` | — |
 | Quản trị / Tài khoản | — | — | — | — | — | — | — | ✓ |
 
-`Cuộc họp` là màn hình con của `Hội đồng`/`Hội đồng của tôi`; `Tài liệu` và Biểu mẫu là màn hình con của `Đề tài NCKH`. Trong ngữ cảnh Sinh viên, nhãn sidebar rút gọn thành `Đề tài`; chính trang này chứa tab `Cần bạn xử lý`/`Tất cả đề tài`, tìm kiếm và bộ lọc `Vai trò trong đề tài`, `Trạng thái`, `Đợt đăng ký`. Mục ngoài vai trò **không được render**, không hiển thị disabled và không để lại badge/count/tooltip. Giảng viên chỉ thấy `Hội đồng` sau khi chủ động chuyển sang một vai trò Hội đồng được phân công; Quản trị viên không thấy dữ liệu NCKH nếu chưa chuyển sang vai trò nghiệp vụ khác.
+`Cuộc họp` là màn hình con của `Hội đồng`/`Hội đồng của tôi`; `Tài liệu` và Biểu mẫu là màn hình con của `Đề tài NCKH`. Trong ngữ cảnh Sinh viên và Giảng viên, nhãn sidebar rút gọn thành `Đề tài`; chính trang này chứa tab `Cần bạn xử lý`/`Tất cả đề tài`, tìm kiếm và bộ lọc `Vai trò trong đề tài`, `Trạng thái`, `Đợt đăng ký`. Hai vai trò này không có mục `Việc cần làm` riêng; assignment xét Hồ sơ Sinh viên của Giảng viên cũng nằm trong `Cần bạn xử lý`. Mục ngoài vai trò **không được render**, không hiển thị disabled và không để lại badge/count/tooltip. Giảng viên chỉ thấy `Hội đồng` sau khi chủ động chuyển sang một vai trò Hội đồng được phân công; Quản trị viên không thấy dữ liệu NCKH nếu chưa chuyển sang vai trò nghiệp vụ khác.
 
 | Surface | Reached from | Purpose | Trạng thái bắt buộc |
 |---|---|---|---|
@@ -96,7 +96,7 @@ Các mã dưới đây là phạm vi màn hình tối thiểu phải hiện di�
 | **Thư ký Hội đồng (TK-01–TK-06)** | Queue; `Hội đồng của tôi`; Dashboard theo vai trò; tài liệu chính thức; soạn/nộp/sửa Biên bản sau Mốc chốt; kết quả trước/sau công bố theo nhiệm vụ. Không có phiếu đánh giá ở bất kỳ bề mặt nào. |
 | **Quản trị viên (QT-01–QT-06)** | Queue duyệt vai trò; danh sách Tài khoản; chi tiết Tài khoản/yêu cầu vai trò; tạo Tài khoản P.KHCN ban đầu; khóa/mở khóa/đặt lại mật khẩu; audit Tài khoản. Không có điều hướng NCKH. |
 
-Danh mục, sidebar và phạm vi tối thiểu nằm tại [Bộ màn hình theo vai trò](mockups/role-screen-atlas.html). Bằng chứng trực quan chi tiết gồm [luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html) và bảy bộ actor đã hoàn thiện: [Giảng viên](mockups/giang-vien/01-viec-can-lam.html), [Trưởng đơn vị](mockups/truong-don-vi/01-viec-can-lam.html), [P.KHCN](mockups/p-khcn/01-viec-can-lam.html), [Chủ tịch Hội đồng](mockups/chu-tich-hoi-dong/01-viec-can-lam.html), [Thành viên Hội đồng](mockups/thanh-vien-hoi-dong/01-viec-can-lam.html), [Thư ký Hội đồng](mockups/thu-ky-hoi-dong/01-viec-can-lam.html) và [Quản trị viên](mockups/quan-tri-vien/01-viec-can-lam.html). Bảy bộ này dùng schema trang tường minh cho phạm vi, row, action, gate và upload mode; validator kiểm tra 47 trang phủ 69 mã. Tài liệu này vẫn là hợp đồng khi có xung đột.
+Danh mục, sidebar và phạm vi tối thiểu nằm tại [Bộ màn hình theo vai trò](mockups/role-screen-atlas.html). Bằng chứng trực quan chi tiết gồm [luồng chính Sinh viên](mockups/sinh-vien/01-danh-sach-de-tai.html) và bảy bộ actor đã hoàn thiện: [Giảng viên](mockups/giang-vien/01-danh-sach-de-tai.html), [Trưởng đơn vị](mockups/truong-don-vi/01-viec-can-lam.html), [P.KHCN](mockups/p-khcn/01-viec-can-lam.html), [Chủ tịch Hội đồng](mockups/chu-tich-hoi-dong/01-viec-can-lam.html), [Thành viên Hội đồng](mockups/thanh-vien-hoi-dong/01-viec-can-lam.html), [Thư ký Hội đồng](mockups/thu-ky-hoi-dong/01-viec-can-lam.html) và [Quản trị viên](mockups/quan-tri-vien/01-viec-can-lam.html). Suite Giảng viên clone visual system Sinh viên; sáu bộ actor vận hành dùng schema shell chung. Validator kiểm tra 53 trang phủ 69 mã. Tài liệu này vẫn là hợp đồng khi có xung đột.
 
 ## Voice and Tone
 
@@ -131,7 +131,7 @@ Visual specs nằm trong `DESIGN.md.Components`.
 | **form-section** | Biểu mẫu điện tử | Submit focus lỗi đầu và có error summary liên kết tới từng trường. Các form có nghiệp vụ nháp dùng trạng thái `Đang lưu`/`Đã lưu`/`Lỗi lưu`; riêng BM01 không lưu nháp/autosave phía máy chủ, dữ liệu trước submit chỉ là dữ liệu tạm của trang và chưa có mã Hồ sơ. |
 | **advisor-picker** | BM01B của Sinh viên | Chỉ render cho role `Sinh viên`. Trạng thái đầu là `Chưa chọn`; nút mở một dialog có tìm kiếm và danh sách Giảng viên đang hoạt động/đủ điều kiện. Mỗi dòng nêu họ tên, đơn vị, chuyên môn và có button dấu `+` với accessible name “Thêm {tên}”. Chọn một người đóng dialog, cập nhật card và checklist; `Thay đổi` mở lại danh sách trước submit. Role khác chỉ thấy dữ liệu GVHD read-only nếu có, tuyệt đối không thấy control chọn. |
 | **repeatable-fieldset** | Nhóm nghiên cứu, tiêu chí, yêu cầu giải trình | Dùng `fieldset/legend`; mỗi item có accessible name duy nhất. `Thêm thành viên` mở một dialog tìm theo mã/email Trường, chỉ hiển thị kết quả trong phạm vi hợp lệ, chặn trùng và xác nhận người được thêm trước khi ghi vào dữ liệu tạm. Xóa phải nêu tên thành viên và chỉ khả dụng trước khi tạo Hồ sơ; sau submit, toàn bộ nhóm chuyển chỉ đọc. Thêm/xóa được thông báo, focus chuyển có chủ đích, thứ tự nhãn cập nhật và lỗi của nhánh đã ẩn/xóa được loại khỏi summary. |
-| **file-evidence-panel** | Mọi pipeline PDF/tệp | Input file chuẩn là đường chính; dropzone chỉ bổ trợ. Ràng buộc nối bằng `aria-describedby`; mỗi tệp có tên, dung lượng, trạng thái và lỗi. Riêng BM01 chỉ nhận một PDF và không tạo trạng thái upload độc lập phía máy chủ: `Nộp & tạo Hồ sơ` phải gắn PDF và tạo Hồ sơ atomically; sau thành công không có xóa, thay thế hay thử nộp lần hai trên cùng mã. Hồ sơ thay thế là một đối tượng mới, không sao chép tệp cũ và phải nhận một PDF mới. Các pipeline khác vẫn phân biệt upload với `Nộp`, gắn tệp với phiên bản dữ liệu và retry idempotent. |
+| **file-evidence-panel** | Mọi pipeline PDF/tệp | Input file chuẩn là đường chính; dropzone chỉ bổ trợ. Ràng buộc nối bằng `aria-describedby`; mỗi tệp có tên, dung lượng, trạng thái và lỗi. BM01 chỉ nhận một PDF và tạo Hồ sơ atomically. Với BM01B Sinh viên, nhánh GVHD từ chối dùng Hồ sơ thay thế theo quy tắc hiện hành. Với BM01A Giảng viên, Trưởng đơn vị trả sửa mở lại form trên cùng Hồ sơ; bản đã nộp được giữ bất biến và lần nộp tiếp theo tạo phiên bản mới, không ghi đè. Các pipeline khác vẫn phân biệt upload với `Nộp`, gắn tệp với phiên bản dữ liệu và retry idempotent. |
 | **version-list** | Tài liệu, biểu mẫu, kết quả | Mặc định mở bản hiện hành; cho xem bản mất hiệu lực theo quyền. Mỗi bản nêu quan hệ thay thế và lý do; không cho ghi đè hoặc “khôi phục” bản cũ thành hiện hành không qua nghiệp vụ mới. |
 | **document-viewer** | Đọc PDF chính thức | Mở đúng phiên bản, hỗ trợ tải xuống/zoom/bàn phím và luôn có HTML dữ liệu nguồn có cấu trúc khi hệ thống sở hữu dữ liệu. Canvas không phải đường truy cập duy nhất. Nếu PDF tải lên không truy cập được, cung cấp quy trình yêu cầu bản thay thế/hỗ trợ. Không tự coi preview thành xác minh chữ ký/nội dung. |
 | **live-pdf-preview** | BM01 trước khi tạo Hồ sơ | Nút `Xem trước PDF` mở dialog lớn hai cột. Trái là bản PDF mô phỏng có vùng cuộn riêng; phải là các trường dữ liệu có cấu trúc và vùng chỉ đọc cho nhóm/GVHD. Sự kiện `input` cập nhật preview ngay và đồng bộ form chính; đóng dialog không mất thay đổi. Preview luôn ghi rõ chưa phải PDF đã ký hoặc bằng chứng đã nộp; không tạo bản nháp phía máy chủ. Mobile xếp PDF trước, form sau. |
@@ -258,7 +258,7 @@ Failure: hết hạn trước khi Minh nộp → không có Hồ sơ nào đư�
 2. Lan nhập BM01 trên một trang; hệ thống xác định tuyến Trưởng Khoa/Trưởng đơn vị nhưng chưa tạo Hồ sơ.
 3. Lan tải PDF để ký, chọn một PDF đã ký và xác nhận `Nộp PDF & tạo Hồ sơ` một lần.
 4. **Climax:** Hồ sơ được tạo, khóa và task-card/timeline cùng hiển thị “Đang chờ Trưởng Khoa/Trưởng đơn vị” đúng đơn vị của Lan.
-5. Nếu được duyệt, Hồ sơ tự sang tập đủ điều kiện lập Hội đồng; nếu bị từ chối, Hồ sơ giữ read-only ở trạng thái kết thúc và không có nộp lại.
+5. Nếu được duyệt, Hồ sơ tự sang tập đủ điều kiện lập Hội đồng; nếu Trưởng đơn vị trả sửa, BM01A V1 và PDF giữ bất biến, Lan sửa form rồi nộp PDF mới thành V2 trên cùng mã Hồ sơ.
 
 Failure: actor tuyến đầu hoặc đơn vị không xác định → checklist chặn `Nộp`, nêu dữ liệu cần P.KHCN/Quản trị viên hiệu chỉnh; không tự chuyển sang P.KHCN.
 

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -32,6 +33,324 @@ ACTORS = {
     "qt": ("quan-tri-vien", "Quản trị viên", "Quản trị Tài khoản", "QA", "Quỳnh Anh"),
 }
 TASK_COUNTS = {"gv": 3, "td": 5, "pk": 8, "ct": 2, "tv": 1, "tk": 2, "qt": 4}
+
+# Giảng viên dùng cùng visual system với Sinh viên. Các tệp này được clone từ
+# nguồn Sinh viên ở mỗi lần sinh output để hai suite không thể drift về layout.
+LECTURER_CLONES = {
+    "00-dang-ky-xac-minh.html": "00-dang-ky-xac-minh.html",
+    "01-danh-sach-de-tai.html": "01-danh-sach-de-tai.html",
+    "02-dot-dang-ky.html": "02-dot-dang-ky.html",
+    "03-bm01a-ho-so.html": "03-bm01b-ho-so.html",
+    "03b-bm01a-truong-don-vi-tra.html": "03b-bm01b-gvhd-tu-choi.html",
+    "04-chi-tiet-de-tai.html": "04-chi-tiet-de-tai.html",
+    "05-yeu-cau-huy.html": "05-yeu-cau-huy.html",
+    "06-workspace-buoc-03-07.html": "06-workspace-buoc-03-07.html",
+    "07-ket-qua-hoan-tat.html": "07-ket-qua-hoan-tat.html",
+    "08-thong-bao.html": "08-thong-bao.html",
+    "09-ho-so-ca-nhan.html": "09-ho-so-va-khong-quyen.html",
+}
+
+LECTURER_OLD_FILES = {
+    "01-viec-can-lam.html", "03-bm01a.html",
+    "04-de-tai-cua-toi.html", "05-xet-ho-so-sinh-vien.html",
+    "06-yeu-cau-huy.html", "07-tai-lieu-buoc-03-07.html",
+    "08-ket-qua-da-cong-bo.html",
+}
+
+LECTURER_PAGE_CODES = {
+    "00-dang-ky-xac-minh.html": [],
+    "01-danh-sach-de-tai.html": ["GV-01"],
+    "02-dot-dang-ky.html": ["GV-02", "GV-03"],
+    "03-bm01a-ho-so.html": ["GV-04"],
+    "03b-bm01a-truong-don-vi-tra.html": [],
+    "04-chi-tiet-de-tai.html": ["GV-05", "GV-06"],
+    "05-yeu-cau-huy.html": ["GV-09"],
+    "06-workspace-buoc-03-07.html": ["GV-10", "GV-11", "GV-12", "GV-13"],
+    "07-ket-qua-hoan-tat.html": ["GV-14"],
+    "08-thong-bao.html": [],
+    "09-ho-so-ca-nhan.html": [],
+    "10-xet-duyet-ho-so-sinh-vien.html": ["GV-07", "GV-08"],
+    "07b-ket-qua-chua-cong-bo.html": [],
+    "10b-xet-duyet-khong-quyen.html": [],
+}
+
+
+def lecturer_transform(raw, target):
+    replacements = {
+        "student.css": "lecturer.css", "student.js": "lecturer.js",
+        "data-current-role=\"student\"": "data-current-role=\"lecturer\"",
+        "Vai trò: Sinh viên": "Vai trò: Giảng viên",
+        "Sinh viên": "Giảng viên",
+        "Nguyễn Minh An": "TS. Nguyễn Thị Lan", ">NA<": ">NL<",
+        "22112345": "GV-2026-0088", "22112661": "GV-2024-0042",
+        "GV-2026-0088@sv.dntu.edu.vn": "lan.nguyen@dntu.edu.vn",
+        "BM01B": "BM01A", "HS-SV-": "HS-GV-", "NCKH-SV-": "NCKH-GV-",
+        "DK-SV-": "DK-GV-", "ĐK-SV-": "ĐK-GV-", "Dành cho Sinh viên": "Dành cho Giảng viên",
+        "09-ho-so-va-khong-quyen.html": "09-ho-so-ca-nhan.html",
+        "03-bm01b-ho-so.html": "03-bm01a-ho-so.html",
+        "03b-bm01b-gvhd-tu-choi.html": "03b-bm01a-truong-don-vi-tra.html",
+        "Giảng viên hướng dẫn": "Trưởng đơn vị", "GVHD": "Trưởng đơn vị",
+        "Chờ Giảng viên hướng dẫn": "Chờ Trưởng đơn vị",
+        "Trưởng đơn vị từ chối ký": "Trưởng đơn vị trả sửa",
+        "Hồ sơ BM01A cần được thay thế": "BM01A cần chỉnh sửa và nộp V2",
+    }
+    for old, new in replacements.items():
+        raw = raw.replace(old, new)
+    codes = " ".join(LECTURER_PAGE_CODES.get(target, []))
+    if target.endswith(".html"):
+        raw = re.sub(r'<body([^>]*)>', lambda m: f'<body{m.group(1)} data-actor="gv" data-page-codes="{codes}">', raw, count=1)
+        raw = raw.replace('Đề tài <span class="nav-count">5</span>', 'Đề tài <span class="nav-count">6</span>')
+    # BM01A không có trường chọn người hướng dẫn và không có gate tương ứng.
+    if target == "03-bm01a-ho-so.html":
+        raw = re.sub(r'<section class="form-section" data-advisor-section>.*?</section>\s*', '', raw, flags=re.S)
+        raw = re.sub(r'<div class="check blocked" data-advisor-check>.*?</div>', '', raw, flags=re.S)
+        raw = raw.replace('Hồ sơ chỉ được nộp một lần.', 'Hồ sơ được gửi tới Trưởng đơn vị sau khi nộp.')
+        raw = raw.replace('Sau khi tạo Hồ sơ, nội dung và tệp PDF sẽ bị khóa, không thể sửa hoặc thay thế.', 'Sau khi tạo Hồ sơ, dữ liệu được khóa trong thời gian Trưởng đơn vị xử lý; nếu bị trả, bạn sửa và nộp lại thành phiên bản mới.')
+        raw = raw.replace('Không có Lưu nháp, sửa Hồ sơ, nộp lại hoặc tạo phiên bản mới.', 'Nếu Trưởng đơn vị trả sửa, hệ thống giữ bản đã nộp và mở form để tạo phiên bản mới.')
+        raw = raw.replace('<input id="topic-name"', '<input id="topic-name" required data-bm01-required')
+        raw = raw.replace('<select id="research-field">', '<select id="research-field" required data-bm01-required>')
+        raw = raw.replace('<textarea id="objective">', '<textarea id="objective" required data-bm01-required>')
+        raw = raw.replace('phù hợp với năng lực và tiến độ học tập của từng sinh viên', 'phù hợp với nhu cầu tra cứu và quản lý tri thức của đơn vị')
+        extra_fields = '<div class="field full"><label for="importance">Tính cấp thiết</label><textarea id="importance" required data-bm01-required>Làm rõ nhu cầu tự động hóa phân loại tài liệu nghiên cứu trong đơn vị.</textarea></div><div class="field full"><label for="expected-products">Sản phẩm dự kiến</label><textarea id="expected-products" required data-bm01-required>Bộ dữ liệu, mô hình thử nghiệm và báo cáo khoa học.</textarea></div><div class="field full"><label for="research-content">Nội dung nghiên cứu</label><textarea id="research-content" required data-bm01-required>Khảo sát dữ liệu, xây dựng mô hình, đánh giá và chuyển giao kết quả.</textarea></div><div class="field"><label for="duration">Thời gian thực hiện</label><input id="duration" value="12 tháng" required data-bm01-required></div><div class="field"><label for="budget">Kinh phí dự kiến</label><input id="budget" value="25.000.000 đồng" required data-bm01-required></div><div class="field full"><label for="application-effect">Khả năng ứng dụng và hiệu quả</label><textarea id="application-effect" required data-bm01-required>Ứng dụng tại thư viện số và giảm thời gian phân loại thủ công.</textarea></div>'
+        raw = raw.replace('</textarea></div></div></section>', '</textarea></div>' + extra_fields + '</div></section>', 1)
+        raw = raw.replace('<div class="check ok">✓ Thông tin đề tài đầy đủ</div>', '<div class="check ok" data-required-check>✓ Thông tin BM01A đầy đủ</div>')
+        raw = raw.replace('<div class="check ok">✓ Nhóm nghiên cứu hợp lệ</div>', '<div class="check ok" data-eligibility-check>✓ Nhóm nghiên cứu và tư cách Chủ nhiệm hợp lệ</div><div class="check ok" data-route-check>✓ Tuyến xử lý: Trưởng đơn vị Khoa Công nghệ</div>')
+        raw = raw.replace('GV-2024-0042 · Thành viên tham gia', 'GV-2024-0042 · ha.tran@dntu.edu.vn · Thành viên tham gia')
+        raw = raw.replace('Mô hình gợi ý tài liệu học tập theo năng lực', 'Ứng dụng học máy trong phân loại tài liệu nghiên cứu')
+        raw = raw.replace('Đề xuất mô hình gợi ý tài liệu phù hợp với nhu cầu tra cứu và quản lý tri thức của đơn vị.', 'Xây dựng mô hình học máy hỗ trợ phân loại tài liệu nghiên cứu theo nhóm chủ đề.')
+        raw = raw.replace('data-application-page>', 'data-application-page data-v1-pdf-hash="618b23c5563ac2eeb4e78a0f0a6d34a95a444aee66a91d984f3b6508cacd887c">')
+    if target == "03b-bm01a-truong-don-vi-tra.html":
+        raw = raw.replace('Trưởng đơn vị từ chối ký BM01A', 'Trưởng đơn vị trả sửa BM01A')
+        raw = raw.replace('Không ký duyệt', 'Trả sửa')
+        raw = raw.replace('Hồ sơ không được Trưởng đơn vị ký duyệt.', 'Trưởng đơn vị đã trả Hồ sơ để chỉnh sửa.')
+        raw = raw.replace('Hồ sơ và PDF đã nộp được giữ nguyên để đối chiếu; bạn không thể sửa, thay tệp hoặc nộp lại trên mã Hồ sơ này.', 'Bản BM01A V1 và PDF đã nộp được giữ nguyên để đối chiếu. Bạn có thể sửa dữ liệu và nộp PDF mới để tạo V2 trên cùng Hồ sơ.')
+        raw = raw.replace('Hồ sơ cũ đã kết thúc và bị khóa', 'BM01A V1 đã khóa và được giữ lịch sử')
+        raw = raw.replace('Được tạo một Hồ sơ thay thế mới', 'Được sửa và nộp lại thành BM01A V2')
+        raw = raw.replace('Hồ sơ mới có mã riêng, liên kết tới HS-GV-2026-031 và phải chọn một PDF mới trước khi tạo.', 'Phiên bản V2 giữ cùng mã Hồ sơ, liên kết V1 và yêu cầu chọn PDF mới trước khi nộp lại.')
+        raw = raw.replace('Tạo Hồ sơ thay thế', 'Sửa và nộp lại BM01A')
+        raw = raw.replace('#thay-the-HS-GV-2026-031', '#nop-lai-HS-GV-2026-031')
+        raw = raw.replace('Hồ sơ thay thế', 'phiên bản nộp lại')
+        raw = raw.replace('tạo thay thế', 'nộp lại')
+        raw = raw.replace('Sinh viên chỉ có thể xem Hồ sơ', 'Giảng viên chỉ có thể xem Hồ sơ')
+        raw = raw.replace('không thể sửa, thay tệp hoặc nộp lại', 'được giữ bất biến; chỉnh sửa thực hiện trên phiên bản V2')
+        raw = raw.replace('Hồ sơ mới', 'Phiên bản V2')
+        raw = raw.replace('bị từ chối ký', 'bị trả sửa')
+        raw = raw.replace('từ chối ký', 'trả sửa')
+        raw = raw.replace('<main class="content">', '<main class="content" data-returned-application>')
+        raw = raw.replace('<a class="primary button-link" href="03-bm01a-ho-so.html#nop-lai-HS-GV-2026-031">', '<a class="primary button-link" data-action="resubmit-returned-bm01" href="03-bm01a-ho-so.html#nop-lai-HS-GV-2026-031">')
+        raw = raw.replace('<a class="primary" href="03-bm01a-ho-so.html#nop-lai-HS-GV-2026-031">', '<a class="primary" data-action="resubmit-returned-bm01" href="03-bm01a-ho-so.html#nop-lai-HS-GV-2026-031">')
+        raw = raw.replace('Không được sao chép tự động sang phiên bản nộp lại.', 'Được giữ làm V1; V2 phải dùng PDF mới.')
+    if target == "01-danh-sach-de-tai.html":
+        raw = raw.replace('Các đề tài bạn làm Chủ nhiệm hoặc tham gia với tư cách Thành viên.', 'Các đề tài bạn làm Chủ nhiệm hoặc tham gia, cùng Hồ sơ Sinh viên được phân công xét duyệt.')
+        raw = raw.replace('5</strong><span>Tổng số đề tài', '6</strong><span>Tổng số đề tài')
+        raw = raw.replace('2</strong><span>Cần bạn xử lý', '3</strong><span>Cần bạn xử lý')
+        raw = raw.replace('Cần bạn xử lý <span class="tab-count">2</span>', 'Cần bạn xử lý <span class="tab-count">3</span>')
+        raw = raw.replace('<option value="member">Thành viên tham gia</option>', '<option value="member">Thành viên tham gia</option><option value="advisor">Hồ sơ Sinh viên được phân công</option>')
+        raw = raw.replace('Giảng viên hướng dẫn duyệt Hồ sơ BM01A đã nộp.', 'Trưởng đơn vị duyệt Hồ sơ BM01A đã nộp.')
+        review_card = '<article class="topic-card" data-relation="advisor" data-status="waiting" data-round="2026-1" data-action="true"><div><div><span class="badge member">Bạn được phân công xét duyệt</span> <span class="badge warning">Chờ quyết định</span></div><h2 class="topic-title">Hồ sơ Sinh viên: Phân loại tài liệu nghiên cứu</h2><span class="meta">HS-SV-2026-044 · BM01B V1 · Sinh viên Lê Hoàng Minh</span><div class="next-action"><b>Hành động tiếp theo:</b> Xem snapshot BM01B và Duyệt hoặc Trả sửa có lý do.</div></div><div class="topic-actions"><span class="badge warning">Còn 2 ngày</span><a class="primary" href="10-xet-duyet-ho-so-sinh-vien.html">Xét Hồ sơ</a></div></article>'
+        raw = raw.replace('</section><div class="empty" id="empty">', review_card + '</section><div class="empty" id="empty">')
+        raw = raw.replace('href="04-chi-tiet-de-tai.html">Xem chi tiết</a></div></article>\n<article class="topic-card" data-relation="member"', 'href="04-chi-tiet-de-tai.html">Xem Hồ sơ</a></div></article>\n<article class="topic-card" data-relation="member"', 1)
+        raw = raw.replace('<strong>2</strong><span>Bạn là Chủ nhiệm', '<strong>3</strong><span>Bạn là Chủ nhiệm')
+        raw = raw.replace('<strong>3</strong><span>Bạn là Thành viên', '<strong>2</strong><span>Bạn là Thành viên')
+        raw = raw.replace('<article class="topic-card" data-relation="member" data-status="active" data-round="2025-2" data-action="true"><div><div><span class="badge member">Bạn là Thành viên tham gia</span> <span class="badge warning">Đang thực hiện</span></div><h2 class="topic-title">Xây dựng bộ dữ liệu phục vụ dự báo tuyển sinh</h2><span class="meta">NCKH-GV-2025-066 · Đợt 2/2025 · Chủ nhiệm: Trần Thu Hà</span><div class="next-action"><b>Hành động tiếp theo:</b> Bổ sung sản phẩm được phân công vào bộ BM09.</div>', '<article class="topic-card" data-relation="owner" data-status="active" data-round="2025-2" data-action="true"><div><div><span class="badge owner">Bạn là Chủ nhiệm đề tài</span> <span class="badge warning">Đang thực hiện</span></div><h2 class="topic-title">Xây dựng bộ dữ liệu phục vụ dự báo tuyển sinh</h2><span class="meta">NCKH-GV-2025-066 · Đợt 2/2025 · Chủ nhiệm: TS. Nguyễn Thị Lan</span><div class="next-action"><b>Hành động tiếp theo:</b> Hoàn thiện BM09 và bộ sản phẩm với quyền Chủ nhiệm.</div>')
+        raw = raw.replace('<span class="badge">Bước 05</span><a class="secondary" href="04-chi-tiet-de-tai.html">Xem chi tiết</a>', '<span class="badge">Bước 05</span><span class="secondary button-link" aria-disabled="true">Chi tiết chưa có trong prototype</span>')
+    if target == "02-dot-dang-ky.html":
+        raw = raw.replace('<div class="toolbar"><div class="field search"><label>Tìm kiếm</label><input placeholder="Tên hoặc mã đợt đăng ký"></div><div class="field"><label>Trạng thái</label><select>', '<form class="toolbar" id="round-filters"><div class="field search"><label for="round-search">Tìm kiếm</label><input id="round-search" placeholder="Tên hoặc mã đợt đăng ký"></div><div class="field"><label for="round-status">Trạng thái</label><select id="round-status"><option value="all">Tất cả</option>')
+        raw = raw.replace('</select></div></div>\n<section class="topic-list">', '</select></div></form>\n<section class="topic-list" id="round-list">')
+        raw = raw.replace('<option>Đang mở</option>', '<option value="open">Đang mở</option>').replace('<option>Sắp mở</option>', '<option value="upcoming">Sắp mở</option>').replace('<option>Đã đóng</option>', '<option value="closed">Đã đóng</option>')
+        raw = raw.replace('<article class="topic-card">', '<article class="topic-card" data-round-status="open">', 1)
+        raw = raw.replace('<article class="topic-card">', '<article class="topic-card" data-round-status="upcoming">', 1)
+        raw = raw.replace('<article class="topic-card">', '<article class="topic-card" data-round-status="closed">', 1)
+        raw = raw.replace('</section>\n</main>', '</section><div class="empty" id="round-empty"><h2>Không có Đợt đăng ký phù hợp</h2><p>Hãy đổi từ khóa hoặc trạng thái.</p></div>\n</main>')
+        raw = raw.replace('</main></div></div><script src="lecturer.js"></script>', '</main></div></div><script>const roundCards=[...document.querySelectorAll(\'[data-round-status]\')],roundSearch=document.getElementById(\'round-search\'),roundStatus=document.getElementById(\'round-status\'),roundEmpty=document.getElementById(\'round-empty\');function filterRounds(){const query=roundSearch.value.trim().toLowerCase(),status=roundStatus.value;let visible=0;roundCards.forEach(card=>{const show=(!query||card.innerText.toLowerCase().includes(query))&&(status===\'all\'||card.dataset.roundStatus===status);card.hidden=!show;if(show)visible++});roundEmpty.classList.toggle(\'show\',visible===0)}roundSearch.addEventListener(\'input\',filterRounds);roundStatus.addEventListener(\'change\',filterRounds);filterRounds();</script><script src="lecturer.js"></script>')
+        raw = raw.replace('href="04-chi-tiet-de-tai.html">Xem đề tài', 'href="06-workspace-buoc-03-07.html">Mở workspace đề tài')
+    if target == "04-chi-tiet-de-tai.html":
+        raw = raw.replace('NCKH-GV-2025-066', 'HS-GV-2026-031').replace('Xây dựng bộ dữ liệu phục vụ dự báo tuyển sinh', 'Mô hình gợi ý tài liệu học tập theo năng lực')
+        raw = raw.replace('Bạn là Thành viên tham gia', 'Bạn là Chủ nhiệm đề tài').replace('Đang thực hiện · Bước 06', 'Chờ Trưởng đơn vị · Bước 01')
+        raw = re.sub(r'<div class="next-action">.*?</div>', '<div class="next-action"><b>Đang chờ Trưởng đơn vị xử lý BM01A V1.</b><br>Hồ sơ HS-GV-2026-031 đã khóa; bạn sẽ nhận thông báo nếu được duyệt hoặc trả sửa.</div>', raw, count=1, flags=re.S)
+        raw = re.sub(r'<aside><section class="card"><h2>Thông tin đề tài</h2>.*?</section>', '<aside><section class="card"><h2>Thông tin đề tài</h2><p><b>Chủ nhiệm:</b><br>TS. Nguyễn Thị Lan</p><p><b>Đơn vị:</b><br>Khoa Công nghệ</p><p><b>Vai trò của bạn:</b><br>Chủ nhiệm đề tài</p><div class="notice">Tuyến duyệt hiện tại: Trưởng đơn vị Khoa Công nghệ.</div></section>', raw, count=1, flags=re.S)
+        timeline = '<ol class="timeline"><li class="step active"><i>1</i>Bước 01<br>Chờ Trưởng đơn vị</li><li class="step"><i>2</i>Bước 02<br>Xét hồ sơ</li><li class="step"><i>3</i>Bước 03<br>Thuyết minh</li><li class="step"><i>4</i>Bước 04<br>Triển khai</li><li class="step"><i>5</i>Bước 05<br>Tiến độ</li><li class="step"><i>6</i>Bước 06<br>Nghiệm thu</li><li class="step"><i>7</i>Bước 07<br>Hoàn tất</li></ol>'
+        raw = re.sub(r'<ol class="timeline">.*?</ol>', timeline, raw, count=1, flags=re.S)
+        raw = re.sub(r'<section class="card"><h2>Tài liệu hiện hành</h2>.*?</section>', '<section class="card"><h2>Tài liệu hiện hành</h2><div class="doc-row"><div><b>BM01A — Hồ sơ đăng ký</b><br><span class="meta">V1 · PDF đã nộp · chỉ đọc</span></div><span class="badge warning">Chờ Trưởng đơn vị</span></div></section>', raw, count=1, flags=re.S)
+        raw = raw.replace('<h2>Hoạt động gần đây</h2><p><b>Chủ nhiệm tạo BM09 V1</b><br><span class="meta">22/07/2026 08:10</span></p><p><b>P.KHCN tiếp nhận BM08 V3</b><br><span class="meta">18/07/2026 14:25</span></p>', '<h2>Hoạt động gần đây</h2><p><b>Chủ nhiệm nộp BM01A V1</b><br><span class="meta">20/07/2026 14:20</span></p><p><b>Hồ sơ chuyển Trưởng đơn vị</b><br><span class="meta">20/07/2026 14:21</span></p>')
+    if target == "06-workspace-buoc-03-07.html":
+        raw = raw.replace('Bạn là Thành viên tham gia · được phân công bổ sung sản phẩm dữ liệu', 'Bạn là Chủ nhiệm đề tài · quản lý bộ tài liệu Bước 03–07')
+        raw = raw.replace('Phụ trách: TS. Nguyễn Thị Lan · bắt buộc', 'Phụ trách: TS. Nguyễn Thị Lan · Chủ nhiệm · bắt buộc')
+        raw = raw.replace('<h2>Quyền của bạn</h2><p>Bạn chỉ tải và thay thế sản phẩm được Chủ nhiệm phân công.</p><div class="notice">Chủ nhiệm đề tài là người xác nhận và Nộp toàn bộ BM09 đến P.KHCN.</div>', '<h2>Quyền của bạn</h2><p>Bạn là Chủ nhiệm, được quản lý tài liệu và sản phẩm của đề tài.</p><div class="notice">Chỉ nộp BM09 khi đủ báo cáo và từng tệp sản phẩm bắt buộc.</div>')
+        raw = raw.replace("<script>const tabs=[...document.querySelectorAll('.tab')],views=[...document.querySelectorAll('.workspace-view')];tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(t=>t.classList.toggle('active',t===tab));views.forEach(v=>v.hidden=v.id!==tab.dataset.view)}));</script>", "<script>const tabs=[...document.querySelectorAll('.tab')],views=[...document.querySelectorAll('.workspace-view')],uploadAction=document.querySelector('[data-action=\"upload-demo\"]');function activateWorkspace(tab){tabs.forEach(item=>item.classList.toggle('active',item===tab));views.forEach(view=>view.hidden=view.id!==tab.dataset.view);const bm09Active=tab.dataset.view==='bm09';uploadAction.hidden=!bm09Active;uploadAction.disabled=!bm09Active;uploadAction.dataset.activeDocument=tab.dataset.view}tabs.forEach(tab=>tab.addEventListener('click',()=>activateWorkspace(tab)));activateWorkspace(document.querySelector('.tab.active'));</script>")
+        raw = raw.replace('<a class="link" href="04-chi-tiet-de-tai.html">NCKH-GV-2025-066</a>', '<a class="link" href="01-danh-sach-de-tai.html">NCKH-GV-2025-066</a>')
+    if target == "07-ket-qua-hoan-tat.html":
+        raw = raw.replace('Bạn đang xem phiên bản hiện hành.', 'Bạn đang xem kết luận đã công bố; hệ thống không hiển thị điểm đánh giá.')
+    if target == "08-thong-bao.html":
+        raw = raw.replace('<span class="badge warning">Được phân công</span><h3 style="margin-top:6px">Bổ sung sản phẩm cho BM09</h3><p class="meta">NCKH-GV-2025-066 · Chủ nhiệm giao bạn tải bộ dữ liệu đã làm sạch.', '<span class="badge warning">Chủ nhiệm cần xử lý</span><h3 style="margin-top:6px">Hoàn thiện sản phẩm cho BM09</h3><p class="meta">NCKH-GV-2025-066 · Bạn là Chủ nhiệm, cần hoàn thiện bộ dữ liệu đã làm sạch.')
+    if target == "09-ho-so-ca-nhan.html":
+        raw = raw.replace('Thông tin Giảng viên', 'Thông tin Giảng viên')
+        raw = raw.replace('Mã Giảng viên', 'Mã Giảng viên')
+        raw = raw.replace('GV-2026-0088@sv.dntu.edu.vn', 'lan.nguyen@dntu.edu.vn')
+        raw = raw.replace('<label>Khoa</label><input value="Khoa Công nghệ" readonly>', '<label>Đơn vị</label><input value="Khoa Công nghệ" readonly>')
+        raw = raw.replace('<label>Chuyên ngành</label><input value="Công nghệ thông tin">', '<label>Chuyên môn</label><input value="Học máy, xử lý dữ liệu">')
+        raw = raw.replace('<h2>Thông tin học thuật</h2><div class="form-grid"><div class="field"><label>Khóa học</label><input value="2022–2026"></div><div class="field"><label>Lớp</label><input value="22DTH1"></div><div class="field full"><label>Lĩnh vực quan tâm</label><input value="Học máy, xử lý dữ liệu"></div></div>', '<h2>Thông tin chuyên môn</h2><div class="form-grid"><div class="field"><label>Chức danh</label><input value="Tiến sĩ · Giảng viên"></div><div class="field"><label>Đơn vị công tác</label><input value="Khoa Công nghệ" readonly></div><div class="field full"><label>Lĩnh vực nghiên cứu</label><input value="Học máy, xử lý dữ liệu"></div></div>')
+    if target == "lecturer.js":
+        raw = raw.replace('Tạo Hồ sơ thay thế', 'Sửa và nộp lại BM01A')
+        raw = raw.replace('Hồ sơ thay thế', 'phiên bản nộp lại')
+        raw = raw.replace('không được sửa hoặc sao chép tự động', 'được giữ làm lịch sử và không bị ghi đè')
+        raw = raw.replace("title: 'Nộp PDF và tạo Hồ sơ?',", "title: replacementSource ? 'Nộp/cập nhật BM01A V2 trên cùng Hồ sơ?' : 'Nộp PDF và tạo Hồ sơ?',")
+        raw = raw.replace("confirmLabel: 'Nộp & tạo Hồ sơ',", "confirmLabel: replacementSource ? 'Nộp/cập nhật BM01A V2' : 'Nộp & tạo Hồ sơ',")
+        raw = raw.replace("submitApplication.textContent = 'Đã nộp · Hồ sơ đã tạo';", "submitApplication.textContent = replacementSource ? 'Đã cập nhật BM01A V2' : 'Đã nộp · Hồ sơ đã tạo';")
+        raw = raw.replace("showToast(`Đã nộp PDF và tạo Hồ sơ ${applicationId}.`);", "showToast(replacementSource ? `Đã nộp/cập nhật BM01A V2 trên cùng Hồ sơ ${applicationId}.` : `Đã nộp PDF và tạo Hồ sơ ${applicationId}.`);")
+        raw = raw.replace("document.querySelectorAll('[data-action=\"upload-demo\"]').forEach(button => button.addEventListener('click', () => {", "document.querySelectorAll('[data-action=\"upload-demo\"]').forEach(button => button.addEventListener('click', () => {\n      if (button.dataset.activeDocument && button.dataset.activeDocument !== 'bm09') { showToast('Chỉ tải sản phẩm khi đang mở tab BM09.', 'warning'); return; }")
+        raw = raw.replace("return dialog;\n  }\n\n  function setUnreadCount", "return dialog;\n  }\n\n  window.NCKHUI = { openDialog, showToast, escapeHtml };\n\n  function setUnreadCount")
+        raw = raw.replace("const replacementSource = window.location.hash.startsWith('#thay-the-') ? window.location.hash.slice('#thay-the-'.length) : '';\n    const applicationId = replacementSource ? 'HS-GV-2026-032' : 'HS-GV-2026-031';", "const replacementSource = window.location.hash === '#nop-lai-HS-GV-2026-031' ? 'HS-GV-2026-031' : '';\n    const createdApplicationId = 'HS-GV-2026-045';\n    const applicationId = replacementSource || createdApplicationId;\n    const applicationVersion = replacementSource ? 'V2' : 'V1';\n    const roundClosed = new URLSearchParams(window.location.search).get('round') === 'closed';")
+        raw = raw.replace("document.querySelector('[data-application-page] h1').textContent = 'BM01A — Sửa và nộp lại BM01A';", "document.querySelector('[data-application-page] h1').textContent = 'BM01A — Sửa và nộp lại V2';")
+        raw = raw.replace("document.querySelector('[data-application-lead]').textContent = `Hồ sơ mới sẽ liên kết tới ${replacementSource} · chưa được tạo cho đến khi nộp PDF thành công`;", "document.querySelector('[data-application-lead]').textContent = `${applicationId} · đang soạn BM01A V2 trên cùng Hồ sơ`;" )
+        raw = raw.replace("rule.innerHTML = `<b>Đây là phiên bản nộp lại cho ${escapeHtml(replacementSource)}.</b><br>Thông tin và PDF cũ được giữ làm lịch sử và không bị ghi đè. Hãy hoàn thiện phản hồi của Trưởng đơn vị, chọn một PDF mới và nộp một lần.`;", "rule.innerHTML = `<b>Đang sửa BM01A V2 trên cùng Hồ sơ ${escapeHtml(applicationId)}.</b><br>V1 và PDF cũ được giữ bất biến; hãy cập nhật nội dung theo phản hồi của Trưởng đơn vị và chọn PDF mới.`;")
+        raw = raw.replace("rule.innerHTML = `<b>Đang sửa BM01A V2 trên cùng Hồ sơ ${escapeHtml(applicationId)}.</b><br>V1 và PDF cũ được giữ bất biến; hãy cập nhật nội dung theo phản hồi của Trưởng đơn vị và chọn PDF mới.`;", "rule.innerHTML = `<b>Đang sửa BM01A V2 trên cùng Hồ sơ ${escapeHtml(applicationId)}.</b><br>V1 và PDF cũ được giữ bất biến; hãy cập nhật nội dung theo phản hồi của Trưởng đơn vị và chọn PDF mới.`;\n      document.title = 'NCKH — BM01A V2 · HS-GV-2026-031';\n      const v2Values = { 'topic-name': 'Mô hình gợi ý tài liệu học tập theo năng lực', objective: 'Đề xuất mô hình gợi ý tài liệu phù hợp với nhu cầu tra cứu và quản lý tri thức của đơn vị.', importance: 'Làm rõ nhu cầu tự động hóa quản lý và gợi ý tài liệu trong đơn vị.', 'expected-products': 'Bộ dữ liệu, mô hình gợi ý thử nghiệm và báo cáo khoa học.', 'research-content': 'Khảo sát nhu cầu, xây dựng mô hình gợi ý, đánh giá và chuyển giao kết quả.', duration: '12 tháng', budget: '25.000.000 đồng', 'application-effect': 'Ứng dụng tại thư viện số và hỗ trợ tra cứu tài liệu theo nhu cầu.' };\n      Object.entries(v2Values).forEach(([id, value]) => { const field = document.getElementById(id); if (field) field.value = value; });\n      document.querySelector('[data-action=\"submit-create-application\"]').textContent = 'Nộp/cập nhật BM01A V2 trên cùng Hồ sơ';")
+        raw = raw.replace("description: 'Tìm bằng mã Giảng viên hoặc email Trường. Thành viên được thêm vào dữ liệu tạm trước khi tạo Hồ sơ.',", "description: 'Tìm bằng mã Giảng viên hoặc email Trường. Chỉ Tài khoản đủ điều kiện mới được thêm.',")
+        raw = raw.replace('value="22112788"', 'value="GV-2025-0112"')
+        raw = raw.replace('Phạm Bảo Trâm', 'ThS. Phạm Bảo Trâm')
+        raw = raw.replace('22112788 · Khoa Công nghệ', 'GV-2025-0112 · tram.pham@dntu.edu.vn · Khoa Công nghệ')
+        raw = raw.replace('</div><span class="badge success">Đủ điều kiện</span></div>', '</div><span class="badge success">Đủ điều kiện</span></div><p id="member-search-error" class="meta" aria-live="polite"></p>')
+        raw = raw.replace("onConfirm: () => {\n          if (document.querySelector('[data-member-id=\"22112788\"]'))", "onConfirm: dialogNode => {\n          const query = dialogNode.querySelector('#member-search').value.trim().toLowerCase();\n          const error = dialogNode.querySelector('#member-search-error');\n          if (!['gv-2025-0112', 'tram.pham@dntu.edu.vn'].includes(query)) { error.textContent = 'Không tìm thấy Giảng viên đủ điều kiện theo mã/email đã nhập.'; showToast('Không thể thêm: mã hoặc email không hợp lệ/không đủ điều kiện.', 'danger'); dialogNode.querySelector('#member-search').focus(); return false; }\n          if (document.querySelector('[data-member-id=\"22112788\"]'))")
+        raw = raw.replace('[data-member-id="22112788"]', '[data-member-id="GV-2025-0112"]')
+        raw = raw.replace("row.dataset.memberId = '22112788';", "row.dataset.memberId = 'GV-2025-0112';\n          row.dataset.memberRow = '';")
+        raw = raw.replace('22112788 · Thành viên tham gia', 'GV-2025-0112 · tram.pham@dntu.edu.vn · Thành viên tham gia')
+        raw = raw.replace("const selectedAdvisorName = advisorSelected && !advisorSelected.hidden ? document.querySelector('[data-advisor-name]').textContent : 'Chưa chọn Trưởng đơn vị';", "const selectedAdvisorName = 'Trưởng đơn vị Khoa Công nghệ';")
+        raw = raw.replace('<div class="pdf-sheet-row"><span>Đơn vị:</span><span class="pdf-sheet-value" data-live-pdf="unit">${escapeHtml(unit.value)}</span></div>', '')
+        raw = raw.replace('<div class="field"><label for="preview-unit">Đơn vị</label><input id="preview-unit" value="${escapeHtml(unit.value)}" readonly></div>', '')
+        raw = raw.replace("const objective = document.querySelector('#objective');", "const objective = document.querySelector('#objective');\n      const importance = document.querySelector('#importance');\n      const expectedProducts = document.querySelector('#expected-products');\n      const researchContent = document.querySelector('#research-content');\n      const duration = document.querySelector('#duration');\n      const budget = document.querySelector('#budget');\n      const applicationEffect = document.querySelector('#application-effect');")
+        pdf_required_rows = '<div class="pdf-sheet-row"><span>Tính cấp thiết:</span><span class="pdf-sheet-value" data-live-pdf="importance">${escapeHtml(importance.value)}</span></div><div class="pdf-sheet-row"><span>Sản phẩm:</span><span class="pdf-sheet-value" data-live-pdf="products">${escapeHtml(expectedProducts.value)}</span></div><div class="pdf-sheet-row"><span>Nội dung:</span><span class="pdf-sheet-value" data-live-pdf="content">${escapeHtml(researchContent.value)}</span></div><div class="pdf-sheet-row"><span>Thời gian:</span><span class="pdf-sheet-value" data-live-pdf="duration">${escapeHtml(duration.value)}</span></div><div class="pdf-sheet-row"><span>Kinh phí:</span><span class="pdf-sheet-value" data-live-pdf="budget">${escapeHtml(budget.value)}</span></div><div class="pdf-sheet-row"><span>Ứng dụng/hiệu quả:</span><span class="pdf-sheet-value" data-live-pdf="application-effect">${escapeHtml(applicationEffect.value)}</span></div>'
+        raw = raw.replace('</span></div></div><div class="pdf-sheet-section"><h4>2. Nhóm nghiên cứu</h4>', '</span></div>' + pdf_required_rows + '</div><div class="pdf-sheet-section"><h4>2. Nhóm nghiên cứu</h4>')
+        preview_required_fields = '<div class="field"><label for="preview-importance">Tính cấp thiết</label><textarea id="preview-importance">${escapeHtml(importance.value)}</textarea></div><div class="field"><label for="preview-products">Sản phẩm dự kiến</label><textarea id="preview-products">${escapeHtml(expectedProducts.value)}</textarea></div><div class="field"><label for="preview-content">Nội dung nghiên cứu</label><textarea id="preview-content">${escapeHtml(researchContent.value)}</textarea></div><div class="field"><label for="preview-duration">Thời gian</label><input id="preview-duration" value="${escapeHtml(duration.value)}"></div><div class="field"><label for="preview-budget">Kinh phí</label><input id="preview-budget" value="${escapeHtml(budget.value)}"></div><div class="field"><label for="preview-application-effect">Khả năng ứng dụng và hiệu quả</label><textarea id="preview-application-effect">${escapeHtml(applicationEffect.value)}</textarea></div>'
+        raw = raw.replace('</textarea></div><div class="live-form-readonly"><b>Nhóm nghiên cứu</b>', '</textarea></div>' + preview_required_fields + '<div class="live-form-readonly"><b>Nhóm nghiên cứu</b>')
+        raw = raw.replace("['#preview-objective', objective, '[data-live-pdf=\"objective\"]']", "['#preview-objective', objective, '[data-live-pdf=\"objective\"]'],\n        ['#preview-importance', importance, '[data-live-pdf=\"importance\"]'],\n        ['#preview-products', expectedProducts, '[data-live-pdf=\"products\"]'],\n        ['#preview-content', researchContent, '[data-live-pdf=\"content\"]'],\n        ['#preview-duration', duration, '[data-live-pdf=\"duration\"]'],\n        ['#preview-budget', budget, '[data-live-pdf=\"budget\"]'],\n        ['#preview-application-effect', applicationEffect, '[data-live-pdf=\"application-effect\"]']")
+        raw = raw.replace("const pdfReady = pdfInput?.dataset.ready === 'true';\n      const advisorReady = !isStudentRole || Boolean(advisorSelected && !advisorSelected.hidden);\n      submitApplication.disabled = !(pdfReady && advisorReady);", "const pdfReady = pdfInput?.dataset.ready === 'true';\n      const requiredFields = [...document.querySelectorAll('[data-bm01-required]')];\n      const fieldsReady = requiredFields.every(field => field.value.trim());\n      const requiredCheck = document.querySelector('[data-required-check]');\n      if (requiredCheck) { requiredCheck.className = `check ${fieldsReady ? 'ok' : 'blocked'}`; requiredCheck.textContent = fieldsReady ? '✓ Thông tin BM01A đầy đủ' : '! Còn trường BM01A bắt buộc chưa nhập'; }\n      submitApplication.disabled = !(pdfReady && fieldsReady);")
+        raw = raw.replace("submitApplication.disabled = !(pdfReady && fieldsReady);", "submitApplication.disabled = roundClosed || !(pdfReady && fieldsReady);")
+        raw = raw.replace("if (!file.name.toLowerCase().endsWith('.pdf')) {", "if (!file.name.toLowerCase().endsWith('.pdf') || (file.type && file.type !== 'application/pdf')) {")
+        raw = raw.replace("if (pdfInput && submitApplication) {", "document.querySelectorAll('[data-bm01-required]').forEach(field => field.addEventListener('input', refreshEligibility));\n\n    if (pdfInput && submitApplication) {")
+        raw = raw.replace("${replacementSource ? `<br>Hồ sơ mới sẽ liên kết tới ${escapeHtml(replacementSource)}.` : ''}", "${replacementSource ? `<br>BM01A V2 sẽ cập nhật trên cùng Hồ sơ ${escapeHtml(applicationId)}; V1 không bị ghi đè.` : ''}")
+        raw = raw.replace("`${applicationId} · Đã tạo lúc ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} · Không thể chỉnh sửa${replacementSource ? ` · Thay thế ${replacementSource}` : ''}`", "`${applicationId} · ${applicationVersion} đã nộp lúc ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} · Chờ Trưởng đơn vị`")
+        raw = raw.replace("rule.innerHTML = '<b>Hồ sơ đã được tạo và khóa.</b><br>PDF đã nộp một lần thành công; không có thao tác sửa, nộp lại hoặc thay tệp.';", "rule.innerHTML = `<b>${applicationVersion} đã được nộp và khóa.</b><br>Hồ sơ chuyển tới Trưởng đơn vị; phiên bản trước được giữ lịch sử.`;")
+        raw = re.sub(r"document\.querySelectorAll\('\[data-action=\"view-submitted-bm01\"\]'\).*?\}\)\)\);", "document.querySelectorAll('[data-action=\"view-submitted-bm01\"]').forEach(button => button.addEventListener('click', () => {\n      const studentReview = button.dataset.pdfId === 'HS-SV-2026-044';\n      openDialog({\n        title: studentReview ? 'BM01B — PDF đã nộp' : 'BM01A — PDF đã nộp',\n        description: studentReview ? 'HS-SV-2026-044 · V1 bất biến' : 'HS-GV-2026-031 · V1 bất biến',\n        content: studentReview ? '<div class=\"document-preview\"><b>BM01B-HS-SV-2026-044-V1.pdf</b><p>Phân loại tài liệu nghiên cứu bằng học máy</p><p class=\"meta\">Lê Hoàng Minh nộp 22/07/2026 10:14 · 2,04 MB · đúng assignment hiện hành.</p></div>' : '<div class=\"document-preview\"><b>BM01A-HS-GV-2026-031-V1.pdf</b><p>Mô hình gợi ý tài liệu học tập theo năng lực</p><p class=\"meta\">TS. Nguyễn Thị Lan nộp 20/07/2026 14:20 · bản bị Trưởng đơn vị trả sửa và được giữ bất biến.</p></div>'\n      });\n    }));", raw, flags=re.S)
+        raw = re.sub(r"\n    const isStudentRole =.*?\n    const refreshEligibility =", "\n    const refreshEligibility =", raw, flags=re.S)
+        raw = re.sub(r"\n    if \(advisorPicker\).*?\n    document\.querySelectorAll\('\[data-bm01-required\]'\)", "\n    document.querySelectorAll('[data-bm01-required]')", raw, flags=re.S)
+        raw = re.sub(r"\n        if \(isStudentRole && advisorSelected\.hidden\) \{.*?\n        \}", "", raw, flags=re.S)
+        raw = raw.replace(', [data-action="select-advisor"]', '')
+        raw = raw.replace("overlay.addEventListener('click', () => toggle(false));", "overlay.addEventListener('click', () => toggle(false));\n      document.addEventListener('keydown', event => {\n        if (event.key === 'Escape' && sidebar.classList.contains('open')) {\n          toggle(false);\n          menu.focus();\n        }\n      });")
+
+        upload_block = '''pdfInput.addEventListener('change', async () => {
+        const file = pdfInput.files?.[0];
+        const status = document.querySelector('[data-pdf-status]');
+        const check = document.querySelector('[data-pdf-check]');
+        const rejectFile = (message, checkMessage) => {
+          pdfInput.value = '';
+          pdfInput.dataset.ready = 'false';
+          refreshEligibility();
+          status.className = 'notice danger';
+          status.innerHTML = `<b>Tệp không hợp lệ.</b><br>${message}`;
+          check.className = 'check blocked';
+          check.textContent = checkMessage;
+          pdfInput.focus();
+        };
+        pdfInput.dataset.ready = 'false';
+        refreshEligibility();
+        if (!file) {
+          status.className = 'notice warning';
+          status.innerHTML = '<b>Chưa chọn tệp PDF.</b><br>Chỉ một tệp PDF được gắn với Hồ sơ khi nộp.';
+          check.className = 'check blocked';
+          check.textContent = '! Chưa chọn PDF đã ký';
+          return;
+        }
+        if (roundClosed) { rejectFile('Đợt đăng ký đã đóng; không thể tải tệp.', '! Đợt đăng ký đã đóng'); return; }
+        if (file.size === 0) { rejectFile('Tệp rỗng (0 byte) không thể nộp.', '! Tệp PDF rỗng'); return; }
+        if (!file.name.toLowerCase().endsWith('.pdf') || (file.type && file.type !== 'application/pdf')) {
+          rejectFile('Chỉ chấp nhận tệp có định dạng PDF.', '! Tệp đã chọn không phải PDF');
+          return;
+        }
+        let signature = '';
+        let contentHash = '';
+        try {
+          const buffer = await file.arrayBuffer();
+          signature = String.fromCharCode(...new Uint8Array(buffer.slice(0, 5)));
+          const digest = await crypto.subtle.digest('SHA-256', buffer);
+          contentHash = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+        } catch (_error) {
+          rejectFile('Không thể đọc hoặc băm nội dung tệp. Hãy chọn lại PDF.', '! Không đọc được tệp PDF');
+          return;
+        }
+        if (pdfInput.files?.[0] !== file) return;
+        if (signature !== '%PDF-') { rejectFile('Nội dung tệp không có chữ ký %PDF-.', '! Nội dung không phải PDF'); return; }
+        const v1PdfHash = document.querySelector('[data-application-page]')?.dataset.v1PdfHash || '';
+        if (replacementSource && v1PdfHash && contentHash === v1PdfHash) {
+          rejectFile('BM01A V2 phải dùng nội dung PDF mới; bản V1 không được nộp lại dù đã đổi tên.', '! Nội dung PDF trùng V1');
+          return;
+        }
+        status.className = 'notice success';
+        status.innerHTML = `<b>${escapeHtml(file.name)}</b><br>${(file.size / 1024 / 1024).toFixed(2)} MB · chữ ký %PDF- hợp lệ · sẵn sàng nộp`;
+        check.className = 'check ok';
+        check.textContent = '✓ Đã chọn một PDF mới hợp lệ';
+        pdfInput.dataset.ready = 'true';
+        refreshEligibility();
+      });'''
+        raw = re.sub(r"pdfInput\.addEventListener\('change', \(\) => \{.*?\n      \}\);\n\n      submitApplication\.addEventListener", upload_block + "\n\n      submitApplication.addEventListener", raw, count=1, flags=re.S)
+        raw = raw.replace("const file = pdfInput.files?.[0];\n        if (!file) {", "const file = pdfInput.files?.[0];\n        if (roundClosed) {\n          showToast('Đợt đăng ký đã đóng; không thể nộp Hồ sơ.', 'danger');\n          refreshEligibility();\n          return;\n        }\n        if (!file || pdfInput.dataset.ready !== 'true') {")
+        raw = raw.replace("onConfirm: () => {\n            document.querySelectorAll('[data-application-form]", "onConfirm: () => {\n            if (roundClosed) { showToast('Đợt đăng ký đã đóng; thao tác nộp đã hết hạn.', 'danger'); return false; }\n            document.querySelectorAll('[data-application-form]")
+        raw = raw.replace("document.querySelectorAll('[data-bm01-required]').forEach(field => field.addEventListener('input', refreshEligibility));\n\n    if (pdfInput && submitApplication) {", "document.querySelectorAll('[data-bm01-required]').forEach(field => field.addEventListener('input', refreshEligibility));\n\n    if (roundClosed && document.querySelector('[data-application-page]')) {\n      const rule = document.querySelector('[data-application-rule]');\n      rule.className = 'notice warning';\n      rule.innerHTML = `<b>Đợt đăng ký đã đóng.</b><br>${replacementSource ? 'BM01A V2' : 'Hồ sơ mới'} chỉ được xem; tải PDF và nộp Hồ sơ đã hết hạn.`;\n      document.querySelector('[data-application-lead]').textContent = 'Đợt đăng ký đã đóng · không thể tải hoặc nộp PDF';\n    }\n\n    if (pdfInput && submitApplication) {")
+        raw = raw.replace("document.querySelector('[data-application-lead]').textContent = 'Đợt đăng ký đã đóng · không thể tải hoặc nộp PDF';\n    }", "document.querySelector('[data-application-lead]').textContent = 'Đợt đăng ký đã đóng · biểu mẫu chỉ đọc, không thể tải hoặc nộp PDF';\n      document.querySelectorAll('[data-application-form] input, [data-application-form] select, [data-application-form] textarea, [data-action=\"add-member\"], [data-action=\"remove-member\"], [data-action=\"download-application-pdf\"]').forEach(control => { control.disabled = true; });\n    }")
+        raw = raw.replace("pdfInput.dataset.ready = 'false';\n      refreshEligibility();", "pdfInput.dataset.ready = 'false';\n      pdfInput.disabled = roundClosed;\n      refreshEligibility();", 1)
+        raw = raw.replace("if (downloadApplication) downloadApplication.addEventListener('click', () => showToast('PDF BM01A đã được tạo để tải xuống và ký.'));", "if (downloadApplication) downloadApplication.addEventListener('click', () => {\n      if (roundClosed) { showToast('Đợt đăng ký đã đóng; không thể tạo hoặc tải PDF.', 'danger'); return; }\n      showToast('PDF BM01A đã được tạo để tải xuống và ký.');\n    });")
+        raw = raw.replace("dialog.classList.add('preview-dialog');", "dialog.classList.add('preview-dialog');\n      if (roundClosed) {\n        dialog.querySelectorAll('.live-form-pane input, .live-form-pane select, .live-form-pane textarea').forEach(control => { control.disabled = true; });\n        const previewNotice = dialog.querySelector('.live-form-pane .notice');\n        previewNotice.innerHTML = '<b>Bản xem trước chỉ đọc.</b><br>Đợt đăng ký đã đóng; không thể chỉnh sửa dữ liệu từ cửa sổ này.';\n      }")
+        raw = raw.replace("\n  function setupNotifications() {", "\n  function setupReturnedRoundClosure() {\n    const page = document.querySelector('[data-returned-application]');\n    if (!page) return;\n    const actions = [...page.querySelectorAll('[data-action=\"resubmit-returned-bm01\"]')];\n    const isClosed = () => new URLSearchParams(window.location.search).get('round') === 'closed';\n    actions.forEach(action => action.addEventListener('click', event => {\n      if (!isClosed()) return;\n      event.preventDefault();\n      showToast('Đợt đăng ký đã đóng; không thể nộp lại BM01A.', 'danger');\n    }));\n    if (!isClosed()) return;\n    actions.forEach(action => { action.hidden = true; action.removeAttribute('href'); action.setAttribute('aria-disabled', 'true'); });\n    const notice = document.createElement('div');\n    notice.className = 'notice warning';\n    notice.dataset.roundClosedNotice = '';\n    notice.innerHTML = '<b>Đợt đăng ký đã đóng.</b><br>BM01A V1 và phản hồi chỉ còn ở chế độ xem; không có đường sửa hoặc nộp lại.';\n    page.querySelector('.page-head').insertAdjacentElement('afterend', notice);\n  }\n\n  function setupNotifications() {")
+        raw = raw.replace("setupBm01();\n    setupNotifications();", "setupBm01();\n    setupReturnedRoundClosure();\n    setupNotifications();")
+    return raw
+
+
+def lecturer_review_page():
+    return '''<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NCKH — Xét duyệt Hồ sơ Sinh viên</title><link rel="stylesheet" href="lecturer.css"></head>
+<body data-actor="gv" data-page-codes="GV-07 GV-08"><div class="browser"><div class="chrome"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="address">nckh.dntu.edu.vn/xet-duyet/HS-SV-2026-044</div></div><header class="topbar"><button class="mobile-menu ghost" type="button">☰</button><div class="brand"><span class="seal">DNTU</span><span>NCKH<small>Quản lý nghiên cứu khoa học</small></span></div><div class="top-actions"><div class="role-label">Vai trò: Giảng viên</div><a class="bell" href="08-thong-bao.html">● 3</a><div class="account"><span class="avatar">NL</span><span class="account-name">TS. Nguyễn Thị Lan</span>⌄</div></div></header>
+<div class="shell"><aside class="sidebar"><div class="nav-title">Nghiệp vụ</div><a class="nav-item active" href="01-danh-sach-de-tai.html">Đề tài <span class="nav-count">6</span></a><a class="nav-item" href="02-dot-dang-ky.html">Đợt đăng ký</a><div class="nav-title">Tài khoản</div><a class="nav-item" href="08-thong-bao.html">Thông báo <span class="nav-count">3</span></a><a class="nav-item" href="09-ho-so-ca-nhan.html">Hồ sơ cá nhân</a></aside>
+<main class="content" data-assignment-surface><div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / <a class="link" href="01-danh-sach-de-tai.html">Đề tài</a> / Xét Hồ sơ Sinh viên</div><div class="page-head"><div><h1>Xét duyệt Hồ sơ Sinh viên</h1><p class="lead">Chỉ hiển thị Hồ sơ BM01B được phân công cho bạn.</p></div><span class="badge warning" data-review-status>Chờ quyết định</span></div>
+<div class="grid-2"><div><section class="form-section"><h2>Snapshot BM01B · V1</h2><dl class="detail-list"><div><dt>Mã Hồ sơ</dt><dd>HS-SV-2026-044</dd></div><div><dt>Tên đề tài</dt><dd>Phân loại tài liệu nghiên cứu bằng học máy</dd></div><div><dt>Chủ nhiệm đề tài</dt><dd>Lê Hoàng Minh · 22112788</dd></div><div><dt>Đơn vị</dt><dd>Khoa Công nghệ</dd></div><div><dt>Giảng viên hướng dẫn</dt><dd>TS. Nguyễn Thị Lan · được phân công cho bạn</dd></div></dl></section><section class="form-section"><h2>PDF đã nộp</h2><div class="doc-row"><div><b>BM01B-HS-SV-2026-044-V1.pdf</b><br><span class="meta">2,04 MB · nộp 22/07/2026 10:14 · Bản bất biến</span></div><button class="secondary" type="button" data-action="view-submitted-bm01" data-pdf-id="HS-SV-2026-044">Xem PDF</button></div></section></div>
+<aside><section class="card"><h2>Phạm vi xử lý</h2><div class="checklist"><div class="check ok">✓ Hồ sơ thuộc assignment hiện hành</div><div class="check ok">✓ Snapshot BM01B và PDF đã khóa</div><div class="check blocked" data-review-check>! Chưa có quyết định</div></div></section><section class="card"><h2>Nguyên tắc</h2><p>Duyệt sẽ chuyển Hồ sơ tới tập đủ điều kiện lập Hội đồng. Trả sửa bắt buộc nhập lý do; V1 vẫn được giữ để đối chiếu.</p></section></aside></div>
+<div class="action-bar" data-review-actions><a class="secondary" href="01-danh-sach-de-tai.html">Quay lại Danh sách</a><button class="danger" type="button" data-action="return-student-application">Trả Hồ sơ để sửa</button><button class="primary" type="button" data-action="approve-student-application">Duyệt Hồ sơ</button></div></main></div></div><script src="lecturer.js"></script><script>
+(()=>{const ui=window.NCKHUI, surface=document.querySelector('[data-assignment-surface]');if(location.hash==='#assignment-revoked'){surface.innerHTML='<div class="breadcrumb"><a class="link" href="01-danh-sach-de-tai.html">Đề tài</a> / Quyền truy cập</div><section class="card"><h1>Bạn không thể truy cập nội dung này</h1><div class="notice warning">Phân công đã hết hiệu lực hoặc quyền truy cập đã thay đổi.</div><p>Phản hồi không hiển thị tên, mã Hồ sơ, trạng thái hay tài liệu ngoài phạm vi.</p><a class="primary" href="01-danh-sach-de-tai.html">Về Danh sách đề tài</a></section>';return}const finish=(status,tone,message)=>{document.querySelector('[data-review-status]').textContent=status;document.querySelector('[data-review-status]').className='badge '+tone;document.querySelector('[data-review-check]').textContent='✓ '+message;document.querySelector('[data-review-check]').className='check ok';document.querySelector('[data-review-actions]').querySelectorAll('button').forEach(button=>button.disabled=true);ui.showToast(message)};document.querySelector('[data-action="approve-student-application"]').addEventListener('click',()=>ui.openDialog({title:'Duyệt Hồ sơ BM01B?',description:'HS-SV-2026-044 · đúng assignment hiện hành',content:'<div class="notice warning">Hồ sơ sẽ chuyển tới tập đủ điều kiện lập Hội đồng. Snapshot V1 được giữ bất biến.</div>',confirmLabel:'Duyệt Hồ sơ',onConfirm:()=>finish('Đã duyệt','success','Đã chuyển tới tập đủ điều kiện lập Hội đồng')}));document.querySelector('[data-action="return-student-application"]').addEventListener('click',()=>{const dialog=ui.openDialog({title:'Trả Hồ sơ để sửa',description:'Lý do sẽ được gửi cho Sinh viên và gắn với BM01B V1.',content:'<div class="field"><label for="review-return-reason">Lý do trả sửa *</label><textarea id="review-return-reason" required aria-describedby="review-return-error"></textarea><p id="review-return-error" class="meta" aria-live="polite"></p></div>',confirmLabel:'Trả Hồ sơ',confirmTone:'danger',onConfirm:dialogNode=>{const reason=dialogNode.querySelector('#review-return-reason'),error=dialogNode.querySelector('#review-return-error');if(!reason.value.trim()){error.textContent='Lý do trả sửa là bắt buộc.';reason.focus();return false}finish('Đã trả sửa','danger','Đã trả Sinh viên: '+reason.value.trim())}});dialog.querySelector('#review-return-reason').focus()})})();
+</script></body></html>'''
+
+
+def lecturer_neutral_page(kind):
+    if kind == "unpublished":
+        title = "Kết quả chưa công bố"
+        heading = "Chưa có kết quả được phép hiển thị"
+        message = "Đề tài đang chờ công bố. Trang này không cung cấp điểm, kết luận, số phiếu, tài liệu kết quả hoặc metadata đánh giá."
+        address = "nckh.dntu.edu.vn/de-tai/ket-qua/chua-cong-bo"
+    else:
+        title = "Không thể truy cập"
+        heading = "Bạn không thể truy cập nội dung này"
+        message = "Phân công không tồn tại, đã hết hiệu lực hoặc quyền truy cập đã thay đổi. Trang này không cung cấp định danh người học, mã Hồ sơ, trạng thái hoặc tài liệu."
+        address = "nckh.dntu.edu.vn/xet-duyet/khong-quyen"
+    return f'''<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NCKH — {title}</title><link rel="stylesheet" href="lecturer.css"></head><body data-actor="gv" data-page-codes=""><div class="browser"><div class="chrome"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="address">{address}</div></div><header class="topbar"><button class="mobile-menu ghost" type="button">☰</button><div class="brand"><span class="seal">DNTU</span><span>NCKH<small>Quản lý nghiên cứu khoa học</small></span></div><div class="top-actions"><div class="role-label">Vai trò: Giảng viên</div><a class="bell" href="08-thong-bao.html">● 3</a><div class="account"><span class="avatar">NL</span><span class="account-name">TS. Nguyễn Thị Lan</span>⌄</div></div></header><div class="shell"><aside class="sidebar"><div class="nav-title">Nghiệp vụ</div><a class="nav-item active" href="01-danh-sach-de-tai.html">Đề tài <span class="nav-count">6</span></a><a class="nav-item" href="02-dot-dang-ky.html">Đợt đăng ký</a><div class="nav-title">Tài khoản</div><a class="nav-item" href="08-thong-bao.html">Thông báo <span class="nav-count">3</span></a><a class="nav-item" href="09-ho-so-ca-nhan.html">Hồ sơ cá nhân</a></aside><main class="content"><div class="breadcrumb"><a class="link" href="01-danh-sach-de-tai.html">Đề tài</a> / {title}</div><section class="card"><h1>{heading}</h1><div class="notice warning">{message}</div><a class="primary" href="01-danh-sach-de-tai.html">Về Danh sách đề tài</a></section></main></div></div><script src="lecturer.js"></script></body></html>'''
+
+
+def lecturer_outputs():
+    student = MOCKUPS / "sinh-vien"
+    responsive_overrides = '''
+/* Lecturer clone hardening: long academic metadata must not force horizontal scroll. */
+.content,.page-head>div,.doc-row>div,.topic-card>div,.action-bar>*{min-width:0}
+.page-head,.doc-row,.topic-card,.topbar,.top-actions,.action-bar{overflow-wrap:anywhere}
+@media(max-width:520px){html,body,.browser{max-width:100%;overflow-x:hidden}.content{padding-left:12px;padding-right:12px}.page-head,.doc-row,.topic-card,.action-bar{align-items:stretch;flex-direction:column}.page-head>a,.doc-row>button,.topic-actions,.action-bar>*{width:100%}.topbar{gap:6px;padding-left:10px;padding-right:10px}.brand{flex:0 0 auto;min-width:58px}.top-actions{max-width:calc(100% - 64px);min-width:0;gap:4px}.account{flex:0 0 auto;padding:6px}.account-name,.role-label{max-width:108px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-actions,.pdf-tool-actions{flex-wrap:wrap}.pdf-tool-actions>*{flex:1 1 180px}}
+@media(max-width:520px){.preview-dialog{display:flex;flex-direction:column;width:calc(100vw - 16px);height:calc(100dvh - 16px);max-height:none}.preview-dialog .dialog-head,.preview-dialog .dialog-actions{flex:0 0 auto}.preview-dialog .dialog-body{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain}.preview-dialog .live-preview-layout{display:block;min-height:0}.preview-dialog .live-preview-pane,.preview-dialog .live-form-pane{min-height:0;overflow:visible}.preview-dialog .pdf-sheet{min-width:0;padding:24px 18px}}
+'''
+    review_page = lecturer_review_page()
+    review_page = re.sub(r"\(\(\)=>\{const ui=window\.NCKHUI, surface=.*?const finish=", "(()=>{const ui=window.NCKHUI;const finish=", review_page, flags=re.S)
+    outputs = {
+        "lecturer.css": (student / "student.css").read_text(encoding="utf-8") + responsive_overrides,
+        "lecturer.js": lecturer_transform((student / "student.js").read_text(encoding="utf-8"), "lecturer.js"),
+        "10-xet-duyet-ho-so-sinh-vien.html": review_page,
+        "07b-ket-qua-chua-cong-bo.html": lecturer_neutral_page("unpublished"),
+        "10b-xet-duyet-khong-quyen.html": lecturer_neutral_page("denied"),
+    }
+    for target, source in LECTURER_CLONES.items():
+        outputs[target] = lecturer_transform((student / source).read_text(encoding="utf-8"), target)
+    return outputs
 
 
 def page(actor, filename, codes, title, lead, *, kind="list", active=None, visibility="assigned", rows=(), actions=(), gates=(), upload="none", fields=(), tabs=()):
@@ -279,6 +598,10 @@ def validate_model():
     expected = {"gv": 14, "td": 6, "pk": 23, "ct": 8, "tv": 6, "tk": 6, "qt": 6}
     page_expected = {"gv": 8, "td": 6, "pk": 7, "ct": 8, "tv": 6, "tk": 6, "qt": 6}
     seen = set()
+    lecturer_codes = [code for codes in LECTURER_PAGE_CODES.values() for code in codes]
+    expected_lecturer_codes = [f"GV-{index:02d}" for index in range(1, 15)]
+    if sorted(lecturer_codes) != expected_lecturer_codes or len(set(lecturer_codes)) != 14:
+        errors.append("lecturer clone page mapping must cover GV-01–14 exactly once")
     for actor, count in expected.items():
         actor_pages = [p for p in PAGES if p["actor"] == actor]
         codes = [code for p in actor_pages for code in p["codes"]]
@@ -305,6 +628,8 @@ def main():
         print("Schema không hợp lệ:\n- " + "\n- ".join(errors), file=sys.stderr)
         return 1
     for p in PAGES:
+        if p["actor"] == "gv":
+            continue
         folder = MOCKUPS / ACTORS[p["actor"]][0]
         target = folder / p["filename"]
         expected = render_page(p)
@@ -314,10 +639,28 @@ def main():
         else:
             folder.mkdir(parents=True, exist_ok=True)
             target.write_text(expected, encoding="utf-8", newline="\n")
+    lecturer_folder = MOCKUPS / "giang-vien"
+    legacy_targets = [lecturer_folder / filename for filename in sorted(LECTURER_OLD_FILES)]
+    if args.check:
+        drift.extend(str(target.relative_to(ROOT)) + " (legacy)" for target in legacy_targets if target.exists())
+    else:
+        for target in legacy_targets:
+            if target.exists():
+                target.unlink()
+    lecturer_expected = lecturer_outputs()
+    for filename, expected in lecturer_expected.items():
+        target = lecturer_folder / filename
+        if args.check:
+            if not target.exists() or target.read_text(encoding="utf-8") != expected:
+                drift.append(str(target.relative_to(ROOT)))
+        else:
+            lecturer_folder.mkdir(parents=True, exist_ok=True)
+            target.write_text(expected, encoding="utf-8", newline="\n")
     if drift:
         print("Output lệch generator:\n- " + "\n- ".join(drift), file=sys.stderr)
         return 1
-    print(f"OK: {len(PAGES)} trang, {sum(len(p['codes']) for p in PAGES)} mã; schema/action/gate hợp lệ" + ("; không có drift" if args.check else "; đã sinh output"))
+    rendered_pages = len([p for p in PAGES if p["actor"] != "gv"]) + len(LECTURER_CLONES) + 3
+    print(f"OK: {rendered_pages} trang, {sum(len(p['codes']) for p in PAGES)} mã; schema/action/gate hợp lệ" + ("; không có drift" if args.check else "; đã sinh output"))
     return 0
 
 

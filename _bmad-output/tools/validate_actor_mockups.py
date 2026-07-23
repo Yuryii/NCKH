@@ -104,14 +104,17 @@ def main():
     for page in gen.PAGES:
         if page["upload"] not in allowed_uploads[page["actor"]]:
             errors.append(f"{page['actor']}/{page['filename']}: upload mode outside independent role allowlist")
-    expected_pages = {(gen.ACTORS[p["actor"]][0], p["filename"]): p for p in gen.PAGES}
+    expected_pages = {(gen.ACTORS[p["actor"]][0], p["filename"]): p for p in gen.PAGES if p["actor"] != "gv"}
     generated = []
     for folder, *_ in gen.ACTORS.values():
         generated.extend((MOCKUPS / folder).glob("*.html"))
-    if len(generated) != 47:
-        errors.append(f"expected 47 actor HTML pages, got {len(generated)}")
+    if len(generated) != 53:
+        errors.append(f"expected 53 actor HTML pages, got {len(generated)}")
 
     seen_codes = []
+    for legacy in sorted(gen.LECTURER_OLD_FILES):
+        if (MOCKUPS / "giang-vien" / legacy).exists():
+            errors.append(f"legacy lecturer page still exists: giang-vien/{legacy}")
     required_branches = {
         "GV-07": {"approve", "return"}, "TD-03": {"approve", "return"}, "TD-04": {"sign-route", "return"},
         "PK-07": {"approve-cancel", "reject-cancel"}, "PK-12": {"cancel-meeting", "replace-meeting"},
@@ -135,6 +138,105 @@ def main():
 
     for path in sorted(generated):
         rel = path.relative_to(MOCKUPS)
+        if rel.parts[0] == "giang-vien":
+            expected_lecturer = set(gen.LECTURER_PAGE_CODES)
+            if rel.name not in expected_lecturer:
+                errors.append(f"unexpected lecturer clone page: {rel}")
+                continue
+            doc = parse(path)
+            raw = path.read_text(encoding="utf-8")
+            codes = doc.body.get("data-page-codes", "").split()
+            expected_codes_for_page = gen.LECTURER_PAGE_CODES[rel.name]
+            seen_codes.extend(codes)
+            if doc.body.get("data-actor") != "gv" or codes != expected_codes_for_page:
+                errors.append(f"{rel}: lecturer actor/code mapping differs; expected {expected_codes_for_page}, got {codes}")
+            if len(doc.ids) != len(set(doc.ids)):
+                errors.append(f"{rel}: duplicate id(s)")
+            if not doc.attr_nodes("lang", "vi"):
+                errors.append(f"{rel}: missing vi language")
+            for target in doc.assets + doc.links:
+                if target.startswith(("http:", "https:", "mailto:", "#")):
+                    continue
+                clean, _ = urldefrag(target)
+                if clean and not (path.parent / clean).resolve().exists():
+                    errors.append(f"{rel}: broken local reference {target}")
+            if "lecturer.css" not in doc.assets or "lecturer.js" not in doc.assets:
+                errors.append(f"{rel}: lecturer page must use lecturer.css/js cloned assets")
+            if "shared/actor" in raw or "student.css" in raw or "student.js" in raw:
+                errors.append(f"{rel}: lecturer page drifted to shared/student runtime assets")
+            if "@sv.dntu.edu.vn" in raw:
+                errors.append(f"{rel}: student email domain leaked into lecturer suite")
+            if rel.name == "03-bm01a-ho-so.html":
+                if "BM01A" not in raw or "Trưởng đơn vị" not in raw:
+                    errors.append(f"{rel}: missing BM01A/unit-head route")
+                if "data-advisor-section" in raw or "data-advisor-check" in raw or "Giảng viên hướng dẫn" in raw:
+                    errors.append(f"{rel}: own BM01A must not render advisor selection/gate")
+                if re.search(r"\b(Điểm|điểm số|phiếu Hội đồng)\b", raw):
+                    errors.append(f"{rel}: own BM01A leaked scoring/council content")
+                required_ids = {"topic-name", "research-field", "objective", "importance", "expected-products", "research-content", "duration", "budget", "application-effect"}
+                actual_required = {attrs.get("id") for _, attrs in doc.attr_nodes("data-bm01-required") if "required" in attrs}
+                if required_ids - actual_required:
+                    errors.append(f"{rel}: missing required BM01A fields {sorted(required_ids-actual_required)}")
+                for token in ("data-required-check", "data-eligibility-check", "data-route-check", "accept=\"application/pdf,.pdf\""):
+                    if token not in raw:
+                        errors.append(f"{rel}: missing BM01A validation token {token}")
+            if rel.name == "03b-bm01a-truong-don-vi-tra.html":
+                if "Sửa và nộp lại BM01A" not in raw or "Hồ sơ thay thế" in raw:
+                    errors.append(f"{rel}: returned BM01A must resubmit a version, not create replacement application")
+                for forbidden in ("HS-GV-2026-032", "Hồ sơ mới", "từ chối ký", "cần thay thế"):
+                    if forbidden.lower() in raw.lower():
+                        errors.append(f"{rel}: inconsistent returned semantics leaked: {forbidden}")
+                if "#nop-lai-HS-GV-2026-031" not in raw or "V2 giữ cùng mã Hồ sơ" not in raw:
+                    errors.append(f"{rel}: resubmit must target V2 on HS-GV-2026-031")
+            if rel.name == "10-xet-duyet-ho-so-sinh-vien.html":
+                for token in ("Chỉ hiển thị Hồ sơ BM01B được phân công", "approve-student-application", "return-student-application", "Lý do trả sửa là bắt buộc", "data-pdf-id=\"HS-SV-2026-044\"", "BM01B-HS-SV-2026-044-V1.pdf", "ui.openDialog", "ui.showToast"):
+                    if token not in raw:
+                        errors.append(f"{rel}: missing assigned-student review behavior: {token}")
+                if re.search(r"\b(confirm|prompt|alert)\s*\(", raw):
+                    errors.append(f"{rel}: native confirm/prompt/alert must not implement review decisions")
+                if "#assignment-revoked" in raw or "Bạn không thể truy cập nội dung này" in raw:
+                    errors.append(f"{rel}: assigned review page must not embed denied-state markup")
+                if re.search(r'<a class="nav-item[^\"]*"[^>]*>Xét duyệt', raw):
+                    errors.append(f"{rel}: review must remain under the stable Đề tài navigation")
+            if rel.name == "01-danh-sach-de-tai.html":
+                for token in ('<strong>6</strong><span>Tổng số đề tài', '<strong>3</strong><span>Cần bạn xử lý', 'tab-count">3</span>', 'value="advisor">Hồ sơ Sinh viên được phân công'):
+                    if token not in raw:
+                        errors.append(f"{rel}: lecturer list counter/filter mismatch: {token}")
+            if rel.name == "02-dot-dang-ky.html" and ("ĐK-SV" in raw or "ĐK-GV-2026-01" not in raw):
+                errors.append(f"{rel}: lecturer round must use ĐK-GV identifier")
+            if rel.name == "02-dot-dang-ky.html":
+                for token in ('id="round-filters"', 'id="round-search"', 'id="round-status"', 'data-round-status="open"', 'data-round-status="upcoming"', 'data-round-status="closed"', 'id="round-empty"', 'function filterRounds'):
+                    if token not in raw:
+                        errors.append(f"{rel}: missing lecturer round filtering token {token}")
+            if rel.name == "04-chi-tiet-de-tai.html":
+                for token in ("HS-GV-2026-031", "Mô hình gợi ý tài liệu học tập theo năng lực", "Bạn là Chủ nhiệm đề tài", "Chờ Trưởng đơn vị · Bước 01", "BM01A — Hồ sơ đăng ký"):
+                    if token not in raw:
+                        errors.append(f"{rel}: inconsistent HS-GV-2026-031 detail fixture {token}")
+                for forbidden in ("NCKH-GV-2025-066", "BM09 — Báo cáo nghiệm thu", "Bước 06<br>Nghiệm thu</li><li class=\"step active\""):
+                    if forbidden in raw:
+                        errors.append(f"{rel}: stale detail fixture leaked {forbidden}")
+            if rel.name == "06-workspace-buoc-03-07.html":
+                for token in ("Bạn là Chủ nhiệm đề tài", "dataset.activeDocument", "bm09Active", "uploadAction.hidden"):
+                    if token not in raw and token not in (MOCKUPS / "giang-vien/lecturer.js").read_text(encoding="utf-8"):
+                        errors.append(f"{rel}: workspace BM09 permission/gate missing {token}")
+            if rel.name == "09-ho-so-ca-nhan.html":
+                for token in ("lan.nguyen@dntu.edu.vn", "Đơn vị", "Chức danh", "Chuyên môn"):
+                    if token not in raw:
+                        errors.append(f"{rel}: missing lecturer profile fixture {token}")
+                if "@sv.dntu.edu.vn" in raw or ">Khóa học<" in raw or ">Lớp<" in raw:
+                    errors.append(f"{rel}: student-only profile fixture leaked")
+            if rel.name == "07-ket-qua-hoan-tat.html":
+                if "#chua-cong-bo" in raw or "data-unpublished-result" in raw or "KẾT QUẢ CHƯA CÔNG BỐ" in raw:
+                    errors.append(f"{rel}: published page must not embed unpublished-state markup")
+            if rel.name == "07b-ket-qua-chua-cong-bo.html":
+                for forbidden in ("KẾT LUẬN NGHIỆM THU", ">Đạt<", "BM12", "BM13", "BM14", "NCKH-GV-", "HS-GV-", "V1 · Hiện hành"):
+                    if forbidden in raw:
+                        errors.append(f"{rel}: sensitive published result leaked: {forbidden}")
+            if rel.name == "10b-xet-duyet-khong-quyen.html":
+                for forbidden in ("HS-SV-", "BM01B", "Lê Hoàng Minh", "PDF đã nộp", "Phân loại tài liệu"):
+                    if forbidden in raw:
+                        errors.append(f"{rel}: assignment identity/document leaked: {forbidden}")
+            continue
         key = (rel.parts[0], rel.name)
         page = expected_pages.get(key)
         if page is None:
@@ -256,7 +358,76 @@ def main():
     for token in ("Escape", "focusTarget", "aria-selected", "data-gate-id", "data-file-for", "data-visible-count", "notification-popover", "event.key !== 'Tab'", "stagePairs", "councilStage", "disableControlsForAction", "cancel-meeting", "submit-minutes"):
         if token not in actor_js:
             errors.append(f"shared JS missing accessibility/gate behavior token: {token}")
+    lecturer_js = (MOCKUPS / "giang-vien/lecturer.js").read_text(encoding="utf-8")
+    for token in ("window.location.hash === '#nop-lai-HS-GV-2026-031'", "const createdApplicationId = 'HS-GV-2026-045'", "const applicationId = replacementSource || createdApplicationId", "const applicationVersion", "file.type && file.type !== 'application/pdf'", "file.size === 0", "file.arrayBuffer()", "crypto.subtle.digest('SHA-256', buffer)", "contentHash === v1PdfHash", "dataset.v1PdfHash", "signature !== '%PDF-'", "pdfInput.dataset.ready !== 'true'", "new URLSearchParams(window.location.search).get('round') === 'closed'", "submitApplication.disabled = roundClosed", "[data-application-form] input", "[data-action=\"download-application-pdf\"]", "Bản xem trước chỉ đọc", "setupReturnedRoundClosure", "removeAttribute('href')", "notice.dataset.roundClosedNotice", "Đợt đăng ký đã đóng; không thể nộp Hồ sơ", "event.key === 'Escape'", "sidebar.classList.contains('open')", "menu.focus()", "data-bm01-required", "Trưởng đơn vị Khoa Công nghệ", "row.dataset.memberRow", "HS-SV-2026-044", "window.NCKHUI", "Nộp/cập nhật BM01A V2 trên cùng Hồ sơ", "preview-importance", "preview-products", "preview-content", "preview-duration", "preview-budget", "preview-application-effect", "data-live-pdf=\"importance\"", "data-live-pdf=\"application-effect\"", "tram.pham@dntu.edu.vn", "Không tìm thấy Giảng viên đủ điều kiện"):
+        if token not in lecturer_js:
+            errors.append(f"lecturer JS missing canonical behavior token: {token}")
+    for forbidden in ("HS-GV-2026-032", "#thay-the-", "Chưa chọn Trưởng đơn vị", "data-student-advisor-picker", "select-advisor", "isStudentRole", "v1FixtureFingerprint", "file.name.toLowerCase() === 'bm01a-hs-gv-2026-031-v1.pdf'"):
+        if forbidden in lecturer_js:
+            errors.append(f"lecturer JS contains forbidden replacement/advisor token: {forbidden}")
+    preview_match = re.search(r'<h4>1\. Thông tin đề tài</h4>(.*?)<h4>2\. Nhóm nghiên cứu</h4>', lecturer_js, re.S)
+    if not preview_match:
+        errors.append("lecturer JS missing BM01A preview information section")
+    else:
+        preview_rows = preview_match.group(1)
+        if preview_rows.count('<div class="pdf-sheet-row">') != 9:
+            errors.append("lecturer JS BM01A preview must contain exactly 9 sibling pdf-sheet-row elements")
+        valid_rows = re.findall(r'<div class="pdf-sheet-row"><span>.*?</span><span class="pdf-sheet-value" data-live-pdf="[^"]+">.*?</span></div>', preview_rows, re.S)
+        if len(valid_rows) != 9:
+            errors.append("lecturer JS BM01A preview contains malformed/nested pdf-sheet-row markup")
+    lecturer_css = (MOCKUPS / "giang-vien/lecturer.css").read_text(encoding="utf-8")
+    for token in ("overflow-x:hidden", "min-width:0", "overflow-wrap:anywhere", "max-width:520px", "height:calc(100dvh - 16px)", ".preview-dialog .dialog-body", "overflow-y:auto", ".preview-dialog .live-form-pane"):
+        if token not in lecturer_css:
+            errors.append(f"lecturer CSS missing mobile overflow hardening token: {token}")
+    create_page = (MOCKUPS / "giang-vien/03-bm01a-ho-so.html").read_text(encoding="utf-8")
+    create_topic = "Ứng dụng học máy trong phân loại tài liệu nghiên cứu"
+    waiting_topic = "Mô hình gợi ý tài liệu học tập theo năng lực"
+    if create_topic not in create_page or waiting_topic in create_page or "HS-GV-2026-031" in create_page or "HS-GV-2026-045" in create_page:
+        errors.append("lecturer default create HTML must model the not-created topic and expose no application ID before submit")
+    if not re.search(r'data-v1-pdf-hash="[0-9a-f]{64}"', create_page):
+        errors.append("lecturer BM01A page must expose the server/mock V1 SHA-256 hash")
+    replacement_branch = re.search(r"if \(replacementSource && document\.querySelector\('\[data-application-page\]'\)\) \{(.*?)\n    \}", lecturer_js, re.S)
+    if not replacement_branch or waiting_topic not in replacement_branch.group(1) or "HS-GV-2026-031" not in replacement_branch.group(1):
+        errors.append("lecturer exact resubmit branch must switch title/fields/content to HS-GV-2026-031 V2 fixture")
+    list_page = (MOCKUPS / "giang-vien/01-danh-sach-de-tai.html").read_text(encoding="utf-8")
+    round_page = (MOCKUPS / "giang-vien/02-dot-dang-ky.html").read_text(encoding="utf-8")
+    detail_page = (MOCKUPS / "giang-vien/04-chi-tiet-de-tai.html").read_text(encoding="utf-8")
+    workspace_page = (MOCKUPS / "giang-vien/06-workspace-buoc-03-07.html").read_text(encoding="utf-8")
+    returned_page = (MOCKUPS / "giang-vien/03b-bm01a-truong-don-vi-tra.html").read_text(encoding="utf-8")
+    lecturer_cards = re.findall(r'<article class="topic-card"[^>]*>.*?</article>', list_page, re.S)
+    card_066 = next((card for card in lecturer_cards if 'NCKH-GV-2025-066' in card), '')
+    card_031 = next((card for card in lecturer_cards if 'HS-GV-2026-031' in card), '')
+    card_041 = next((card for card in lecturer_cards if 'NCKH-GV-2025-041' in card), '')
+    if not card_066 or 'data-relation="owner"' not in card_066 or 'Bạn là Chủ nhiệm đề tài' not in card_066 or 'href="06-workspace-buoc-03-07.html"' not in card_066:
+        errors.append("NCKH-GV-2025-066 list role/route must match its owner workspace")
+    if '<strong>3</strong><span>Bạn là Chủ nhiệm' not in list_page or '<strong>2</strong><span>Bạn là Thành viên' not in list_page:
+        errors.append("lecturer owner/member stats must match the role-adjusted list fixtures")
+    if not card_031 or 'href="04-chi-tiet-de-tai.html"' not in card_031 or 'HS-GV-2026-031' not in detail_page or 'NCKH-GV-2025-066' in detail_page:
+        errors.append("HS-GV-2026-031 must be the sole object routed to its matching detail surface")
+    if not card_041 or 'href="04-chi-tiet-de-tai.html"' in card_041 or 'Chi tiết chưa có trong prototype' not in card_041:
+        errors.append("NCKH-GV-2025-041 must use the neutral unavailable-detail pattern")
+    if 'NCKH-GV-2025-066' not in workspace_page or 'Bạn là Chủ nhiệm đề tài' not in workspace_page or 'href="06-workspace-buoc-03-07.html">Mở workspace đề tài' not in round_page:
+        errors.append("closed round and list routes must resolve NCKH-GV-2025-066 to its matching workspace")
+    if 'data-returned-application' not in returned_page or returned_page.count('data-action="resubmit-returned-bm01"') != 2:
+        errors.append("returned BM01A page must expose both resubmit actions to the closed-round runtime guard")
+    experience = (MOCKUPS.parent / "EXPERIENCE.md").read_text(encoding="utf-8")
+    if "mockups/giang-vien/01-viec-can-lam.html" in experience or "47 trang" in experience or "53 trang" not in experience:
+        errors.append("EXPERIENCE lecturer link/page count is stale")
+    atlas_text = (MOCKUPS / "role-screen-atlas.html").read_text(encoding="utf-8")
+    gv_atlas = atlas_text.split("gv:{", 1)[1].split("sv:{", 1)[0]
+    if "'Xét duyệt|1'" in gv_atlas or "| Xét duyệt | Khi được giao" in experience:
+        errors.append("lecturer IA must keep assigned review under Đề tài > Cần bạn xử lý")
+    deferred = (ROOT / "_bmad-output/implementation-artifacts/deferred-work.md").read_text(encoding="utf-8")
+    for token in ("Đã giải quyết, không còn outstanding", "release patch round 4", "Không còn mục outstanding", "trả focus về nút mở menu"):
+        if token not in deferred:
+            errors.append(f"deferred-work resolution status missing token: {token}")
+    link_contract = experience + (MOCKUPS.parent / "DESIGN.md").read_text(encoding="utf-8") + (MOCKUPS / "role-screen-atlas.html").read_text(encoding="utf-8") + (MOCKUPS / "index.html").read_text(encoding="utf-8")
+    for legacy in gen.LECTURER_OLD_FILES:
+        if f"giang-vien/{legacy}" in link_contract:
+            errors.append(f"documentation links deleted lecturer page giang-vien/{legacy}")
     for actor, count in gen.TASK_COUNTS.items():
+        if actor == "gv":
+            continue
         actor_page = next(path for path in generated if parse(path).body.get("data-actor") == actor)
         if f'>{count}</span>' not in actor_page.read_text(encoding="utf-8"):
             errors.append(f"{actor}: missing role-specific task count {count}")
@@ -266,7 +437,7 @@ def main():
         for error in errors:
             print(f"- {error}")
         return 1
-    print("OK: 47 trang / 69 mã; coverage, links, assets, scopes, publication guards, branches, gates, upload authorization, filters và semantics hợp lệ")
+    print("OK: 53 trang / 69 mã; lecturer clone parity, coverage, neutral security states, links, assets, scopes, publication guards, branches, gates, upload authorization, filters và semantics hợp lệ")
     return 0
 
 
