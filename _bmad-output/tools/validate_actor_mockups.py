@@ -155,7 +155,7 @@ def main():
             if not doc.attr_nodes("lang", "vi"):
                 errors.append(f"{rel}: missing vi language")
             for target in doc.assets + doc.links:
-                if target.startswith(("http:", "https:", "mailto:", "#")):
+                if target.startswith(("http:", "https:", "mailto:", "data:", "#")):
                     continue
                 clean, _ = urldefrag(target)
                 if clean and not (path.parent / clean).resolve().exists():
@@ -189,19 +189,21 @@ def main():
                 if "#nop-lai-HS-GV-2026-031" not in raw or "V2 giữ cùng mã Hồ sơ" not in raw:
                     errors.append(f"{rel}: resubmit must target V2 on HS-GV-2026-031")
             if rel.name == "10-xet-duyet-ho-so-sinh-vien.html":
-                for token in ("Chỉ hiển thị Hồ sơ BM01B được phân công", "approve-student-application", "return-student-application", "Lý do trả sửa là bắt buộc", "data-pdf-id=\"HS-SV-2026-044\"", "BM01B-HS-SV-2026-044-V1.pdf", "ui.openDialog", "ui.showToast"):
+                for token in ("Chỉ hiển thị Hồ sơ BM01B được phân công", "approve-student-application", "return-student-application", "Lý do trả hồ sơ là bắt buộc", "data-signed-bm01b", "BM01B-HS-SV-2026-044-V1.pdf", "download-student-bm01", "ui.openDialog", "ui.showToast"):
                     if token not in raw:
                         errors.append(f"{rel}: missing assigned-student review behavior: {token}")
                 if re.search(r"\b(confirm|prompt|alert)\s*\(", raw):
                     errors.append(f"{rel}: native confirm/prompt/alert must not implement review decisions")
-                if "#assignment-revoked" in raw or "Bạn không thể truy cập nội dung này" in raw:
+                if "Bạn không thể truy cập nội dung này" in raw:
                     errors.append(f"{rel}: assigned review page must not embed denied-state markup")
-                if re.search(r'<a class="nav-item[^\"]*"[^>]*>Xét duyệt', raw):
-                    errors.append(f"{rel}: review must remain under the stable Đề tài navigation")
+                if 'href="10-xet-duyet-ho-so-sinh-vien.html">Xét hồ sơ' not in raw or 'nav-item active" href="10-xet-duyet-ho-so-sinh-vien.html">Xét hồ sơ' not in raw:
+                    errors.append(f"{rel}: review must use the separate active Xét hồ sơ navigation")
             if rel.name == "01-danh-sach-de-tai.html":
-                for token in ('<strong>6</strong><span>Tổng số đề tài', '<strong>3</strong><span>Cần bạn xử lý', 'tab-count">3</span>', 'value="advisor">Hồ sơ Sinh viên được phân công'):
+                for token in ('<strong>5</strong><span>Tổng số đề tài', '<strong>2</strong><span>Cần bạn xử lý', 'tab-count">2</span>'):
                     if token not in raw:
                         errors.append(f"{rel}: lecturer list counter/filter mismatch: {token}")
+                if 'Hồ sơ Sinh viên được phân công' in raw or 'data-relation="advisor"' in raw:
+                    errors.append(f"{rel}: lecturer project list must not include student-review assignments")
             if rel.name == "02-dot-dang-ky.html" and ("ĐK-SV" in raw or "ĐK-GV-2026-01" not in raw):
                 errors.append(f"{rel}: lecturer round must use ĐK-GV identifier")
             if rel.name == "02-dot-dang-ky.html":
@@ -398,16 +400,16 @@ def main():
     card_066 = next((card for card in lecturer_cards if 'NCKH-GV-2025-066' in card), '')
     card_031 = next((card for card in lecturer_cards if 'HS-GV-2026-031' in card), '')
     card_041 = next((card for card in lecturer_cards if 'NCKH-GV-2025-041' in card), '')
-    if not card_066 or 'data-relation="owner"' not in card_066 or 'Bạn là Chủ nhiệm đề tài' not in card_066 or 'href="06-workspace-buoc-03-07.html"' not in card_066:
-        errors.append("NCKH-GV-2025-066 list role/route must match its owner workspace")
-    if '<strong>3</strong><span>Bạn là Chủ nhiệm' not in list_page or '<strong>2</strong><span>Bạn là Thành viên' not in list_page:
-        errors.append("lecturer owner/member stats must match the role-adjusted list fixtures")
+    if not card_066 or 'data-relation="member"' not in card_066 or 'Bạn là Thành viên tham gia' not in card_066:
+        errors.append("NCKH-GV-2025-066 list role must match the member-only project fixture")
+    if '<strong>2</strong><span>Bạn là Chủ nhiệm' not in list_page or '<strong>3</strong><span>Bạn là Thành viên' not in list_page:
+        errors.append("lecturer owner/member stats must match the five-project fixture")
     if not card_031 or 'href="04-chi-tiet-de-tai.html"' not in card_031 or 'HS-GV-2026-031' not in detail_page or 'NCKH-GV-2025-066' in detail_page:
         errors.append("HS-GV-2026-031 must be the sole object routed to its matching detail surface")
     if not card_041 or 'href="04-chi-tiet-de-tai.html"' in card_041 or 'Chi tiết chưa có trong prototype' not in card_041:
         errors.append("NCKH-GV-2025-041 must use the neutral unavailable-detail pattern")
-    if 'NCKH-GV-2025-066' not in workspace_page or 'Bạn là Chủ nhiệm đề tài' not in workspace_page or 'href="06-workspace-buoc-03-07.html">Mở workspace đề tài' not in round_page:
-        errors.append("closed round and list routes must resolve NCKH-GV-2025-066 to its matching workspace")
+    if 'NCKH-GV-2025-066' not in workspace_page or 'href="06-workspace-buoc-03-07.html">Mở workspace đề tài' not in round_page:
+        errors.append("closed round must resolve NCKH-GV-2025-066 to its workspace")
     if 'data-returned-application' not in returned_page or returned_page.count('data-action="resubmit-returned-bm01"') != 2:
         errors.append("returned BM01A page must expose both resubmit actions to the closed-round runtime guard")
     experience = (MOCKUPS.parent / "EXPERIENCE.md").read_text(encoding="utf-8")
@@ -415,8 +417,8 @@ def main():
         errors.append("EXPERIENCE lecturer link/page count is stale")
     atlas_text = (MOCKUPS / "role-screen-atlas.html").read_text(encoding="utf-8")
     gv_atlas = atlas_text.split("gv:{", 1)[1].split("sv:{", 1)[0]
-    if "'Xét duyệt|1'" in gv_atlas or "| Xét duyệt | Khi được giao" in experience:
-        errors.append("lecturer IA must keep assigned review under Đề tài > Cần bạn xử lý")
+    if "'Xét hồ sơ|1'" not in gv_atlas or "| Xét hồ sơ | ✓" not in experience:
+        errors.append("lecturer IA must expose assigned review as its own navigation item")
     deferred = (ROOT / "_bmad-output/implementation-artifacts/deferred-work.md").read_text(encoding="utf-8")
     for token in ("Đã giải quyết, không còn outstanding", "release patch round 4", "Không còn mục outstanding", "trả focus về nút mở menu"):
         if token not in deferred:

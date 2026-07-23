@@ -390,6 +390,12 @@
     page.querySelector('.page-head').insertAdjacentElement('afterend', notice);
   }
 
+  function syncReviewQueue() {
+    const saved = localStorage.getItem('nckh-gv-review-decision');
+    if (!saved) return;
+    document.querySelectorAll('[data-review-nav-count]').forEach(node => { node.textContent = '0'; node.hidden = true; });
+  }
+
   function setupNotifications() {
     const page = document.querySelector('[data-notification-page]');
     if (!page) return;
@@ -499,6 +505,7 @@
     setupHeader();
     setupBm01();
     setupReturnedRoundClosure();
+    syncReviewQueue();
     setupNotifications();
     setupSimpleActions();
   });
