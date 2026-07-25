@@ -1,12 +1,179 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quản lý Đợt đăng ký — P.KHCN</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="pk" data-page-codes="PK-02 PK-03 PK-04" data-visibility="pk" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>P.KHCN</b><span>Phòng Khoa học Công nghệ</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#pk">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>DN</span><b>Dũng Nguyễn</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng P.KHCN"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="8 việc cần làm">8</span></a><a class="nav-link " href="../shared/notifications.html#pk" ><span>Thông báo</span></a><a class="nav-link active" href="02-quan-ly-dot.html" aria-current=page><span>Đợt đăng ký</span></a><a class="nav-link " href="03-de-tai-va-huy.html" ><span>Đề tài NCKH</span></a><a class="nav-link " href="04-hoi-dong-readiness.html" ><span>Hội đồng</span></a><a class="nav-link " href="05-cuoc-hop-ket-qua.html" ><span>Cuộc họp &amp; kết quả</span></a><a class="nav-link " href="06-tai-lieu-buoc-03-07.html" ><span>Tài liệu Bước 03–07</span></a><a class="nav-link " href="07-audit-nghiep-vu.html" ><span>Audit</span></a><a class="nav-link " href="../shared/profile.html#pk" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>P.KHCN</span><span>/</span><span>Quản lý Đợt đăng ký</span></nav>
-<div class="page-heading"><div><p class="screen-codes">PK-02 · PK-03 · PK-04</p><h1>Quản lý Đợt đăng ký</h1><p>Tạo, cập nhật, công bố và thống kê dựa trên cùng fixture danh sách.</p></div><span class="scope-chip">Phạm vi: pk</span></div>
-<section class="metric-grid" aria-label="Tóm tắt phạm vi hiện tại"><article class="metric-card warning" data-metric-label="Đợt Nháp"><strong>1</strong><span>Đợt Nháp</span><p>Có thể sửa đầy đủ trước công bố.</p></article><article class="metric-card neutral" data-metric-label="Đợt đã công bố"><strong>2</strong><span>Đợt đã công bố</span><p>Chỉ sửa metadata không đổi tính hợp lệ.</p></article><article class="metric-card info" data-metric-label="Hồ sơ trong scope"><strong>47</strong><span>Hồ sơ trong scope</span><p>18 Sinh viên · 29 Giảng viên.</p></article><article class="metric-card neutral" data-metric-label="Tự đóng"><strong>31/07</strong><span>Tự đóng</span><p>Không có thao tác đóng thủ công trước hạn.</p></article></section><section class="panel lifecycle-panel" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">Vòng đời và mốc khóa</h2><ol><li id="round-draft-stage" class="lifecycle-step current" aria-current=step><span aria-hidden="true"></span><div><b>Nháp</b><p>Sửa cấu hình và danh mục.</p></div></li><li id="round-published-stage" class="lifecycle-step upcoming" ><span aria-hidden="true"></span><div><b>Đã công bố</b><p>Khóa điều kiện ảnh hưởng hồ sơ đã nộp.</p></div></li><li id="round-auto-close" class="lifecycle-step upcoming" ><span aria-hidden="true"></span><div><b>Đã đóng</b><p>Hệ thống tự đóng lúc 31/07/2026 17:00 ICT.</p></div></li></ol></section><div class="workspace"><div><section class="panel form-panel" data-business-form id="page-form"><h2>Thông tin nghiệp vụ</h2><div class="field"><label for="round-name">Tên Đợt đăng ký *</label><input type="text" value="Đợt NCKH Giảng viên 2026" id="round-name" name="round-name" data-business-field required></div><div class="field"><label for="round-description">Mô tả hiển thị</label><textarea id="round-description" name="round-description" data-business-field >Đợt đăng ký đề tài NCKH cấp trường năm 2026.</textarea></div><div class="field"><label for="round-type">Loại Đợt *</label><select id="round-type" name="round-type" data-business-field required><option value="Giảng viên đăng ký" selected>Giảng viên đăng ký</option><option value="Sinh viên đăng ký" >Sinh viên đăng ký</option><option value="Đề tài giao trực tiếp" >Đề tài giao trực tiếp</option></select></div><div class="field"><label for="round-direct-topics">Danh mục đề tài giao trực tiếp (nếu áp dụng)</label><textarea id="round-direct-topics" name="round-direct-topics" data-business-field >Không áp dụng cho loại đợt hiện tại.</textarea></div><div class="field"><label for="round-start">Bắt đầu *</label><input type="datetime-local" value="2026-07-01T08:00" id="round-start" name="round-start" data-business-field required></div><div class="field"><label for="round-end">Kết thúc *</label><input type="datetime-local" value="2026-07-31T17:00" id="round-end" name="round-end" data-business-field required></div></section><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="round-draft" data-record data-state="draft" data-row-scope="assigned">
-          <div><div class="record-kicker"><span>Đợt đăng ký</span><span>CFG V3</span><span>Phòng KHCN</span></div><h3>Đợt NCKH Giảng viên 2026</h3><p>12 nháp · 0 đã nộp · thống kê cập nhật theo fixture</p><p class="next-step"><b>Tiếp theo:</b> Kiểm tra điều kiện và công bố. <a href="#action-target-round-draft">Đi đến hành động</a></p></div><span class="status" data-record-status>Nháp</span>
-        </article></section><div class="detail-grid"><section class="panel detail-panel" data-detail-kind="round-statistics"><h2>Thống kê cùng snapshot</h2><ul><li><div><b>Hồ sơ tạm trên trang</b><p>Chưa tạo Hồ sơ phía máy chủ.</p></div><span>12</span></li><li><div><b>Hồ sơ đã tạo</b><p>Chỉ tăng sau transaction Nộp PDF &amp; tạo Hồ sơ.</p></div><span>0</span></li><li><div><b>Tuyến xử lý</b><p>Không có bước P.KHCN tiếp nhận BM01.</p></div><span>Trưởng đơn vị</span></li></ul></section><section class="panel detail-panel" data-detail-kind="round-lock"><h2>Quy tắc sau công bố</h2><ul><li><div><b>Tên hiển thị/mô tả</b><p>Không làm đổi điều kiện hợp lệ.</p></div><span>Được sửa</span></li><li><div><b>Loại Đợt/thời gian</b><p>Không sửa nếu ảnh hưởng Hồ sơ đã nộp.</p></div><span>Bị khóa</span></li><li><div><b>Đóng trước hạn</b><p>Đợt tự đóng theo thời điểm cấu hình.</p></div><span>Không hỗ trợ</span></li></ul></section></div><section class="panel audit-panel" aria-labelledby="audit-title"><h2 id="audit-title">Dấu vết kiểm toán gần nhất</h2><ol><li data-audit-event><span class="audit-marker" aria-hidden="true"></span><div><b>Cập nhật cấu hình</b><p>Dũng Nguyễn · Vai trò P.KHCN · 22/07/2026 16:20 ICT</p><p><span class="status">Nháp V2 → Nháp V3</span> · Phiên bản CFG V3</p><blockquote>Lý do: Bổ sung mô tả phạm vi Khoa Công nghệ</blockquote></div></li></ol></section></div><aside class="gate-panel" aria-labelledby="gate-title"><h2 id="gate-title">Sẵn sàng</h2><ul><li data-gate-id="round-fields" data-gate-ready="true" class="ready"><span aria-hidden="true">✓</span><div><b>Đủ loại, tên và thời gian hợp lệ</b><p>Kết thúc sau bắt đầu; danh mục bắt buộc khi giao trực tiếp.</p></div></li></ul></aside></div><section class="action-bar action-workspace" aria-label="Hành động theo đối tượng"><h2>Hành động nghiệp vụ</h2><article class="action-group" id="action-target-round-draft"><div><h3>Đợt NCKH Giảng viên 2026</h3><p>Kiểm tra lại trạng thái, phiên bản và cổng trước khi xác nhận.</p></div><div><button type="button" class="button secondary" data-action-id="save-round" data-action-branch="save-round" data-target="round-draft" data-require="form" data-unlocks="" data-result="Đã lưu bản nháp cấu hình Đợt." data-result-status="Đã xử lý" data-result-state="done" data-consequence="Trạng thái và nhật ký kiểm toán sẽ được cập nhật theo quyết định này.">Lưu cấu hình Đợt</button><button type="button" class="button secondary" data-action-id="update-round" data-action-branch="update-round" data-target="round-draft" data-require="form" data-unlocks="" data-result="Tên/mô tả và số liệu danh sách đã cập nhật." data-result-status="Đã xử lý" data-result-state="done" data-consequence="Trạng thái và nhật ký kiểm toán sẽ được cập nhật theo quyết định này.">Cập nhật metadata Đợt</button><button type="button" class="button primary" data-action-id="publish-round" data-action-branch="publish" data-target="round-draft" data-require="form,reason,gate:round-fields" data-unlocks="" data-result="Đợt đã công bố; số liệu giữ đồng bộ với danh sách." data-result-status="Đã công bố" data-result-state="published" data-consequence="Đợt chuyển sang Đã công bố; loại Đợt và điều kiện ảnh hưởng hồ sơ bị khóa, hệ thống tự đóng khi hết hạn.">Công bố Đợt</button></div></article></section>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["PK-02", "PK-03", "PK-04"], "visibility": "pk", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Quản lý Đợt đăng ký P.KHCN</title>
+  <link rel="stylesheet" href="p-khcn.css">
+</head>
+<body data-actor="pk" data-page-codes="PK-02">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/p-khcn/quan-ly-dot</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Phòng Khoa học &amp; Công nghệ</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: P.KHCN</div>
+        <div class="notification-center">
+          <a class="bell" href="../shared/notifications.html#pk" aria-label="5 thông báo chưa đọc" aria-haspopup="true" aria-expanded="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">5</span>
+          </a>
+          <section class="notification-popover" hidden="" aria-label="Thông báo gần đây">
+            <div class="popover-head"><b>Thông báo P-KHCN</b><span class="badge danger">5 mới</span></div>
+            <a href="03-de-tai-va-huy.html#pk-cancel"><b>Yêu cầu Hủy đề tài mới</b><span>Chủ nhiệm NCKH-GV-2026-011 gửi yêu cầu</span></a>
+            <a href="06-tai-lieu-buoc-03-07.html#pk-bm09"><b>Tài liệu BM09 đã cập nhật</b><span>Khoa CNTT đã nộp báo cáo tổng kết</span></a>
+            <a href="04-hoi-dong-readiness.html#pk-council"><b>Lời mời Hội đồng đã xác nhận</b><span>PGS.TS Nguyễn Văn A đã chấp nhận</span></a>
+            <a class="popover-all" href="../shared/notifications.html#pk">Xem tất cả thông báo P-KHCN →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.NCKHUI.openDialog({title:'Tài khoản P.KHCN', content:'<b>Dũng Nguyễn</b><br>Chuyên viên P.KHCN<br>Email: dung.nguyen@dntu.edu.vn'})">
+          <span class="avatar">DN</span>
+          <span class="account-name">Dũng Nguyễn</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">8</span></a>
+        <a class="nav-item active" href="02-quan-ly-dot.html"><span>Đợt đăng ký</span></a>
+        <a class="nav-item" href="03-de-tai-va-huy.html"><span>Đề tài & Yêu cầu Hủy</span></a>
+        <a class="nav-item" href="04-hoi-dong-readiness.html"><span>Hội đồng & Readiness</span></a>
+        <a class="nav-item" href="05-cuoc-hop-ket-qua.html"><span>Cuộc họp & Kết quả</span></a>
+        <a class="nav-item" href="06-tai-lieu-buoc-03-07.html"><span>Tài liệu Bước 03–07</span></a>
+        <a class="nav-item" href="07-audit-nghiep-vu.html"><span>Audit & Kiểm toán</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="../shared/notifications.html#pk"><span>Thông báo</span><span class="nav-count">5</span></a>
+        <a class="nav-item" href="../shared/profile.html#pk"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / P.KHCN / Quản lý Đợt đăng ký</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">PK-02</span>
+            <h1>Quản lý Đợt đăng ký NCKH</h1>
+            <p class="lead">Thiết lập chỉ tiêu, cấu hình cổng đăng ký, phân bổ kinh phí và công bố đợt NCKH toàn Trường.</p>
+          </div>
+          <button class="primary" type="button" onclick="window.NCKHUI.handleCreateRound()">
+            + Tạo Đợt đăng ký mới
+          </button>
+        </div>
+
+        <form class="toolbar" id="filters">
+          <div class="field search">
+            <label for="search">Tìm kiếm</label>
+            <input id="search" data-search placeholder="Tìm theo tên đợt, năm học...">
+          </div>
+          <div class="field">
+            <label for="status">Trạng thái Đợt</label>
+            <select id="status" data-filter>
+              <option value="all">Tất cả</option>
+              <option value="open">Đang mở cổng</option>
+              <option value="completed">Đã kết thúc</option>
+            </select>
+          </div>
+          <button type="reset" class="secondary">Xóa lọc</button>
+        </form>
+
+        <section class="topic-list">
+          <article class="topic-card" data-state="open">
+            <div>
+              <div><span class="badge owner">Mở cổng</span> <span class="badge success">ROUND-2026-01</span></div>
+              <h2 class="topic-title">Đợt đăng ký NCKH Giảng viên Năm học 2026–2027</h2>
+              <span class="meta">Thời gian: 01/08/2026 - 31/08/2026 · Hạn nộp BM01A · Kinh phí: 1.5 Tỷ VNĐ</span>
+              <div class="next-action"><b>Trạng thái:</b> Cổng nộp hồ sơ trực tuyến sẵn sàng tiếp nhận BM01A từ Giảng viên.</div>
+            </div>
+            <div class="topic-actions">
+              <span class="badge success">Đang mở</span>
+              <button class="secondary" type="button" onclick="window.NCKHUI.handleEditRound(this)">Chỉnh sửa</button>
+            </div>
+          </article>
+
+          <article class="topic-card" data-state="open">
+            <div>
+              <div><span class="badge member">Mở nộp BM01B</span> <span class="badge warning">ROUND-SV-2026</span></div>
+              <h2 class="topic-title">Đợt NCKH Sinh viên Cấp Trường Năm 2026</h2>
+              <span class="meta">Thời gian: 15/07/2026 - 15/08/2026 · Chỉ tiêu: 30 đề tài Sinh viên · Đã nộp: 18 hồ sơ</span>
+              <div class="next-action"><b>Trạng thái:</b> 18 hồ sơ đã qua phê duyệt của Giảng viên hướng dẫn.</div>
+            </div>
+            <div class="topic-actions">
+              <span class="badge warning">Sinh viên</span>
+              <button class="secondary" type="button" onclick="window.NCKHUI.handleEditRound(this)">Chỉnh sửa</button>
+            </div>
+          </article>
+
+          <article class="topic-card" data-state="completed">
+            <div>
+              <div><span class="badge">Đã khóa cổng</span> <span class="badge success">ROUND-2025-02</span></div>
+              <h2 class="topic-title">Đợt NCKH Trọng điểm Cấp Trường Năm 2025</h2>
+              <span class="meta">Hoàn thành 100% nghiệm thu & thanh lý hợp đồng BM14. Đã lưu trữ audit 25 đề tài.</span>
+            </div>
+            <div class="topic-actions">
+              <span class="badge success">Đã xong</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Faculty Progress Table -->
+        <div class="card" style="margin-top:20px;">
+          <h2>Thống kê Tiến độ nộp Hồ sơ theo Khoa / Đơn vị (Năm 2026)</h2>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tên Khoa / Đơn vị</th>
+                  <th>Chỉ tiêu</th>
+                  <th>Đã nộp BM01A/B</th>
+                  <th>Trưởng khoa duyệt</th>
+                  <th>Kinh phí dự kiến</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Khoa Công nghệ Thông tin</b></td>
+                  <td>15 Đề tài</td>
+                  <td>12 Hồ sơ</td>
+                  <td>10 Hồ sơ</td>
+                  <td>420.000.000 VNĐ</td>
+                  <td><span class="badge success">Đạt 80% chỉ tiêu</span></td>
+                </tr>
+                <tr>
+                  <td><b>Khoa Kinh tế & Quản trị</b></td>
+                  <td>12 Đề tài</td>
+                  <td>8 Hồ sơ</td>
+                  <td>7 Hồ sơ</td>
+                  <td>280.000.000 VNĐ</td>
+                  <td><span class="badge warning">Đạt 66% chỉ tiêu</span></td>
+                </tr>
+                <tr>
+                  <td><b>Khoa Ngoại ngữ</b></td>
+                  <td>10 Đề tài</td>
+                  <td>9 Hồ sơ</td>
+                  <td>8 Hồ sơ</td>
+                  <td>220.000.000 VNĐ</td>
+                  <td><span class="badge success">Đạt 90% chỉ tiêu</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="p-khcn.js"></script>
+</body>
+</html>
