@@ -304,7 +304,7 @@ def lecturer_transform(raw, target):
         raw = raw.replace("\n  function setupNotifications() {", "\n  function syncReviewQueue() {\n    const saved = localStorage.getItem('nckh-gv-review-decision');\n    if (!saved) return;\n    document.querySelectorAll('[data-review-nav-count]').forEach(node => { node.textContent = '0'; node.hidden = true; });\n  }\n\n  function setupNotifications() {")
         raw = raw.replace("setupReturnedRoundClosure();\n    setupNotifications();", "setupReturnedRoundClosure();\n    syncReviewQueue();\n    setupNotifications();")
     if target.endswith(".html"):
-        active = "Xét hồ sơ" if target in {"10-xet-duyet-ho-so-sinh-vien.html", "10b-xet-duyet-khong-quyen.html"} else "Đề tài"
+        active = "Xét hồ sơ" if target in {"10-xet-duyet-ho-so-sinh-vien.html", "10b-xet-duyet-khong-quyen.html"} else "Danh sách đề tài"
         if target == "02-dot-dang-ky.html": active = "Đợt đăng ký"
         elif target == "08-thong-bao.html": active = "Thông báo"
         elif target == "09-ho-so-ca-nhan.html": active = "Hồ sơ cá nhân"
@@ -325,7 +325,7 @@ def lecturer_sidebar(active):
         selected = " active" if label == active else ""
         badge = f' <span class="nav-count" data-review-nav-count>{count}</span>' if label == "Xét hồ sơ" else (f' <span class="nav-count">{count}</span>' if count else "")
         return f'<a class="nav-item{selected}" href="{href}">{label}{badge}</a>'
-    return f'<aside class="sidebar"><div class="nav-title">Nghiệp vụ</div>{item("Đề tài", "01-danh-sach-de-tai.html", "5")}{item("Đợt đăng ký", "02-dot-dang-ky.html")}{item("Xét hồ sơ", "10-xet-duyet-ho-so-sinh-vien.html", "1")}<div class="nav-title">Tài khoản</div>{item("Thông báo", "08-thong-bao.html", "3")}{item("Hồ sơ cá nhân", "09-ho-so-ca-nhan.html")}</aside>'
+    return f'<aside class="sidebar"><div class="nav-title">Nghiệp vụ</div>{item("Danh sách đề tài", "01-danh-sach-de-tai.html", "5")}{item("Đợt đăng ký", "02-dot-dang-ky.html")}{item("Xét hồ sơ", "10-xet-duyet-ho-so-sinh-vien.html", "1")}<div class="nav-title">Tài khoản</div>{item("Thông báo", "08-thong-bao.html", "3")}{item("Hồ sơ cá nhân", "09-ho-so-ca-nhan.html")}</aside>'
 
 
 def lecturer_review_page():

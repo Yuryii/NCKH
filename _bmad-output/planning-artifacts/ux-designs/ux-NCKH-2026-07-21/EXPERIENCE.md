@@ -39,11 +39,11 @@ Tiếng Việt là ngôn ngữ duy nhất của MVP [ASSUMPTION]. Mọi thời �
 | Đợt đăng ký | ✓ | ✓ | — | ✓ | — | — | — | — |
 | Xét duyệt | — | — | ✓ | — | — | — | — | — |
 | Xét hồ sơ | ✓ | — | — | — | — | — | — | — |
-| Đề tài NCKH | Của mình | Của mình | Theo đơn vị/nhiệm vụ | ✓ | — | — | — | — |
+| Danh sách đề tài | Của mình | Của mình | Theo đơn vị/nhiệm vụ | ✓ | — | — | — | — |
 | Hội đồng | — | — | — | ✓ | `Hội đồng của tôi` | `Hội đồng của tôi` | `Hội đồng của tôi` | — |
 | Quản trị / Tài khoản | — | — | — | — | — | — | — | ✓ |
 
-`Cuộc họp` là màn hình con của `Hội đồng`/`Hội đồng của tôi`; `Tài liệu` và Biểu mẫu là màn hình con của `Đề tài NCKH`. Trong ngữ cảnh Sinh viên và Giảng viên, nhãn sidebar rút gọn thành `Đề tài`; chính trang này chứa tab `Cần bạn xử lý`/`Tất cả đề tài`, tìm kiếm và bộ lọc `Vai trò trong đề tài`, `Trạng thái`, `Đợt đăng ký`. Hai vai trò này không có mục `Việc cần làm` riêng. Với Giảng viên, `Xét hồ sơ` là mục riêng: tải BM01B V1, ký ngoài hệ thống, tải lại PDF đã ký rồi Duyệt; `Trả hồ sơ` bắt buộc lý do và không cần PDF ký. Mục ngoài vai trò **không được render**, không hiển thị disabled và không để lại badge/count/tooltip. Giảng viên chỉ thấy `Hội đồng` sau khi chủ động chuyển sang một vai trò Hội đồng được phân công; Quản trị viên không thấy dữ liệu NCKH nếu chưa chuyển sang vai trò nghiệp vụ khác.
+`Cuộc họp` là màn hình con của `Hội đồng`/`Hội đồng của tôi`; `Tài liệu` và Biểu mẫu là màn hình con của `Đề tài NCKH`. Trong ngữ cảnh Sinh viên và Giảng viên, left nav hiển thị `Danh sách đề tài`; chính trang này chứa tab `Cần bạn xử lý`/`Tất cả đề tài`, tìm kiếm và bộ lọc `Vai trò trong đề tài`, `Trạng thái`, `Đợt đăng ký`. Hai vai trò này không có mục `Việc cần làm` riêng. Với Giảng viên, `Xét hồ sơ` là mục riêng: tải BM01B V1, ký ngoài hệ thống, tải lại PDF đã ký rồi Duyệt; `Trả hồ sơ` bắt buộc lý do và không cần PDF ký. Mục ngoài vai trò **không được render**, không hiển thị disabled và không để lại badge/count/tooltip. Giảng viên chỉ thấy `Hội đồng` sau khi chủ động chuyển sang một vai trò Hội đồng được phân công; Quản trị viên không thấy dữ liệu NCKH nếu chưa chuyển sang vai trò nghiệp vụ khác.
 
 | Surface | Reached from | Purpose | Trạng thái bắt buộc |
 |---|---|---|---|
