@@ -79,44 +79,53 @@
           <div class="field">
             <label for="status">Trạng thái Đợt</label>
             <select id="status" data-filter>
-              <option value="all">Tất cả</option>
+              <option value="all">Tất cả trạng thái</option>
               <option value="open">Đang mở cổng</option>
               <option value="completed">Đã kết thúc</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="type">Loại đăng ký</label>
+            <select id="type" data-filter>
+              <option value="all">Tất cả loại đăng ký</option>
+              <option value="tu-chon">Đề tài tự chọn</option>
+              <option value="giao-truc-tiep">Đề tài giao trực tiếp</option>
             </select>
           </div>
           <button type="reset" class="secondary">Xóa lọc</button>
         </form>
 
         <section class="topic-list">
-          <article class="topic-card" data-state="open">
+          <article class="topic-card" data-state="open" data-type="tu-chon">
             <div>
-              <div><span class="badge owner">Mở cổng</span> <span class="badge success">ROUND-2026-01</span></div>
+              <div><span class="badge owner">Mở cổng</span> <span class="badge info">Đề tài tự chọn</span> <span class="badge success">ROUND-2026-01</span></div>
               <h2 class="topic-title">Đợt đăng ký NCKH Giảng viên Năm học 2026–2027</h2>
-              <span class="meta">Thời gian: 01/08/2026 - 31/08/2026 · Hạn nộp BM01A · Kinh phí: 1.5 Tỷ VNĐ</span>
-              <div class="next-action"><b>Trạng thái:</b> Cổng nộp hồ sơ trực tuyến sẵn sàng tiếp nhận BM01A từ Giảng viên.</div>
+              <span class="meta">Thời gian: 01/08/2026 - 31/08/2026 · Hạn nộp BM01A · Kinh phí: 1.5 Tỷ VNĐ · Loại: Đề tài tự chọn</span>
+              <div class="next-action"><b>Trạng thái:</b> Cổng nộp hồ sơ trực tuyến sẵn sàng tiếp nhận BM01A (Đề tài tự chọn) từ Giảng viên.</div>
             </div>
             <div class="topic-actions">
               <span class="badge success">Đang mở</span>
-              <button class="secondary" type="button" onclick="window.NCKHUI.handleEditRound(this)">Chỉnh sửa</button>
+              <button class="secondary" type="button" onclick="window.NCKHUI ? window.NCKHUI.handleEditRound(this) : window.handleEditRound(this)">Chỉnh sửa</button>
             </div>
           </article>
 
-          <article class="topic-card" data-state="open">
+          <article class="topic-card" data-state="open" data-type="giao-truc-tiep">
             <div>
-              <div><span class="badge member">Mở nộp BM01B</span> <span class="badge warning">ROUND-SV-2026</span></div>
+              <div><span class="badge member">Mở nộp BM01B</span> <span class="badge warning">Đề tài giao trực tiếp</span> <span class="badge warning">ROUND-SV-2026</span></div>
               <h2 class="topic-title">Đợt NCKH Sinh viên Cấp Trường Năm 2026</h2>
-              <span class="meta">Thời gian: 15/07/2026 - 15/08/2026 · Chỉ tiêu: 30 đề tài Sinh viên · Đã nộp: 18 hồ sơ</span>
-              <div class="next-action"><b>Trạng thái:</b> 18 hồ sơ đã qua phê duyệt của Giảng viên hướng dẫn.</div>
+              <span class="meta">Thời gian: 15/07/2026 - 15/08/2026 · Chỉ tiêu: 30 đề tài Sinh viên · Đã nộp: 18 hồ sơ · Loại: Đề tài giao trực tiếp</span>
+              <div style="margin-top:6px;padding:6px 10px;background:#FFF3CD;border:1px solid #FFEBAA;border-radius:4px;font-size:12px;"><b>Danh mục giao trực tiếp:</b> 1) AI Phân loại tài liệu NCKH | 2) Hệ thống IoT Giám sát môi trường | 3) Chatbot Hỗ trợ Sinh viên NCKH</div>
+              <div class="next-action"><b>Trạng thái:</b> 18 hồ sơ thuộc danh mục giao trực tiếp đã qua phê duyệt của Giảng viên hướng dẫn.</div>
             </div>
             <div class="topic-actions">
               <span class="badge warning">Sinh viên</span>
-              <button class="secondary" type="button" onclick="window.NCKHUI.handleEditRound(this)">Chỉnh sửa</button>
+              <button class="secondary" type="button" onclick="window.NCKHUI ? window.NCKHUI.handleEditRound(this) : window.handleEditRound(this)">Chỉnh sửa</button>
             </div>
           </article>
 
-          <article class="topic-card" data-state="completed">
+          <article class="topic-card" data-state="completed" data-type="tu-chon">
             <div>
-              <div><span class="badge">Đã khóa cổng</span> <span class="badge success">ROUND-2025-02</span></div>
+              <div><span class="badge">Đã khóa cổng</span> <span class="badge info">Đề tài tự chọn</span> <span class="badge success">ROUND-2025-02</span></div>
               <h2 class="topic-title">Đợt NCKH Trọng điểm Cấp Trường Năm 2025</h2>
               <span class="meta">Hoàn thành 100% nghiệm thu & thanh lý hợp đồng BM14. Đã lưu trữ audit 25 đề tài.</span>
             </div>

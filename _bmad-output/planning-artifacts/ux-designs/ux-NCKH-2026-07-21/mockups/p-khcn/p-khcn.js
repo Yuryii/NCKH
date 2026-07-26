@@ -469,18 +469,27 @@
           newCard.id = r.id;
           newCard.className = 'topic-card';
           newCard.setAttribute('data-state', 'open');
+          if (r.type === 'Đăng ký đề tài giao trực tiếp' || r.type === 'giao-truc-tiep') {
+            newCard.setAttribute('data-type', 'giao-truc-tiep');
+          } else {
+            newCard.setAttribute('data-type', 'tu-chon');
+          }
           newCard.style.borderLeftColor = 'var(--success)';
           newCard.style.background = '#F6FBF7';
+          const isDirect = r.type === 'Đăng ký đề tài giao trực tiếp' || r.type === 'giao-truc-tiep';
+          const typeBadgeClass = isDirect ? 'badge warning' : 'badge info';
+          const typeBadgeLabel = isDirect ? 'Đề tài giao trực tiếp' : 'Đề tài tự chọn';
           newCard.innerHTML = `
             <div>
-              <div><span class="badge owner">Đợt vừa tạo</span> <span class="badge success">ROUND-2026-NEW</span></div>
+              <div><span class="badge owner">Đợt vừa tạo</span> <span class="${typeBadgeClass}">${typeBadgeLabel}</span> <span class="badge success">ROUND-2026-NEW</span></div>
               <h2 class="topic-title">${escapeHtml(r.title)}</h2>
               <span class="meta">Thời gian: ${escapeHtml(r.start)} - ${escapeHtml(r.end)} · Kinh phí: ${escapeHtml(r.budget)} VNĐ · Đối tượng: ${escapeHtml(r.audience)}</span>
-              <div class="next-action"><b>Trạng thái:</b> Đợt đăng ký đang mở cổng nhận hồ sơ trực tuyến.</div>
+              ${isDirect && r.directTopics ? `<div style="margin-top:6px;padding:6px 10px;background:#FFF3CD;border:1px solid #FFEBAA;border-radius:4px;font-size:12px;"><b>Danh mục giao trực tiếp:</b> ${escapeHtml(r.directTopics)}</div>` : ''}
+              <div class="next-action"><b>Trạng thái:</b> Đợt đăng ký đang mở cổng nhận hồ sơ trực tuyến (${typeBadgeLabel}).</div>
             </div>
             <div class="topic-actions">
               <span class="badge success">Đang mở cổng</span>
-              <button class="secondary" type="button" onclick="window.NCKHUI.handleEditRound(this)">Chỉnh sửa</button>
+              <button class="secondary" type="button" onclick="window.NCKHUI ? window.NCKHUI.handleEditRound(this) : window.handleEditRound(this)">Chỉnh sửa</button>
             </div>
           `;
           roundList.insertBefore(newCard, roundList.firstChild);
@@ -683,17 +692,38 @@
   /* -------------------------------------------------------------
      PERSISTENT INTERACTION ACTION HANDLERS WITH AUDIT LOGGING
      ------------------------------------------------------------- */
+  window.toggleDirectTopicsField = (val, containerId = 'dlg-round-direct-topics-container') => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.style.display = (val === 'Đăng ký đề tài giao trực tiếp' || val === 'giao-truc-tiep') ? 'block' : 'none';
+    }
+  };
+  if (window.NCKHUI) {
+    window.NCKHUI.toggleDirectTopicsField = window.toggleDirectTopicsField;
+  }
+
   function setupLiveDemoActions() {
 
     /* 1. Create Round Handler */
     window.handleCreateRound = () => {
       openDialog({
         title: 'Tạo Đợt đăng ký NCKH mới (Form Nhập trực tiếp)',
-        description: 'Điền thông tin chỉ tiêu và thời gian mở cổng cho Đợt đăng ký NCKH',
+        description: 'Điền thông tin chỉ tiêu, loại đăng ký và thời gian mở cổng cho Đợt đăng ký NCKH',
         content: `
           <div style="display:grid; gap:12px;">
             <div class="field"><label>Tên Đợt đăng ký</label><input id="dlg-round-title" value="Đợt 2: NCKH Giảng viên Năm học 2026–2027"></div>
             <div class="field"><label>Đối tượng tham gia</label><select id="dlg-round-audience"><option>Giảng viên & Nghiên cứu viên</option><option>Sinh viên toàn Trường</option></select></div>
+            <div class="field">
+              <label>Loại đăng ký đề tài *</label>
+              <select id="dlg-round-type" onchange="window.toggleDirectTopicsField(this.value)">
+                <option value="Đăng ký đề tài tự chọn" selected>Đăng ký đề tài tự chọn</option>
+                <option value="Đăng ký đề tài giao trực tiếp">Đăng ký đề tài giao trực tiếp</option>
+              </select>
+            </div>
+            <div class="field" id="dlg-round-direct-topics-container" style="display:none;">
+              <label>Danh mục đề tài giao trực tiếp (mỗi đề tài 1 dòng) *</label>
+              <textarea id="dlg-round-direct-topics" style="min-height:75px;" placeholder="Ví dụ:&#10;1. NCKH Ứng dụng AI trong Chẩn đoán hình ảnh y tế&#10;2. Xây dựng hệ thống IoT Giám sát môi trường tự động">1. NCKH Ứng dụng AI trong Chẩn đoán hình ảnh y tế&#10;2. Xây dựng hệ thống IoT Giám sát môi trường tự động</textarea>
+            </div>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
               <div class="field"><label>Ngày mở cổng</label><input type="date" id="dlg-round-start" value="2026-09-01"></div>
               <div class="field"><label>Ngày đóng cổng</label><input type="date" id="dlg-round-end" value="2026-09-30"></div>
@@ -706,6 +736,8 @@
         onConfirm: (dialog) => {
           const title = dialog.querySelector('#dlg-round-title')?.value || 'Đợt đăng ký NCKH mới';
           const audience = dialog.querySelector('#dlg-round-audience')?.value || 'Giảng viên & Nghiên cứu viên';
+          const type = dialog.querySelector('#dlg-round-type')?.value || 'Đăng ký đề tài tự chọn';
+          const directTopics = dialog.querySelector('#dlg-round-direct-topics')?.value || '';
           const startRaw = dialog.querySelector('#dlg-round-start')?.value || '2026-09-01';
           const endRaw = dialog.querySelector('#dlg-round-end')?.value || '2026-09-30';
           const budget = dialog.querySelector('#dlg-round-budget')?.value || '1.800.000.000';
@@ -720,6 +752,8 @@
             id: `round-new-${Date.now()}`,
             title,
             audience,
+            type,
+            directTopics,
             start: formatDate(startRaw),
             end: formatDate(endRaw),
             budget
@@ -732,13 +766,13 @@
 
           recordAuditLog(
             '[P.KHCN - Dũng Nguyễn] Khởi tạo Đợt đăng ký NCKH mới',
-            `Tạo đợt "${title}" cho ${audience}. Thời gian: ${formatDate(startRaw)} đến ${formatDate(endRaw)}`,
-            `Tổng kinh phí phân bổ: ${budget} VNĐ`,
+            `Tạo đợt "${title}" cho ${audience} (${type}). Thời gian: ${formatDate(startRaw)} đến ${formatDate(endRaw)}`,
+            `Tổng kinh phí phân bổ: ${budget} VNĐ${type === 'Đăng ký đề tài giao trực tiếp' ? '. Danh mục giao trực tiếp: ' + directTopics : ''}`,
             'Tạo Đợt NCKH'
           );
 
           syncStateToDOM();
-          showToast(`Đã khởi tạo đợt mới "${title}" & tự động ghi nhận Audit Log!`, 'success');
+          showToast(`Đã khởi tạo đợt mới "${title}" [${type}] & lưu Audit Log!`, 'success');
         }
       });
     };
@@ -755,6 +789,17 @@
         content: `
           <div style="display:grid; gap:12px;">
             <div class="field"><label>Tên Đợt đăng ký</label><input id="dlg-edit-title" value="${escapeHtml(currentTitle)}"></div>
+            <div class="field">
+              <label>Loại đăng ký đề tài *</label>
+              <select id="dlg-edit-type" onchange="window.toggleDirectTopicsField(this.value, 'dlg-edit-direct-topics-container')">
+                <option value="Đăng ký đề tài tự chọn">Đăng ký đề tài tự chọn</option>
+                <option value="Đăng ký đề tài giao trực tiếp">Đăng ký đề tài giao trực tiếp</option>
+              </select>
+            </div>
+            <div class="field" id="dlg-edit-direct-topics-container" style="display:none;">
+              <label>Danh mục đề tài giao trực tiếp (mỗi đề tài 1 dòng) *</label>
+              <textarea id="dlg-edit-direct-topics" style="min-height:75px;">1. NCKH Ứng dụng AI trong Chẩn đoán hình ảnh y tế&#10;2. Xây dựng hệ thống IoT Giám sát môi trường tự động</textarea>
+            </div>
             <div class="field"><label>Gia hạn ngày đóng cổng</label><input type="date" id="dlg-edit-end" value="2026-09-15"></div>
             <div class="field"><label>Kinh phí điều chỉnh (VNĐ)</label><input id="dlg-edit-budget" value="2.000.000.000"></div>
           </div>
@@ -763,6 +808,7 @@
         confirmTone: 'primary',
         onConfirm: (dialog) => {
           const newTitle = dialog.querySelector('#dlg-edit-title')?.value || currentTitle;
+          const newType = dialog.querySelector('#dlg-edit-type')?.value || 'Đăng ký đề tài tự chọn';
           const newEnd = dialog.querySelector('#dlg-edit-end')?.value || '2026-09-15';
           const newBudget = dialog.querySelector('#dlg-edit-budget')?.value || '2.000.000.000';
 
@@ -774,7 +820,7 @@
 
           recordAuditLog(
             '[P.KHCN - Dũng Nguyễn] Chỉnh sửa & Gia hạn Đợt đăng ký',
-            `Gia hạn đợt "${newTitle}" đến ngày ${formatDate(newEnd)}`,
+            `Cập nhật đợt "${newTitle}" (${newType}) đến ngày ${formatDate(newEnd)}`,
             `Kinh phí điều chỉnh: ${newBudget} VNĐ`,
             'Gia hạn Đợt'
           );
@@ -782,7 +828,7 @@
           if (titleEl) titleEl.textContent = newTitle;
           const metaEl = card ? card.querySelector('.meta, p') : null;
           if (metaEl) {
-            metaEl.innerHTML = `Thời gian: 01/08/2026 - <b style="color:var(--red);">${formatDate(newEnd)} (Đã gia hạn)</b> · Kinh phí: <b>${escapeHtml(newBudget)} VNĐ</b>`;
+            metaEl.innerHTML = `Thời gian: 01/08/2026 - <b style="color:var(--red);">${formatDate(newEnd)} (Đã gia hạn)</b> · Kinh phí: <b>${escapeHtml(newBudget)} VNĐ</b> · <span>${newType}</span>`;
           }
 
           showToast(`Đã gia hạn đợt đăng ký đến ${formatDate(newEnd)} & lưu Audit Log!`, 'success');

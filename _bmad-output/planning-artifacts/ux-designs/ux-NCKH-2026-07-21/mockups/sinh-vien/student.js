@@ -151,6 +151,28 @@
       const rule = document.querySelector('[data-application-rule]');
       rule.innerHTML = `<b>Đây là Hồ sơ thay thế cho ${escapeHtml(replacementSource)}.</b><br>Thông tin và PDF cũ không được sửa hoặc sao chép tự động. Hãy hoàn thiện phản hồi của GVHD, chọn một PDF mới và nộp một lần.`;
     }
+
+    const regTypeSelect = document.getElementById('registration-type');
+    const directContainer = document.getElementById('direct-topic-container');
+    const directTopicSelect = document.getElementById('direct-topic-select');
+    const topicNameInput = document.getElementById('topic-name');
+
+    if (regTypeSelect) {
+      regTypeSelect.addEventListener('change', () => {
+        if (directContainer) {
+          directContainer.style.display = regTypeSelect.value === 'giao-truc-tiep' ? 'block' : 'none';
+        }
+      });
+    }
+    if (directTopicSelect && topicNameInput) {
+      directTopicSelect.addEventListener('change', () => {
+        if (directTopicSelect.value) {
+          topicNameInput.value = directTopicSelect.value;
+          showToast(`Đã chọn đề tài giao trực tiếp: "${directTopicSelect.value}"`, 'info');
+        }
+      });
+    }
+
     const addButton = document.querySelector('[data-action="add-member"]');
     if (addButton) addButton.addEventListener('click', () => {
       const dialog = openDialog({
