@@ -1,12 +1,121 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trạng thái và kết quả — Trưởng Khoa/Trưởng đơn vị</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="td" data-page-codes="TD-06" data-visibility="published-only" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>Trưởng Khoa/Trưởng đơn vị</b><span>Khoa Công nghệ</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#td">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>HT</span><b>Hoàng Trần</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng Trưởng Khoa/Trưởng đơn vị"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="5 việc cần làm">5</span></a><a class="nav-link " href="../shared/notifications.html#td" ><span>Thông báo</span></a><a class="nav-link " href="02-hang-cho-xet-duyet.html" ><span>Xét duyệt</span></a><a class="nav-link active" href="05-de-tai-don-vi.html" aria-current=page><span>Đề tài NCKH</span></a><a class="nav-link " href="../shared/profile.html#td" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Trưởng Khoa/Trưởng đơn vị</span><span>/</span><span>Trạng thái và kết quả</span></nav>
-<div class="page-heading"><div><p class="screen-codes">TD-06</p><h1>Trạng thái và kết quả</h1><p>Không có preview, badge hoặc count cho kết quả chưa công bố.</p></div><span class="scope-chip">Phạm vi: published-only</span></div>
-<div class="workspace"><div><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="td-result" data-record data-state="published" data-row-scope="published">
-          <div><h3>NCKH-GV-2025-018 · Kết quả nghiệm thu</h3><p>Công bố ngày 10/12/2025 · BM12 hiện hành</p></div><span class="status" data-record-status>Đã công bố</span>
-        </article></section></div></div>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["TD-06"], "visibility": "published-only", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kết quả Nghiệm thu — Trưởng Khoa / Trưởng Đơn vị</title>
+  <link rel="stylesheet" href="truong-don-vi.css">
+</head>
+<body data-actor="td" data-page-codes="TD-06">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/truong-don-vi/trang-thai-ket-qua</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Khoa Công nghệ Thông tin</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Trưởng Khoa</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden>
+            <div class="popover-head"><b>Thông báo Cấp Khoa</b><span class="badge danger">2 mới</span></div>
+            <a href="03-duyet-bm01.html"><b>Hồ sơ Thuyết minh mới</b><span>TS. Nguyễn Thị Lan vừa nộp HS-GV-2026-042</span></a>
+            <a href="04-ky-bm08.html"><b>Nhắc hạn ký số PKI</b><span>Báo cáo BM08 đợt 2026 sắp hết hạn</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Cấp Khoa →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.location.href='../shared/profile.html#td'" style="cursor:pointer;" title="Xem Hồ sơ cá nhân Trưởng Khoa">
+          <span class="avatar">NN</span>
+          <span class="account-name">TS. Nguyễn Văn Nam</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">5</span></a>
+        <a class="nav-item" href="02-hang-cho-xet-duyet.html"><span>Hàng chờ xét duyệt</span></a>
+        <a class="nav-item" href="05-de-tai-don-vi.html"><span>Đề tài NCKH Khoa</span></a>
+        <a class="nav-item active" href="06-trang-thai-ket-qua.html"><span>Kết quả & Nghiệm thu</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#td"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main" tabindex="-1">
+        <div class="breadcrumb"><a href="../index.html">Bộ vai trò</a> / Trưởng Khoa / Kết quả Nghiệm thu</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">TD-06</span>
+            <h1>Trạng thái và kết quả đã công bố</h1>
+            <p class="lead">Chỉ hiển thị kết quả đã được P.KHCN công bố cho các đề tài thuộc đơn vị.</p>
+          </div>
+        </div>
+
+        <!-- Result Data Table Panel -->
+        <p class="notice">Điểm, xếp loại và văn bản chỉ xuất hiện sau khi có quyết định công bố hợp lệ.</p>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Kết quả Nghiệm thu Đợt 1 Năm học 2026–2027</h2>
+            <span class="badge success">Đã công bố kết quả</span>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Đề tài</th>
+                <th>Tên Đề tài NCKH</th>
+                <th>Chủ nhiệm Đề tài</th>
+                <th>Điểm trung bình HĐ</th>
+                <th>Xếp loại Nghiệm thu</th>
+                <th style="text-align:right;">Thông báo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>NCKH-GV-2026-014</b></td>
+                <td><b>Xây dựng hệ thống học tập trực tuyến AI</b></td>
+                <td>ThS. Trần Văn Hùng</td>
+                <td><b>92.5 / 100</b></td>
+                <td><span class="badge success">✓ Xếp loại Xuất sắc</span></td>
+                <td style="text-align:right;">
+                  <button class="secondary" type="button" onclick="window.NCKH_TD.showToast('Đã tải Giấy chứng nhận NCKH xuất sắc cho ThS. Trần Văn Hùng.', 'success')">
+                    Xem thông báo công bố
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td><b>NCKH-SV-2026-008</b></td>
+                <td><b>Ứng dụng Computer Vision nhận diện biển số xe DNTU</b></td>
+                <td>SV. Nguyễn Minh An</td>
+                <td><b>88.5 / 100</b></td>
+                <td><span class="badge success">✓ Xếp loại Giỏi</span></td>
+                <td style="text-align:right;">
+                  <button class="secondary" type="button" onclick="window.NCKH_TD.showToast('Đã tải Giấy chứng nhận NCKH Giỏi cho Nhóm Sinh viên CNTT.', 'success')">
+                    Xem thông báo công bố
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region"></div>
+  <script src="truong-don-vi.js"></script>
+</body>
+</html>

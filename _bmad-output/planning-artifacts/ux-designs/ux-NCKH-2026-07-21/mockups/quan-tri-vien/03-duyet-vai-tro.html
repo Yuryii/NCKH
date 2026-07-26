@@ -1,12 +1,115 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chi tiết yêu cầu vai trò — Quản trị viên</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="qt" data-page-codes="QT-03" data-visibility="account-admin" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>Quản trị viên</b><span>Quản trị Tài khoản</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#qt">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>QA</span><b>Quỳnh Anh</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng Quản trị viên"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="4 việc cần làm">4</span></a><a class="nav-link " href="../shared/notifications.html#qt" ><span>Thông báo</span></a><a class="nav-link " href="02-danh-sach-tai-khoan.html" ><span>Tài khoản</span></a><a class="nav-link active" href="03-duyet-vai-tro.html" aria-current=page><span>Yêu cầu vai trò</span></a><a class="nav-link " href="../shared/profile.html#qt" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Quản trị viên</span><span>/</span><span>Chi tiết yêu cầu vai trò</span></nav>
-<div class="page-heading"><div><p class="screen-codes">QT-03</p><h1>Chi tiết yêu cầu vai trò</h1><p>Duyệt hoặc từ chối dựa trên mã định danh và Hồ sơ cá nhân.</p></div><span class="scope-chip">Phạm vi: account-admin</span></div>
-<div class="workspace"><div><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="request-an" data-record data-state="open" data-row-scope="assigned">
-          <div><h3>An Nguyễn · Yêu cầu Giảng viên</h3><p>Email đã xác minh · Mã GV-2026-0088</p></div><span class="status" data-record-status>Chờ quyết định</span>
-        </article></section></div></div><section class="action-bar" aria-label="Hành động trang"><button type="button" class="button primary" data-action-id="approve-role" data-action-branch="approve" data-target="request-an" data-require="none" data-unlocks="" data-result="Tài khoản đã nhận vai trò Giảng viên.">Duyệt vai trò</button><button type="button" class="button danger" data-action-id="reject-role" data-action-branch="reject" data-target="request-an" data-require="reason" data-unlocks="" data-result="Yêu cầu bị từ chối; lịch sử được giữ lại.">Từ chối vai trò</button></section>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["QT-03"], "visibility": "account-admin", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Phê duyệt Yêu cầu Vai trò Quản trị viên</title>
+  <link rel="stylesheet" href="quan-tri-vien.css">
+</head>
+<body data-actor="qt" data-page-codes="QT-03">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/quan-tri-vien/duyet-vai-tro</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Quản trị Hệ thống & Phân quyền</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Quản trị viên</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc" aria-haspopup="true" aria-expanded="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" hidden="" aria-label="Thông báo gần đây">
+            <div class="popover-head"><b>Thông báo Admin</b><span class="badge danger">2 mới</span></div>
+            <a href="03-duyet-vai-tro.html#req-001"><b>Yêu cầu vai trò mới</b><span>TS. An Nguyễn đăng ký quyền Giảng viên NCKH</span></a>
+            <a href="05-bao-mat-tai-khoan.html#sec-099"><b>Cảnh báo bảo mật OTP</b><span>Tài khoản GV-2026-0099 bị tạm khóa</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Admin →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.NCKHUI.openDialog({title:'Tài khoản Admin', content:'<b>Quỳnh Anh</b><br>Quản trị viên Hệ thống QLNCKH<br>Email: quynhanh.admin@dntu.edu.vn'})">
+          <span class="avatar">QA</span>
+          <span class="account-name">Quỳnh Anh</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ Quản trị</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">4</span></a>
+        <a class="nav-item" href="02-danh-sach-tai-khoan.html"><span>Danh sách Tài khoản</span></a>
+        <a class="nav-item active" href="03-duyet-vai-tro.html"><span>Duyệt Yêu cầu Vai trò</span></a>
+        <a class="nav-item" href="04-tao-tai-khoan-pkhcn.html"><span>Cấp tài khoản P-KHCN/Khoa</span></a>
+        <a class="nav-item" href="05-bao-mat-tai-khoan.html"><span>Bảo mật & Khóa tài khoản</span></a>
+        <a class="nav-item" href="06-audit-tai-khoan.html"><span>Audit Log Admin</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#qt"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / Quản trị viên / Duyệt Yêu cầu Vai trò</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">QT-03</span>
+            <h1>Phê duyệt Yêu cầu Đổi / Phân công Vai trò</h1>
+            <p class="lead">Thẩm định hồ sơ năng lực NCKH, xác minh email chính chủ DNTU và gán vai trò bổ sung.</p>
+          </div>
+          <button class="primary" type="button" onclick="window.NCKHUI.handleBatchApproveRoles()">
+            ✓ Phê duyệt Nâng quyền Hàng loạt
+          </button>
+        </div>
+
+        <section class="topic-list">
+          <article class="topic-card" id="req-001" data-state="open">
+            <div>
+              <div><span class="badge warning">Yêu cầu nâng quyền</span> <span class="badge">REQ-ROLE-001</span></div>
+              <h2 class="topic-title">Yêu cầu vai trò Giảng viên NCKH — TS. An Nguyễn</h2>
+              <p class="meta">Mã GV: GV-2026-0088 · Khoa Công nghệ Thông tin · Đã đăng tải 03 bài báo chuyên ngành.</p>
+              <div class="next-action"><b>Đề xuất:</b> Nâng quyền từ Giảng viên giảng dạy cơ bản lên Giảng viên NCKH (Được đứng tên Chủ nhiệm BM01A).</div>
+            </div>
+            <div class="topic-actions">
+              <button class="primary" type="button" onclick="window.NCKHUI.handleApproveRoleReq('req-001')">Phê duyệt Nâng quyền</button>
+            </div>
+          </article>
+
+          <article class="topic-card" id="req-002" data-state="open">
+            <div>
+              <div><span class="badge warning">Yêu cầu vai trò</span> <span class="badge">REQ-ROLE-002</span></div>
+              <h2 class="topic-title">Yêu cầu vai trò Thư ký Hội đồng — TS. Phạm Minh Tuấn</h2>
+              <p class="meta">Mã GV: GV-2026-0142 · Khoa Điện - Điện tử · Đã chuẩn bị sẵn Chữ ký số PKI.</p>
+              <div class="next-action"><b>Đề xuất:</b> Phân công vai trò Thư ký Hội đồng nghiệm thu HĐNT-2026-006.</div>
+            </div>
+            <div class="topic-actions">
+              <button class="primary" type="button" onclick="window.NCKHUI.handleApproveRoleReq('req-002')">Phê duyệt Phân công</button>
+            </div>
+          </article>
+
+          <article class="topic-card" id="req-003" data-state="open">
+            <div>
+              <div><span class="badge warning">Yêu cầu vai trò</span> <span class="badge">REQ-ROLE-003</span></div>
+              <h2 class="topic-title">Yêu cầu vai trò Giảng viên Hướng dẫn NCKH Sinh viên — ThS. Nguyễn Thị Hoa</h2>
+              <p class="meta">Mã GV: GV-2026-0210 · Khoa Ngoại ngữ · Hướng dẫn 02 nhóm Sinh viên đăng ký BM01B.</p>
+              <div class="next-action"><b>Đề xuất:</b> Cấp quyền Giảng viên Hướng dẫn duyệt Thuyết minh sinh viên.</div>
+            </div>
+            <div class="topic-actions">
+              <button class="primary" type="button" onclick="window.NCKHUI.handleApproveRoleReq('req-003')">Phê duyệt Cấp quyền</button>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="quan-tri-vien.js"></script>
+</body>
+</html>
