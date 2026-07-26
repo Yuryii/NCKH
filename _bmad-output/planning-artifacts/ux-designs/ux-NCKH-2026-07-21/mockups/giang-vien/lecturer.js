@@ -156,6 +156,27 @@
     const applicationId = replacementSource || createdApplicationId;
     const applicationVersion = replacementSource ? 'V2' : 'V1';
     const roundClosed = new URLSearchParams(window.location.search).get('round') === 'closed';
+    const regTypeSelect = document.getElementById('registration-type');
+    const directContainer = document.getElementById('direct-topic-container');
+    const directTopicSelect = document.getElementById('direct-topic-select');
+    const topicNameInput = document.getElementById('topic-name');
+
+    if (regTypeSelect) {
+      regTypeSelect.addEventListener('change', () => {
+        if (directContainer) {
+          directContainer.style.display = regTypeSelect.value === 'giao-truc-tiep' ? 'block' : 'none';
+        }
+      });
+    }
+    if (directTopicSelect && topicNameInput) {
+      directTopicSelect.addEventListener('change', () => {
+        if (directTopicSelect.value) {
+          topicNameInput.value = directTopicSelect.value;
+          showToast(`Đã chọn đề tài giao trực tiếp: "${directTopicSelect.value}"`, 'info');
+        }
+      });
+    }
+
     if (replacementSource && document.querySelector('[data-application-page]')) {
       document.querySelector('[data-application-page] h1').textContent = 'BM01A — Sửa và nộp lại V2';
       document.querySelector('[data-application-lead]').textContent = `${applicationId} · đang soạn BM01A V2 trên cùng Hồ sơ`;

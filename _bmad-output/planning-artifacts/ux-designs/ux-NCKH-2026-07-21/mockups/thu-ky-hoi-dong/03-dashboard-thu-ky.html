@@ -1,12 +1,121 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard Thư ký — Thư ký Hội đồng</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="tk" data-page-codes="TK-03" data-visibility="secretary-assignment" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>Thư ký Hội đồng</b><span>HĐNT-2026-006 · được phân công</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#tk">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>MM</span><b>Mai Minh</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng Thư ký Hội đồng"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="2 việc cần làm">2</span></a><a class="nav-link " href="../shared/notifications.html#tk" ><span>Thông báo</span></a><a class="nav-link active" href="02-hoi-dong-cua-toi.html" aria-current=page><span>Hội đồng của tôi</span></a><a class="nav-link " href="../shared/profile.html#tk" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Thư ký Hội đồng</span><span>/</span><span>Dashboard Thư ký</span></nav>
-<div class="page-heading"><div><p class="screen-codes">TK-03</p><h1>Dashboard Thư ký</h1><p>4/5 chưa tạo Mốc chốt và tuyệt đối chưa cho hoàn tất.</p></div><span class="scope-chip">Phạm vi: secretary-assignment</span></div>
-<div class="workspace"><div><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="tk-progress" data-record data-state="blocked" data-row-scope="assigned">
-          <div><h3>Tiến độ HĐNT-2026-006</h3><p>4/5 người đánh giá đã nộp · Thư ký ở ngoài mẫu số</p></div><span class="status" data-record-status>Chưa đủ 100%</span>
-        </article></section></div><aside class="gate-panel" aria-labelledby="gate-title"><h2 id="gate-title">Còn 2 điều kiện</h2><ul><li data-gate-id="tk-votes" data-gate-ready="false" class="blocked"><span aria-hidden="true">!</span><div><b>Đủ 5/5 phiếu hợp lệ</b><p>Hiện có 4/5; Thư ký không thuộc mẫu số.</p></div></li><li data-gate-id="tk-checkpoint" data-gate-ready="false" class="blocked"><span aria-hidden="true">!</span><div><b>Mốc chốt phiếu đã tạo</b><p>Chỉ hệ thống tạo khi đủ 100%.</p></div></li></ul></aside></div>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["TK-03"], "visibility": "secretary-assignment", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard Thư ký — Thư ký Hội đồng</title>
+  <link rel="stylesheet" href="thu-ky-hoi-dong.css">
+</head>
+<body data-actor="tk" data-page-codes="TK-03">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/thu-ky-hoi-dong/dashboard-thu-ky</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Hội đồng Nghiệm thu</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Thư ký HĐ</div>
+        <div class="account" onclick="window.location.href='../shared/profile.html#tk'" style="cursor:pointer;">
+          <span class="avatar">LC</span>
+          <span class="account-name">ThS. Lê Văn Cường</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="02-hoi-dong-cua-toi.html"><span>Hội đồng của tôi</span></a>
+        <a class="nav-item active" href="03-dashboard-thu-ky.html"><span>Dashboard Thư ký</span></a>
+        <a class="nav-item" href="04-tai-lieu-chinh-thuc.html"><span>Kho Tài liệu Hồ sơ</span></a>
+        <a class="nav-item" href="05-bien-ban.html"><span>Soạn BM08 & Ký 1st</span><span class="nav-count">1</span></a>
+        <a class="nav-item" href="06-ket-qua.html"><span>Công bố Kết quả</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="../shared/notifications.html#tk"><span>Thông báo</span></a>
+        <a class="nav-item" href="../shared/profile.html#tk"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main" tabindex="-1">
+        <div class="breadcrumb"><a href="../index.html">Bộ vai trò</a> / Thư ký HĐ / Dashboard Thư ký</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">TK-03</span>
+            <h1>Dashboard Quản lý Tiến độ Phiếu BM07</h1>
+            <p class="lead">Bảng theo dõi trạng thái thu nộp phiếu chấm điểm của 05 thành viên Hội đồng HĐNT-2026-007.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Tiến độ Thu nộp Phiếu chấm BM07 (HĐNT-2026-007)</h2>
+            <span class="badge warning">4 / 5 Phiếu đã thu</span>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Thành viên Hội đồng</th>
+                  <th>Vai trò</th>
+                  <th>Trạng thái Phiếu</th>
+                  <th>Điểm đã chấm</th>
+                  <th>Thao tác Đôn đốc</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>PGS.TS. Nguyễn Văn A</b></td>
+                  <td>Chủ tịch HĐ</td>
+                  <td><span class="badge success">Đã nộp</span></td>
+                  <td><b>89</b></td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><b>ThS. Lê Văn Cường</b></td>
+                  <td>Thư ký HĐ</td>
+                  <td><span class="badge success">Đã nộp</span></td>
+                  <td><b>88</b></td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><b>TS. Trần Thị Bích</b></td>
+                  <td>Phản biện 1</td>
+                  <td><span class="badge success">Đã nộp</span></td>
+                  <td><b>91</b></td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><b>TS. Hoàng Văn Nam</b></td>
+                  <td>Phản biện 2</td>
+                  <td><span class="badge success">Đã nộp</span></td>
+                  <td><b>87</b></td>
+                  <td>—</td>
+                </tr>
+                <tr style="background:#FFF4D6;">
+                  <td><b>ThS. Đỗ Minh Tâm</b></td>
+                  <td>Ủy viên HĐ</td>
+                  <td><span class="badge danger">Chưa nộp</span></td>
+                  <td>—</td>
+                  <td><button class="primary" type="button" onclick="alert('Đã gửi thông báo nhắc nhở đôn đốc đến ThS. Đỗ Minh Tâm!')">🔔 Đôn đốc nhắc nộp</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region"></div>
+  <script src="thu-ky-hoi-dong.js"></script>
+</body>
+</html>

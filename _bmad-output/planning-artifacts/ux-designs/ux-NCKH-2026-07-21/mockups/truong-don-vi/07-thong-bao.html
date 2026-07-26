@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thông báo & Nhắc nhở — Trưởng Khoa / Trưởng Đơn vị</title>
+  <link rel="stylesheet" href="truong-don-vi.css">
+</head>
+<body data-actor="td" data-page-codes="TD-07">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/truong-don-vi/thong-bao</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Khoa Công nghệ Thông tin</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Trưởng Khoa</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden>
+            <div class="popover-head"><b>Thông báo Cấp Khoa</b><span class="badge danger">2 mới</span></div>
+            <a href="03-duyet-bm01.html"><b>Hồ sơ Thuyết minh mới</b><span>TS. Nguyễn Thị Lan vừa nộp HS-GV-2026-042</span></a>
+            <a href="04-ky-bm08.html"><b>Nhắc hạn ký số PKI</b><span>Báo cáo BM08 đợt 2026 sắp hết hạn</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Cấp Khoa →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.location.href='../shared/profile.html#td'" style="cursor:pointer;" title="Xem Hồ sơ cá nhân Trưởng Khoa">
+          <span class="avatar">NN</span>
+          <span class="account-name">TS. Nguyễn Văn Nam</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">5</span></a>
+        <a class="nav-item" href="02-hang-cho-xet-duyet.html"><span>Hàng chờ xét duyệt</span></a>
+        <a class="nav-item" href="05-de-tai-don-vi.html"><span>Đề tài NCKH Khoa</span></a>
+        <a class="nav-item" href="06-trang-thai-ket-qua.html"><span>Kết quả & Nghiệm thu</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item active" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#td"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main" tabindex="-1">
+        <div class="breadcrumb"><a href="../index.html">Bộ vai trò</a> / Trưởng Khoa / Thông báo</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">TD-07</span>
+            <h1>Trung tâm Thông báo & Nhắc nhở Cấp Khoa</h1>
+            <p class="lead">Thông báo tự động về tiến độ nộp Thuyết minh BM01A, nhắc hạn ký số PKI BM08 và kết quả nghiệm thu thuộc Khoa.</p>
+          </div>
+          <button class="secondary" type="button" onclick="window.NCKH_TD.handleMarkAllRead()">
+            ✓ Đánh dấu tất cả là đã đọc
+          </button>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <form class="toolbar" id="filters" onsubmit="return false;">
+          <div class="field search">
+            <label for="search">Tìm kiếm</label>
+            <input id="search" data-search type="search" placeholder="Nhập từ khóa thông báo...">
+          </div>
+          <div class="field">
+            <label for="status">Phân loại</label>
+            <select id="status" data-filter>
+              <option value="all">Tất cả thông báo</option>
+              <option value="unread">Chưa đọc</option>
+              <option value="read">Đã đọc</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- Panel Notifications Area -->
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Danh sách Thông báo Khoa CNTT</h2>
+            <span class="badge info" data-visible-count>3 thông báo hiển thị</span>
+          </div>
+
+          <div style="display:grid; gap:14px;" id="td-notif-list">
+            <div class="work-row updated" data-record data-state="unread" style="background:#F0F6FF; border-left:4px solid var(--focus); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge info">Thuyết minh BM01A</span>
+                  <span class="meta">Hôm nay 09:00</span>
+                </div>
+                <h3>[Hồ sơ Đăng ký] Thuyết minh BM01A mới từ TS. Nguyễn Thị Lan</h3>
+                <p class="meta">Hồ sơ <b>HS-GV-2026-042</b> (IoT Nông nghiệp) đang chờ Trưởng Khoa phê duyệt điều kiện phòng thí nghiệm.</p>
+              </div>
+              <a class="primary" href="03-duyet-bm01.html">Duyệt BM01A →</a>
+            </div>
+
+            <div class="work-row updated" data-record data-state="unread" style="background:#FFF4D6; border-left:4px solid var(--warning); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge warning">BM08 chờ xử lý</span>
+                  <span class="meta">Hôm nay 08:00</span>
+                </div>
+                <h3>[Nhắc hạn PKI] BM08 Báo cáo tổng hợp NCKH Khoa hết hạn trong 3 ngày</h3>
+                <p class="meta">Báo cáo tổng hợp đợt 2026 Khoa CNTT cần ký số xác thực gửi Phòng KH&CN trước ngày 30/07.</p>
+              </div>
+              <a class="primary" href="04-ky-bm08.html">Xử lý BM08 →</a>
+            </div>
+
+            <div class="work-row" data-record data-state="read" style="background:#fff; border-left:4px solid var(--success); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge success">Kết quả Nghiệm thu</span>
+                  <span class="meta">25/07/2026 15:00</span>
+                </div>
+                <h3>[Nghiệm thu Sinh viên] Đề tài NCKH-SV-2026-008 đạt Xếp loại Giỏi</h3>
+                <p class="meta">Đề tài Sinh viên Nguyễn Minh An (Khoa CNTT) đã được Hội đồng đánh giá nghiệm thu xếp loại Giỏi (88.5 điểm).</p>
+              </div>
+              <a class="primary" href="06-trang-thai-ket-qua.html">Xem Bảng điểm →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region"></div>
+  <script src="truong-don-vi.js"></script>
+</body>
+</html>

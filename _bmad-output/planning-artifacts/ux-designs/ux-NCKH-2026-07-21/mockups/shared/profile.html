@@ -1,5 +1,122 @@
 <!doctype html>
 <html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hồ sơ cá nhân — NCKH</title><link rel="stylesheet" href="actor.css"></head>
-<body><main id="main"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Hồ sơ cá nhân</span></nav><div class="page-heading"><div><p class="screen-codes">Bề mặt dùng chung</p><h1>Hồ sơ cá nhân</h1><p>Thông tin định danh dùng chung; thay đổi vai trò phải đi qua yêu cầu và phê duyệt của Quản trị viên.</p></div><span class="scope-chip" data-role-label>Vai trò hiện hành</span></div><section class="panel form-panel"><h2>Thông tin tài khoản</h2><div class="field"><label for="profile-name">Họ và tên</label><input id="profile-name" value="Người dùng DNTU" readonly></div><div class="field"><label for="profile-email">Email Trường</label><input id="profile-email" type="email" value="nguoidung@dntu.edu.vn" readonly></div><div class="field"><label for="profile-role">Vai trò đang dùng</label><input id="profile-role" value="Vai trò hiện hành" readonly></div></section><p><a href="../index.html">← Quay lại Bộ vai trò</a></p></main><script>const role=location.hash.slice(1)||'gv';document.querySelector('[data-role-label]').textContent=`Vai trò: ${role.toUpperCase()}`;document.querySelector('#profile-role').value=role.toUpperCase();</script></body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Hồ sơ cá nhân Người dùng DNTU</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/shared/profile.html</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Quản lý Nghiên cứu Khoa học</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Người dùng DNTU</div>
+        <div class="account">
+          <span class="avatar">QA</span>
+          <span class="account-name">Người dùng DNTU</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ</div>
+        <a class="nav-item active" href="profile.html"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / Shared / Hồ sơ cá nhân</div>
+
+        <div class="page-head">
+          <div>
+            <span class="badge owner">Tài khoản Xác thực DNTU</span>
+            <h1 data-profile-title>Hồ sơ cá nhân — Người dùng DNTU</h1>
+            <p class="lead" data-profile-subtitle>Thông tin định danh người dùng DNTU, chức danh và ma trận quyền truy cập của vai trò hiện hành.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <section class="card">
+              <h2>Thông tin Định danh Cá nhân</h2>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="prf-name">Họ và tên người dùng</label>
+                  <input id="prf-name" value="Quỳnh Anh">
+                </div>
+                <div class="field">
+                  <label for="prf-code">Mã định danh (Mã GV/SV/CB)</label>
+                  <input id="prf-code" value="ADMIN-2026-001" readonly>
+                </div>
+                <div class="field">
+                  <label for="prf-email">Email DNTU chính thức</label>
+                  <input id="prf-email" value="quynhanh.admin@dntu.edu.vn" readonly>
+                </div>
+                <div class="field">
+                  <label for="prf-dept">Khoa / Đơn vị quản lý</label>
+                  <input id="prf-dept" value="Phòng Quản trị Hệ thống & CNTT" readonly>
+                </div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Thông tin Chức danh & Chuyên môn NCKH</h2>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="prf-title">Chức danh / Vị trí công tác</label>
+                  <input id="prf-title" value="Quản trị viên Cao cấp">
+                </div>
+                <div class="field">
+                  <label for="prf-pki">Mã Chứng thư Chữ ký số PKI</label>
+                  <input id="prf-pki" value="PKI-DNTU-8849-2026-ADMIN" readonly>
+                </div>
+                <div class="field full">
+                  <label for="prf-exp">Lĩnh vực nghiên cứu & Chuyên môn chính</label>
+                  <input id="prf-exp" value="An toàn thông tin, Quản trị Phân quyền SSO & PKI">
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside>
+            <section class="card">
+              <h2>Trạng thái Xác thực Bảo mật</h2>
+              <div class="checklist">
+                <div class="check-item">✓ Email DNTU chính chủ đã xác minh</div>
+                <div class="check-item">✓ Liên kết SSO Google & Office 365</div>
+                <div class="check-item">✓ Đã phân công Chữ ký số PKI</div>
+                <div class="check-item">✓ Mã xác thực OTP 2FA kích hoạt</div>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Ma trận Quyền hạn Hệ thống</h2>
+              <p><span class="badge owner">Vai trò chính: Hiện hành</span></p>
+              <p><span class="badge info">Quyền Ký số NCKH: Active</span></p>
+              <p class="meta" style="margin-top:8px;">Để yêu cầu nâng/đổi vai trò mới, vui lòng gửi đơn xin cấp vai trò tới Quản trị viên Hệ thống.</p>
+            </section>
+          </aside>
+        </div>
+
+        <div class="action-bar">
+          <button class="secondary" type="button" id="btn-reset-profile">Hủy thay đổi</button>
+          <button class="primary" type="button" id="btn-save-profile">Lưu Hồ sơ</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
 </html>

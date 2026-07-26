@@ -1,14 +1,130 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Audit Tài khoản — Quản trị viên</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="qt" data-page-codes="QT-06" data-visibility="account-audit" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>Quản trị viên</b><span>Quản trị Tài khoản</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#qt">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>QA</span><b>Quỳnh Anh</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng Quản trị viên"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="4 việc cần làm">4</span></a><a class="nav-link " href="../shared/notifications.html#qt" ><span>Thông báo</span></a><a class="nav-link active" href="02-danh-sach-tai-khoan.html" aria-current=page><span>Tài khoản</span></a><a class="nav-link " href="03-duyet-vai-tro.html" ><span>Yêu cầu vai trò</span></a><a class="nav-link " href="../shared/profile.html#qt" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Quản trị viên</span><span>/</span><span>Audit Tài khoản</span></nav>
-<div class="page-heading"><div><p class="screen-codes">QT-06</p><h1>Audit Tài khoản</h1><p>Chỉ lịch sử quản trị Tài khoản; không lẫn audit nghiệp vụ.</p></div><span class="scope-chip">Phạm vi: account-audit</span></div>
-<section class="toolbar" aria-label="Tìm và lọc dữ liệu"><label for="page-search">Tìm theo mã hoặc tên</label><input id="page-search" type="search" data-search placeholder="Nhập từ khóa"><label for="page-filter">Trạng thái</label><select id="page-filter" data-filter><option value="all">Tất cả</option><option value="done">Đã xử lý</option><option value="locked">Đã khóa</option></select></section><div class="workspace"><div><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="qt-audit-1" data-record data-state="done" data-row-scope="assigned">
-          <div><h3>Khóa Tài khoản Bình Trần</h3><p>Quỳnh Anh · Quản trị viên · 20/07/2026 10:18</p></div><span class="status" data-record-status>Có lý do</span>
-        </article><article class="work-row" id="qt-audit-2" data-record data-state="locked" data-row-scope="assigned">
-          <div><h3>Duyệt vai trò Giảng viên cho An Nguyễn</h3><p>Quỳnh Anh · 18/07/2026 08:20</p></div><span class="status" data-record-status>Bất biến</span>
-        </article></section></div></div>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["QT-06"], "visibility": "account-audit", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Audit Log Quản trị viên</title>
+  <link rel="stylesheet" href="quan-tri-vien.css">
+</head>
+<body data-actor="qt" data-page-codes="QT-06">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/quan-tri-vien/audit-tai-khoan</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Quản trị Hệ thống & Phân quyền</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Quản trị viên</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc" aria-haspopup="true" aria-expanded="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" hidden="" aria-label="Thông báo gần đây">
+            <div class="popover-head"><b>Thông báo Admin</b><span class="badge danger">2 mới</span></div>
+            <a href="03-duyet-vai-tro.html#req-001"><b>Yêu cầu vai trò mới</b><span>TS. An Nguyễn đăng ký quyền Giảng viên NCKH</span></a>
+            <a href="05-bao-mat-tai-khoan.html#sec-099"><b>Cảnh báo bảo mật OTP</b><span>Tài khoản GV-2026-0099 bị tạm khóa</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Admin →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.NCKHUI.openDialog({title:'Tài khoản Admin', content:'<b>Quỳnh Anh</b><br>Quản trị viên Hệ thống QLNCKH<br>Email: quynhanh.admin@dntu.edu.vn'})">
+          <span class="avatar">QA</span>
+          <span class="account-name">Quỳnh Anh</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ Quản trị</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">4</span></a>
+        <a class="nav-item" href="02-danh-sach-tai-khoan.html"><span>Danh sách Tài khoản</span></a>
+        <a class="nav-item" href="03-duyet-vai-tro.html"><span>Duyệt Yêu cầu Vai trò</span></a>
+        <a class="nav-item" href="04-tao-tai-khoan-pkhcn.html"><span>Cấp tài khoản P-KHCN/Khoa</span></a>
+        <a class="nav-item" href="05-bao-mat-tai-khoan.html"><span>Bảo mật & Khóa tài khoản</span></a>
+        <a class="nav-item active" href="06-audit-tai-khoan.html"><span>Audit Log Admin</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#qt"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / Quản trị viên / Audit Log Admin</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">QT-06</span>
+            <h1>Audit Log Hệ thống & Nhật ký Phân quyền Admin</h1>
+            <p class="lead">Truy xuất nhật ký thao tác quản trị, vết cấp/đổi vai trò và mã băm SHA-256 xác thực chống chối bỏ.</p>
+          </div>
+          <button class="primary" type="button" onclick="window.NCKHUI.handleExportAdminAudit()">
+            📄 Xuất Báo cáo Audit Phân quyền
+          </button>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <h2>Rà soát Tính Toàn vẹn Nhật ký Quản trị</h2>
+          <div class="grid-3">
+            <div class="notice success">
+              <b style="color:var(--success);">✓ 100% Chữ ký Audit Pass</b>
+              <p class="meta" style="margin-top:4px;">Không có thao tác can thiệp dữ liệu trái phép từ tài khoản lạ.</p>
+            </div>
+            <div class="notice" style="border-left-color:var(--info);">
+              <b style="color:var(--info);">✓ Hash SHA-256 Valid</b>
+              <p class="meta" style="margin-top:4px;">Các sự kiện thay đổi vai trò được lưu vết chống chỉnh sửa.</p>
+            </div>
+            <div class="card" style="padding:12px;">
+              <b>250+ Event Logs Active</b>
+              <p class="meta" style="margin-top:4px;">Nhật ký thao tác được sao lưu kiên cố trên hệ thống server.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Dòng thời gian Nhật ký Audit Log (Dynamic Live Event Timeline)</h2>
+          <div class="topic-list" id="admin-audit-list">
+            <div class="topic-card">
+              <div>
+                <div><span class="badge info">Cấp quyền Admin</span> <span class="badge">25/07/2026 14:20</span></div>
+                <h2 class="topic-title">[Admin - Quỳnh Anh] Cấp quyền P-KHCN cho Chuyên viên Dũng Nguyễn</h2>
+                <p class="meta">Gán vai trò Quản lý Vận hành P-KHCN và cấp Mã xác thực Chữ ký số.</p>
+                <div class="next-action">
+                  <b>Trạng thái: Đã kích hoạt tài khoản dung.nguyen@dntu.edu.vn</b><br>
+                  <span class="meta" style="font-family:monospace;">Mã băm Hash SHA-256: SHA256-b921e48f02a7c8109d44</span>
+                </div>
+              </div>
+              <div class="topic-actions">
+                <span class="badge success">✓ Audit Pass</span>
+              </div>
+            </div>
+
+            <div class="topic-card">
+              <div>
+                <div><span class="badge danger">Khóa bảo mật</span> <span class="badge">24/07/2026 09:15</span></div>
+                <h2 class="topic-title">[Admin - Quỳnh Anh] Khóa bảo mật tạm thời tài khoản GV-2026-0099</h2>
+                <p class="meta">Phát hiện đăng nhập thất bại 5 lần liên tiếp từ IP bất thường.</p>
+                <div class="next-action">
+                  <b>Trạng thái: Đã tạm khóa và gửi cảnh báo 2FA về Email</b><br>
+                  <span class="meta" style="font-family:monospace;">Mã băm Hash SHA-256: SHA256-f8319a28c0018d99ab02</span>
+                </div>
+              </div>
+              <div class="topic-actions">
+                <span class="badge success">✓ Audit Pass</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="quan-tri-vien.js"></script>
+</body>
+</html>

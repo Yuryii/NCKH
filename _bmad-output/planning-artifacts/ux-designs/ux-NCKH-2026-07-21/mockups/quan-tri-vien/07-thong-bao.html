@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thông báo & Cảnh báo Bảo mật — Quản trị viên</title>
+  <link rel="stylesheet" href="quan-tri-vien.css">
+</head>
+<body data-actor="qt" data-page-codes="QT-07">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/quan-tri-vien/thong-bao</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Quản trị Hệ thống</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Quản trị viên</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden>
+            <div class="popover-head"><b>Thông báo Admin</b><span class="badge danger">2 mới</span></div>
+            <a href="05-bao-mat-tai-khoan.html"><b>Cảnh báo Bảo mật</b><span>Tài khoản GV-2026-0099 đăng nhập sai 5 lần</span></a>
+            <a href="03-duyet-vai-tro.html"><b>Yêu cầu Vai trò mới</b><span>Giảng viên nộp yêu cầu vai trò Trưởng đơn vị</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Admin →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.location.href='../shared/profile.html#qt'" style="cursor:pointer;" title="Xem Hồ sơ cá nhân Quản trị viên">
+          <span class="avatar">QA</span>
+          <span class="account-name">Quỳnh Anh</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">4</span></a>
+        <a class="nav-item" href="02-danh-sach-tai-khoan.html"><span>Danh sách Tài khoản</span></a>
+        <a class="nav-item" href="03-duyet-vai-tro.html"><span>Duyệt Yêu cầu Vai trò</span></a>
+        <a class="nav-item" href="04-tao-tai-khoan-pkhcn.html"><span>Cấp tài khoản P-KHCN/Khoa</span></a>
+        <a class="nav-item" href="05-bao-mat-tai-khoan.html"><span>Bảo mật & Khóa tài khoản</span></a>
+        <a class="nav-item" href="06-audit-tai-khoan.html"><span>Audit Log Admin</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item active" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#qt"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main" tabindex="-1">
+        <div class="breadcrumb"><a href="../index.html">Bộ vai trò</a> / Quản trị viên / Thông báo</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">QT-07</span>
+            <h1>Thông báo & Cảnh báo Bảo mật Quản trị System Alerts</h1>
+            <p class="lead">Nhật ký cảnh báo an ninh, phát hiện tài khoản vi phạm, yêu cầu nâng quyền và sự kiện phân quyền Admin.</p>
+          </div>
+          <button class="secondary" type="button" onclick="window.NCKH_ADMIN.handleMarkAllRead()">
+            ✓ Đánh dấu tất cả là đã đọc
+          </button>
+        </div>
+
+        <!-- Security Warning Card -->
+        <div class="card" style="background:#FDECEA; border-left:4px solid var(--danger); margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <b style="color:var(--danger); font-size:14px;">⚠️ Cảnh báo An ninh Hệ thống: Tài khoản bị khóa tự động</b>
+              <p style="margin:4px 0 0; font-size:12px; color:var(--body);">Tài khoản <b>GV-2026-0099 (ThS. Trần Văn Hùng)</b> đã nhập sai mật khẩu quá 5 lần từ IP 113.161.44.12.</p>
+            </div>
+            <a class="danger" href="05-bao-mat-tai-khoan.html" style="font-size:12px;">Mở Security Console →</a>
+          </div>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <form class="toolbar" id="filters" onsubmit="return false;">
+          <label for="search">Tìm kiếm</label>
+          <input id="search" data-search type="search" placeholder="Nhập mã tài khoản, loại cảnh báo, IP...">
+          <label for="status">Phân loại</label>
+          <select id="status" data-filter>
+            <option value="all">Tất cả thông báo</option>
+            <option value="unread">Chưa đọc</option>
+            <option value="read">Đã đọc</option>
+          </select>
+        </form>
+
+        <!-- Panel Notifications Area -->
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Nhật ký Thông báo Quản trị viên</h2>
+            <span class="badge info" data-visible-count>3 thông báo hiển thị</span>
+          </div>
+
+          <div style="display:grid; gap:14px;" id="qt-notif-list">
+            <div class="work-row updated" data-record data-state="unread" style="background:#FDECEA; border-left:4px solid var(--danger); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge danger">🔒 Khóa Bảo mật</span>
+                  <span class="meta">Hôm nay 11:20</span>
+                </div>
+                <h3>[Khóa tài khoản] Đã khóa tài khoản GV-2026-0099 do sai mật khẩu 5 lần</h3>
+                <p class="meta">Cần Quản trị viên thẩm định và kích hoạt nút 🔓 Mở khóa Tài khoản trên trang Bảo mật.</p>
+              </div>
+              <a class="primary" href="05-bao-mat-tai-khoan.html">Kiểm tra Bảo mật →</a>
+            </div>
+
+            <div class="work-row updated" data-record data-state="unread" style="background:#F0F6FF; border-left:4px solid var(--focus); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge info">Yêu cầu Vai trò</span>
+                  <span class="meta">Hôm nay 08:45</span>
+                </div>
+                <h3>[Nâng quyền] Yêu cầu cấp vai trò Trưởng Khoa CNTT từ TS. Nguyễn Văn Nam</h3>
+                <p class="meta">Hồ sơ kèm Quyết định bổ nhiệm số 412/QĐ-DNTU. Cần phê duyệt vai trò mới.</p>
+              </div>
+              <a class="primary" href="03-duyet-vai-tro.html">Duyệt Vai trò →</a>
+            </div>
+
+            <div class="work-row" data-record data-state="read" style="background:#fff; border-left:4px solid var(--success); padding-left:12px;">
+              <div>
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
+                  <span class="badge success">Tạo Tài khoản</span>
+                  <span class="meta">25/07/2026 14:00</span>
+                </div>
+                <h3>[Cấp tài khoản] Đã cấp thành công 02 Tài khoản Chuyên viên P-KHCN</h3>
+                <p class="meta">Đã gửi thông tin đăng nhập ban đầu qua email nội bộ DNTU.</p>
+              </div>
+              <a class="primary" href="02-danh-sach-tai-khoan.html">Xem Danh sách →</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region"></div>
+  <script src="quan-tri-vien.js"></script>
+</body>
+</html>

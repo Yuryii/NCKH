@@ -1,12 +1,137 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hội đồng và readiness — P.KHCN</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="pk" data-page-codes="PK-08 PK-09 PK-10 PK-11" data-visibility="pk" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>P.KHCN</b><span>Phòng Khoa học Công nghệ</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#pk">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>DN</span><b>Dũng Nguyễn</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng P.KHCN"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="8 việc cần làm">8</span></a><a class="nav-link " href="../shared/notifications.html#pk" ><span>Thông báo</span></a><a class="nav-link " href="02-quan-ly-dot.html" ><span>Đợt đăng ký</span></a><a class="nav-link " href="03-de-tai-va-huy.html" ><span>Đề tài NCKH</span></a><a class="nav-link active" href="04-hoi-dong-readiness.html" aria-current=page><span>Hội đồng</span></a><a class="nav-link " href="05-cuoc-hop-ket-qua.html" ><span>Cuộc họp &amp; kết quả</span></a><a class="nav-link " href="06-tai-lieu-buoc-03-07.html" ><span>Tài liệu Bước 03–07</span></a><a class="nav-link " href="07-audit-nghiep-vu.html" ><span>Audit</span></a><a class="nav-link " href="../shared/profile.html#pk" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>P.KHCN</span><span>/</span><span>Hội đồng và readiness</span></nav>
-<div class="page-heading"><div><p class="screen-codes">PK-08 · PK-09 · PK-10 · PK-11</p><h1>Hội đồng và readiness</h1><p>Tạo/cập nhật Hội đồng, dashboard và checklist dựa trên fixture thực; không hard-code một cổng chung.</p></div><span class="scope-chip">Phạm vi: pk</span></div>
-<section class="metric-grid" aria-label="Tóm tắt phạm vi hiện tại"><article class="metric-card neutral" data-metric-label="Hội đồng Nháp"><strong>3</strong><span>Hội đồng Nháp</span><p>Có thể cập nhật cơ cấu.</p></article><article class="metric-card info" data-metric-label="Người đánh giá"><strong>5</strong><span>Người đánh giá</span><p>Gồm Chủ tịch; không gồm Thư ký.</p></article><article class="metric-card success" data-metric-label="Thư ký ngoài mẫu số"><strong>1</strong><span>Thư ký ngoài mẫu số</span><p>Vai trò độc quyền, không nộp phiếu.</p></article><article class="metric-card danger" data-metric-label="Lời mời chờ"><strong>1</strong><span>Lời mời chờ</span><p>Chặn Mở Cuộc họp.</p></article></section><section class="panel lifecycle-panel" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">Vòng đời và mốc khóa</h2><ol><li id="council-config" class="lifecycle-step complete" ><span aria-hidden="true"></span><div><b>Cấu hình</b><p>Đúng giai đoạn và official input.</p></div></li><li id="council-invites" class="lifecycle-step current" aria-current=step><span aria-hidden="true"></span><div><b>Lời mời</b><p>Còn một chuyên gia chưa chấp nhận.</p></div></li><li id="council-open" class="lifecycle-step blocked" ><span aria-hidden="true"></span><div><b>Mở Cuộc họp</b><p>Chỉ mở khi tất cả điều kiện đạt.</p></div></li><li id="council-lock" class="lifecycle-step upcoming" ><span aria-hidden="true"></span><div><b>Khóa cấu trúc</b><p>Không thêm/xóa/đổi vai trò sau mở.</p></div></li></ol></section><div class="workspace"><div><section class="panel form-panel" data-business-form id="page-form"><h2>Thông tin nghiệp vụ</h2><div class="field"><label for="council-stage">Giai đoạn Hội đồng *</label><select id="council-stage" name="council-stage" data-business-field required><option value="Nghiệm thu" selected>Nghiệm thu</option><option value="Xét duyệt hồ sơ" >Xét duyệt hồ sơ</option><option value="Xét duyệt thuyết minh" >Xét duyệt thuyết minh</option></select></div><div class="field"><label for="council-input">Hồ sơ đầu vào chính thức *</label><select id="council-input" name="council-input" data-business-field required><option value="BM09 V2 + 3 sản phẩm" selected>BM09 V2 + 3 sản phẩm</option><option value="BM01 hiện hành" >BM01 hiện hành</option><option value="BM04 hiện hành" >BM04 hiện hành</option></select></div><div class="field"><label for="council-decision">Quyết định giai đoạn hiện hành *</label><select id="council-decision" name="council-decision" data-business-field required><option value="BM10 V1 published-current" selected>BM10 V1 published-current</option><option value="Không áp dụng (xét duyệt hồ sơ)" >Không áp dụng (xét duyệt hồ sơ)</option><option value="BM05 V1 published-current" >BM05 V1 published-current</option></select></div><div class="field"><label for="council-chair">Chủ tịch *</label><select id="council-chair" name="council-chair" data-business-field required><option value="TS. Dũng Nguyễn" selected>TS. Dũng Nguyễn</option></select></div><div class="field"><label for="council-secretary">Thư ký (ngoài mẫu số) *</label><select id="council-secretary" name="council-secretary" data-business-field required><option value="ThS. Mai Minh" selected>ThS. Mai Minh</option></select></div><div class="field"><label for="council-members">Thành viên đánh giá *</label><textarea id="council-members" name="council-members" data-business-field required>TS. Hùng Hoàng; TS. Linh Phạm; TS. Sơn Trần; TS. An Lê</textarea></div></section><section class="panel" id="records-panel" role="tabpanel" aria-labelledby="records-title"><div class="panel-head"><h2 id="records-title">Dữ liệu trong phạm vi</h2><output data-visible-count aria-live="polite"></output></div><article class="work-row" id="meeting-draft" data-record data-state="blocked" data-row-scope="assigned">
-          <div><div class="record-kicker"><span>Cuộc họp Hội đồng</span><span>CFG V4</span><span>Phòng KHCN</span></div><h3>HĐNT-2026-006</h3><p>Nghiệm thu · 5 người đánh giá + 1 Thư ký · 1 lời mời chờ</p><p class="next-step"><b>Tiếp theo:</b> Hoàn tất lời mời cuối rồi mở Cuộc họp. <a href="#action-target-meeting-draft">Đi đến hành động</a></p></div><span class="status" data-record-status>Chưa sẵn sàng</span>
-        </article></section><div class="detail-grid"><section class="panel detail-panel" data-detail-kind="official-snapshot"><h2>Official input snapshot</h2><ul><li><div><b>Nguồn nghiệm thu</b><p>SHA-256 84f2…a91c · nộp 21/07/2026 10:30 ICT.</p></div><span>BM09 V2 · NCKH-GV-2026-006</span></li><li><div><b>Sản phẩm</b><p>SP-01 V1, SP-02 V2, SP-03 V1 đều đủ thành phần.</p></div><span>3 tệp</span></li><li><div><b>Quyết định</b><p>Bản published-current đã gắn đúng Hội đồng trước khi mở.</p></div><span>BM10 V1</span></li></ul></section><section class="panel detail-panel" data-detail-kind="council-roster"><h2>Cơ cấu và lời mời</h2><ul><li><div><b>Chủ tịch</b><p>TS. Dũng Nguyễn thuộc mẫu số đánh giá.</p></div><span>1 · đã nhận</span></li><li><div><b>Thành viên</b><p>TS. An Lê còn chờ chấp nhận lời mời.</p></div><span>4 · 3 đã nhận</span></li><li><div><b>Thư ký</b><p>ThS. Mai Minh đứng ngoài mẫu số và không có phiếu.</p></div><span>1 · đã nhận</span></li></ul></section></div><section class="panel audit-panel" aria-labelledby="audit-title"><h2 id="audit-title">Dấu vết kiểm toán gần nhất</h2><ol><li data-audit-event><span class="audit-marker" aria-hidden="true"></span><div><b>Chọn official input</b><p>Dũng Nguyễn · Vai trò P.KHCN · 22/07/2026 14:05 ICT</p><p><span class="status">Chưa chọn → BM09 V2 của NCKH-GV-2026-006 + 3 sản phẩm</span> · Phiên bản CFG V4</p></div></li></ol></section></div><aside class="gate-panel" aria-labelledby="gate-title"><h2 id="gate-title">Còn 1 điều kiện</h2><ul><li data-gate-id="chair" data-gate-ready="true" class="ready"><span aria-hidden="true">✓</span><div><b>Đúng một Chủ tịch</b><p>TS. Dũng Nguyễn đã chấp nhận.</p></div></li><li data-gate-id="secretary" data-gate-ready="true" class="ready"><span aria-hidden="true">✓</span><div><b>Đúng một Thư ký độc quyền</b><p>ThS. Mai Minh không thuộc mẫu số.</p></div></li><li data-gate-id="members" data-gate-ready="false" class="blocked"><span aria-hidden="true">!</span><div><b>Đủ 4 Thành viên độc quyền và tất cả lời mời đã nhận</b><p>Còn 1 lời mời chưa chấp nhận.</p></div></li><li data-gate-id="official-input" data-gate-ready="true" class="ready"><span aria-hidden="true">✓</span><div><b>Đã chọn official input</b><p>BM09 V2 của NCKH-GV-2026-006 và 3 sản phẩm đã kiểm tra.</p></div></li><li data-gate-id="stage-decision" data-gate-ready="true" class="ready"><span aria-hidden="true">✓</span><div><b>Đã gắn quyết định đúng giai đoạn</b><p>BM10 V1 published-current được gắn vào snapshot nghiệm thu.</p></div></li></ul></aside></div><section class="action-bar action-workspace" aria-label="Hành động theo đối tượng"><h2>Hành động nghiệp vụ</h2><article class="action-group" id="action-target-meeting-draft"><div><h3>HĐNT-2026-006</h3><p>Kiểm tra lại trạng thái, phiên bản và cổng trước khi xác nhận.</p></div><div><button type="button" class="button secondary" data-action-id="save-council" data-action-branch="save-council" data-target="meeting-draft" data-require="form" data-unlocks="" data-result="Đã kiểm tra cơ cấu và lưu cấu hình nháp." data-result-status="Đã xử lý" data-result-state="done" data-consequence="Trạng thái và nhật ký kiểm toán sẽ được cập nhật theo quyết định này.">Lưu/cập nhật Hội đồng</button><button type="button" class="button secondary" data-action-id="accept-last-invite" data-action-branch="accept-invite" data-target="meeting-draft" data-require="form" data-unlocks="members" data-result="Lời mời cuối đã chấp nhận; readiness được tính lại." data-result-status="Sẵn sàng mở" data-result-state="open" data-consequence="Trạng thái và nhật ký kiểm toán sẽ được cập nhật theo quyết định này.">Mô phỏng chấp nhận lời mời cuối</button><button type="button" class="button primary" data-action-id="open-meeting" data-action-branch="open" data-target="meeting-draft" data-require="form,reason,gate:chair,gate:secretary,gate:members,gate:official-input,gate:stage-decision" data-unlocks="" data-result="Cuộc họp đã mở và cấu trúc bị khóa." data-result-status="Đang diễn ra" data-result-state="active" data-consequence="Cấu trúc, official input và mẫu số bị khóa; sai cấu hình chỉ xử lý bằng hủy và tạo Cuộc họp thay thế.">Mở Cuộc họp</button></div></article></section>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["PK-08", "PK-09", "PK-10", "PK-11"], "visibility": "pk", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Hội đồng & Readiness P.KHCN</title>
+  <link rel="stylesheet" href="p-khcn.css">
+</head>
+<body data-actor="pk" data-page-codes="PK-04">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/p-khcn/hoi-dong-readiness</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Phòng Khoa học &amp; Công nghệ</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: P.KHCN</div>
+        <div class="notification-center">
+          <a class="bell" href="../shared/notifications.html#pk" aria-label="5 thông báo chưa đọc" aria-haspopup="true" aria-expanded="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">5</span>
+          </a>
+          <section class="notification-popover" hidden="" aria-label="Thông báo gần đây">
+            <div class="popover-head"><b>Thông báo P-KHCN</b><span class="badge danger">5 mới</span></div>
+            <a href="03-de-tai-va-huy.html#pk-cancel"><b>Yêu cầu Hủy đề tài mới</b><span>Chủ nhiệm NCKH-GV-2026-011 gửi yêu cầu</span></a>
+            <a href="06-tai-lieu-buoc-03-07.html#pk-bm09"><b>Tài liệu BM09 đã cập nhật</b><span>Khoa CNTT đã nộp báo cáo tổng kết</span></a>
+            <a href="04-hoi-dong-readiness.html#pk-council"><b>Lời mời Hội đồng đã xác nhận</b><span>PGS.TS Nguyễn Văn A đã chấp nhận</span></a>
+            <a class="popover-all" href="../shared/notifications.html#pk">Xem tất cả thông báo P-KHCN →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.NCKHUI.openDialog({title:'Tài khoản P.KHCN', content:'<b>Dũng Nguyễn</b><br>Chuyên viên P.KHCN<br>Email: dung.nguyen@dntu.edu.vn'})">
+          <span class="avatar">DN</span>
+          <span class="account-name">Dũng Nguyễn</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ vận hành</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">8</span></a>
+        <a class="nav-item" href="02-quan-ly-dot.html"><span>Đợt đăng ký</span></a>
+        <a class="nav-item" href="03-de-tai-va-huy.html"><span>Đề tài & Yêu cầu Hủy</span></a>
+        <a class="nav-item active" href="04-hoi-dong-readiness.html"><span>Hội đồng & Readiness</span></a>
+        <a class="nav-item" href="05-cuoc-hop-ket-qua.html"><span>Cuộc họp & Kết quả</span></a>
+        <a class="nav-item" href="06-tai-lieu-buoc-03-07.html"><span>Tài liệu Bước 03–07</span></a>
+        <a class="nav-item" href="07-audit-nghiep-vu.html"><span>Audit & Kiểm toán</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="../shared/notifications.html#pk"><span>Thông báo</span><span class="nav-count">5</span></a>
+        <a class="nav-item" href="../shared/profile.html#pk"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / P.KHCN / Hội đồng & Readiness</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">PK-04</span>
+            <h1>Quản lý Hội đồng & Readiness</h1>
+            <p class="lead">Thành lập Hội đồng, phân công thành viên, kiểm tra xung đột lợi ích & sẵn sàng ban hành Quyết định.</p>
+          </div>
+          <button class="primary" type="button" onclick="window.NCKHUI.handleCreateCouncil()">
+            + Thành lập Hội đồng mới
+          </button>
+        </div>
+
+        <section class="card" id="action-target-meeting-draft">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div>
+              <h2>Hội đồng Nghiệm thu HĐNT-2026-006 (Ngành CNTT)</h2>
+              <span class="meta">Phụ trách nghiệm thu 03 đề tài NCKH Giảng viên & Sinh viên Khoa CNTT</span>
+            </div>
+            <span class="badge danger">Readiness: 4/5 Đã xác nhận</span>
+          </div>
+
+          <div class="grid-2">
+            <!-- Members List -->
+            <div style="background:var(--surface); padding:14px; border:1px solid var(--border); border-radius:6px;">
+              <h3>Thành phần Hội đồng & Lời mời</h3>
+              <ul style="margin:0; padding:0; list-style:none;">
+                <li class="doc-row">
+                  <div><b>PGS.TS. Nguyễn Văn A</b><br><span class="meta">Chủ tịch Hội đồng</span></div>
+                  <span class="badge success">✓ Đã chấp nhận</span>
+                </li>
+                <li class="doc-row">
+                  <div><b>TS. Lê Thị B</b><br><span class="meta">Thư ký Hội đồng</span></div>
+                  <span class="badge success">✓ Đã chấp nhận</span>
+                </li>
+                <li class="doc-row">
+                  <div><b>TS. Phạm Văn C</b><br><span class="meta">Ủy viên Phản biện 1 (Độc lập)</span></div>
+                  <span class="badge success">✓ Đã chấp nhận</span>
+                </li>
+                <li class="doc-row">
+                  <div><b>TS. Nguyễn Thị D</b><br><span class="meta">Ủy viên Phản biện 2</span></div>
+                  <span class="badge warning">⏳ Chưa phản hồi</span>
+                </li>
+                <li class="doc-row">
+                  <div><b>ThS. Hoàng Văn E</b><br><span class="meta">Ủy viên Hội đồng</span></div>
+                  <span class="badge success">✓ Đã chấp nhận</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Readiness Audit Checklist -->
+            <div style="background:var(--surface); padding:14px; border:1px solid var(--border); border-radius:6px;">
+              <h3>Ma trận Kiểm tra Readiness</h3>
+              <div class="notice success" style="margin-bottom:8px;">✓ Không có Xung đột lợi ích (Không cùng bộ môn / Không đồng tác giả)</div>
+              <div class="notice success" style="margin-bottom:8px;">✓ Kiểm tra trùng lịch họp: 5/5 thành viên trống lịch sáng 22/07/2026</div>
+              <div class="notice danger" style="margin-bottom:8px;">❌ Lời mời tham gia: Còn 01 thành viên (TS. Nguyễn Thị D) chưa bấm xác nhận</div>
+
+              <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="secondary" type="button" onclick="window.NCKHUI.handleReadinessRemind()">🔔 Nhắc nhở thành viên</button>
+                <button class="primary" type="button" onclick="window.NCKHUI.openDialog({
+                  title: 'Ban hành Quyết định Thành lập HĐNT-2026-006',
+                  content: '<p>Sau khi 5/5 thành viên xác nhận, P.KHCN tiến hành ban hành Quyết định chính thức.</p><div class=\'field\'><label>Số Quyết định ban hành</label><input value=\'412/QĐ-ĐNTU-HĐ\'></div>',
+                  confirmLabel: 'Ban hành Quyết định',
+                  confirmTone: 'primary',
+                  onConfirm: () => window.NCKHUI.showToast('Đã ban hành Quyết định số 412/QĐ-ĐNTU-HĐ thành lập Hội đồng!', 'success')
+                })">Ban hành Quyết định HĐ</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="p-khcn.js"></script>
+</body>
+</html>

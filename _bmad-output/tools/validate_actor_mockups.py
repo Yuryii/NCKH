@@ -558,11 +558,11 @@ def main():
     errors.extend(runtime_browser_errors())
 
     if errors:
-        print(f"FAIL: {len(errors)} lỗi")
+        print(f"FAIL: {len(errors)} loi")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("OK: 53 trang / 69 mã; lecturer clone parity, coverage, neutral security states, links, assets, scopes, publication guards, branches, gates, upload authorization, filters và semantics hợp lệ")
+    print("OK: 53 trang / 69 ma; lecturer clone parity, coverage, neutral security states, links, assets, scopes, publication guards, branches, gates, upload authorization, filters va semantics hop le")
     return 0
 
 
