@@ -1,10 +1,115 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tạo Tài khoản P.KHCN ban đầu — Quản trị viên</title><link rel="stylesheet" href="../shared/actor.css"></head>
-<body data-actor="qt" data-page-codes="QT-04" data-visibility="account-admin" data-upload-mode="none">
-<a class="skip-link" href="#main">Bỏ qua đến nội dung chính</a><header class="topbar"><button class="menu-button" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span>Mở menu</span></button><a class="brand" href="../index.html"><span class="seal">DNTU</span><span>NCKH<small>Bộ mockup theo vai trò</small></span></a><div class="role-static"><small>Vai trò hiện hành</small><b>Quản trị viên</b><span>Quản trị Tài khoản</span></div><div class="notification-wrap"><button class="bell" type="button" aria-label="2 thông báo chưa đọc" aria-controls="notification-popover" aria-expanded="false">♢<span>2</span></button><section class="notification-popover" id="notification-popover" aria-label="Thông báo gần đây" hidden><h2>Thông báo gần đây</h2><p><b>Nhiệm vụ được cập nhật</b><br>Kiểm tra danh sách việc cần làm theo vai trò hiện hành.</p><p><b>Nhắc hạn xử lý</b><br>Một tác vụ sẽ đến hạn trong 3 ngày.</p><a href="../shared/notifications.html#qt">Xem tất cả thông báo đúng vai trò</a></section></div><div class="account"><span>QA</span><b>Quỳnh Anh</b></div></header>
-<div class="shell"><nav class="sidebar" id="sidebar" aria-label="Điều hướng Quản trị viên"><a class="back-link" href="../index.html">← Bộ vai trò</a><p class="nav-group">Công việc và nghiệp vụ</p><a class="nav-link " href="01-viec-can-lam.html" ><span>Việc cần làm</span><span class="task-count" aria-label="4 việc cần làm">4</span></a><a class="nav-link " href="../shared/notifications.html#qt" ><span>Thông báo</span></a><a class="nav-link active" href="02-danh-sach-tai-khoan.html" aria-current=page><span>Tài khoản</span></a><a class="nav-link " href="03-duyet-vai-tro.html" ><span>Yêu cầu vai trò</span></a><a class="nav-link " href="../shared/profile.html#qt" ><span>Hồ sơ cá nhân</span></a></nav><button class="sidebar-overlay" type="button" aria-label="Đóng menu" hidden></button>
-<main id="main" tabindex="-1"><nav class="breadcrumb" aria-label="Đường dẫn"><a href="../index.html">Bộ vai trò</a><span>/</span><span>Quản trị viên</span><span>/</span><span>Tạo Tài khoản P.KHCN ban đầu</span></nav>
-<div class="page-heading"><div><p class="screen-codes">QT-04</p><h1>Tạo Tài khoản P.KHCN ban đầu</h1><p>Nhập dữ liệu định danh; quy trình này không có tải tệp.</p></div><span class="scope-chip">Phạm vi: account-admin</span></div>
-<div class="workspace"><div><section class="panel form-panel" data-business-form id="page-form"><h2>Thông tin nghiệp vụ</h2><div class="field"><label for="pk-name">Họ và tên *</label><input type="text" value="Lê Thanh Dũng" id="pk-name" name="pk-name" data-business-field required></div><div class="field"><label for="pk-email">Email Trường *</label><input type="email" value="dung.le@dntu.edu.vn" id="pk-email" name="pk-email" data-business-field required></div><div class="field"><label for="pk-code">Mã cán bộ *</label><input type="text" value="CB-0042" id="pk-code" name="pk-code" data-business-field required></div></section></div></div><section class="action-bar" aria-label="Hành động trang"><button type="button" class="button primary" data-action-id="create-pk-account" data-action-branch="create-account" data-target="page-form" data-require="form" data-unlocks="" data-result="Tài khoản ban đầu đã tạo; người dùng phải đặt mật khẩu qua liên kết một lần.">Tạo Tài khoản P.KHCN</button></section>
-<p class="empty-filter" data-filter-empty hidden>Không có dữ liệu phù hợp bộ lọc. Hãy đổi điều kiện tìm kiếm.</p><script type="application/json" data-page-schema>{"codes": ["QT-04"], "visibility": "account-admin", "upload": "none"}</script></main></div>
-<div class="toast-region" aria-live="polite" aria-atomic="true"></div><script src="../shared/actor.js"></script></body></html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NCKH — Cấp tài khoản P-KHCN & Khoa Quản trị viên</title>
+  <link rel="stylesheet" href="quan-tri-vien.css">
+</head>
+<body data-actor="qt" data-page-codes="QT-04">
+  <div class="browser">
+    <div class="chrome">
+      <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      <div class="address">nckh.dntu.edu.vn/quan-tri-vien/tao-tai-khoan-pkhcn</div>
+    </div>
+
+    <header class="topbar">
+      <button class="mobile-menu ghost" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <a class="brand" href="../index.html">
+        <span class="seal">DNTU</span>
+        <span>NCKH<small>Quản trị Hệ thống & Phân quyền</small></span>
+      </a>
+      <div class="top-actions">
+        <div class="role-label">Vai trò: Quản trị viên</div>
+        <div class="notification-center">
+          <a class="bell" href="07-thong-bao.html" aria-label="2 thông báo chưa đọc" aria-haspopup="true" aria-expanded="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span class="bell-count">2</span>
+          </a>
+          <section class="notification-popover" hidden="" aria-label="Thông báo gần đây">
+            <div class="popover-head"><b>Thông báo Admin</b><span class="badge danger">2 mới</span></div>
+            <a href="03-duyet-vai-tro.html#req-001"><b>Yêu cầu vai trò mới</b><span>TS. An Nguyễn đăng ký quyền Giảng viên NCKH</span></a>
+            <a href="05-bao-mat-tai-khoan.html#sec-099"><b>Cảnh báo bảo mật OTP</b><span>Tài khoản GV-2026-0099 bị tạm khóa</span></a>
+            <a class="popover-all" href="07-thong-bao.html">Xem tất cả thông báo Admin →</a>
+          </section>
+        </div>
+        <div class="account" onclick="window.NCKHUI.openDialog({title:'Tài khoản Admin', content:'<b>Quỳnh Anh</b><br>Quản trị viên Hệ thống QLNCKH<br>Email: quynhanh.admin@dntu.edu.vn'})">
+          <span class="avatar">QA</span>
+          <span class="account-name">Quỳnh Anh</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="back-link" href="../index.html">← Bộ vai trò</a>
+        <div class="nav-title">Nghiệp vụ Quản trị</div>
+        <a class="nav-item" href="01-viec-can-lam.html"><span>Việc cần làm</span><span class="nav-count">4</span></a>
+        <a class="nav-item" href="02-danh-sach-tai-khoan.html"><span>Danh sách Tài khoản</span></a>
+        <a class="nav-item" href="03-duyet-vai-tro.html"><span>Duyệt Yêu cầu Vai trò</span></a>
+        <a class="nav-item active" href="04-tao-tai-khoan-pkhcn.html"><span>Cấp tài khoản P-KHCN/Khoa</span></a>
+        <a class="nav-item" href="05-bao-mat-tai-khoan.html"><span>Bảo mật & Khóa tài khoản</span></a>
+        <a class="nav-item" href="06-audit-tai-khoan.html"><span>Audit Log Admin</span></a>
+        <div class="nav-title">Tài khoản</div>
+        <a class="nav-item" href="07-thong-bao.html"><span>Thông báo</span><span class="nav-count">2</span></a>
+        <a class="nav-item" href="../shared/profile.html#qt"><span>Hồ sơ cá nhân</span></a>
+      </aside>
+
+      <main class="content" id="main">
+        <div class="breadcrumb"><a class="link" href="../index.html">Bộ vai trò</a> / Quản trị viên / Cấp tài khoản P-KHCN & Khoa</div>
+
+        <div class="page-head">
+          <div>
+            <span class="screen-id">QT-04</span>
+            <h1>Khởi tạo & Cấp phát Tài khoản Quản trị Đặc thù</h1>
+            <p class="lead">Tạo tài khoản cán bộ P-KHCN, Trưởng Khoa, Chủ tịch Hội đồng và liên kết Chữ ký số PKI.</p>
+          </div>
+          <button class="primary" type="button" onclick="window.NCKHUI.handleCreateAdminAccount()">
+            + Cấp tài khoản Đặc thù mới
+          </button>
+        </div>
+
+        <div class="card" id="admin-special-table-card">
+          <h2>Danh sách Cán bộ Quản trị Phân hệ NCKH</h2>
+          <div class="table-container">
+            <table class="data-table" id="admin-special-table">
+              <thead>
+                <tr>
+                  <th>Họ tên Cán bộ / Chức vụ</th>
+                  <th>Email Công vụ DNTU</th>
+                  <th>Vai trò Quản trị NCKH</th>
+                  <th>Trạng thái Chữ ký số</th>
+                  <th>Thao tác Admin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Dũng Nguyễn</b><br><span class="meta">Chuyên viên Vận hành P.KHCN</span></td>
+                  <td><code>dung.nguyen@dntu.edu.vn</code></td>
+                  <td><span class="badge owner">P.KHCN (Duyệt Đợt & HĐ)</span></td>
+                  <td><span class="badge success">✓ PKI OTP Active</span></td>
+                  <td>
+                    <button class="secondary" type="button" onclick="window.NCKHUI.showToast('Tài khoản Chuyên viên P-KHCN đang hoạt động bình thường.', 'info')">Cấu hình Quyền</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td><b>TS. Nguyễn Văn Nam</b><br><span class="meta">Trưởng Khoa Công nghệ Thông tin</span></td>
+                  <td><code>nam.nguyen@dntu.edu.vn</code></td>
+                  <td><span class="badge member">Trưởng Khoa (Duyệt BM01A/BM09)</span></td>
+                  <td><span class="badge success">✓ PKI OTP Active</span></td>
+                  <td>
+                    <button class="secondary" type="button" onclick="window.NCKHUI.showToast('Tài khoản Trưởng khoa CNTT đã được cấp quyền duyệt sơ tuyển.', 'info')">Cấu hình Quyền</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="quan-tri-vien.js"></script>
+</body>
+</html>
