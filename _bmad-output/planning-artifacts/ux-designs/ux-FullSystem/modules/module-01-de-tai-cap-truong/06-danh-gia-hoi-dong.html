@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân hệ 1: Chấm Phiếu Đánh Giá Cá Nhân — QLNCKH DNTU</title>
+  <link rel="stylesheet" href="../../shared/theme.css">
+  <link rel="stylesheet" href="../../shared/layout.css">
+  <link rel="stylesheet" href="m01.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>PHÂN HỆ 1: LẬP VÀ NỘP PHIẾU ĐÁNH GIÁ BM02/BM06/BM11 (FR-22 - FR-26)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">GS.TS. Hoàng Văn E</div>
+        <div class="user-role-label" id="user-display-role">Chủ tịch Hội đồng</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Trung Tâm Điều Hành</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Trang Landing Hub</a></li>
+        <li class="nav-item"><a href="../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Atlas Màn hình</a></li>
+      </ul>
+
+      <div class="nav-section-label">Quy Trình Phân Hệ 1</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-dashboard.html" class="nav-link"><span class="nav-icon">📊</span> 01. Dashboard Tổng Quan</a></li>
+        <li class="nav-item"><a href="02-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> 02. Quản Lý Đợt Đăng Ký</a></li>
+        <li class="nav-item"><a href="03-lap-bm01.html" class="nav-link"><span class="nav-icon">📝</span> 03. Lập & Nộp BM01</a></li>
+        <li class="nav-item"><a href="04-tuyen-dau-xet-duyet.html" class="nav-link"><span class="nav-icon">🔎</span> 04. Tuyến Đầu Xét Duyệt</a></li>
+        <li class="nav-item"><a href="05-hoi-dong-xet-duyet.html" class="nav-link"><span class="nav-icon">🏛️</span> 05. Thiết Lập Hội Đồng</a></li>
+        <li class="nav-item"><a href="06-danh-gia-hoi-dong.html" class="nav-link active"><span class="nav-icon">⭐</span> 06. Chấm Phiếu Hội Đồng</a></li>
+        <li class="nav-item"><a href="07-bien-ban-hoi-dong.html" class="nav-link"><span class="nav-icon">✍️</span> 07. Biên Bản & Công Bố</a></li>
+        <li class="nav-item"><a href="08-thuc-hien-nghiem-thu.html" class="nav-link"><span class="nav-icon">🏆</span> 08. Thực Hiện & Nghiệm Thu</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="app-main">
+      
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Phiếu Đánh Giá Cá Nhân BM02 (Thành Viên Hội Đồng)</h2>
+          <p>Mỗi thành viên nộp độc lập trong Cuộc họp đang diễn ra. Khi đủ 100% phiếu hợp lệ, hệ thống tự động khóa và tạo Mốc chốt (FR-24, FR-26).</p>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('Hồ sơ Đăng ký Đề tài BM01A', 'BM01A', { title: 'Nghiên cứu ứng dụng AI trong phân loại nông sản' })">
+            📖 Xem Hồ Sơ Đề Tài
+          </button>
+        </div>
+      </div>
+
+      <!-- Evaluation Form Paper Section -->
+      <div class="form-section">
+        <div class="form-section-title">⭐ I. BẢNG TIÊU CHÍ ĐÁNH GIÁ & CHO ĐIỂM (PHIẾU BM02)</div>
+
+        <p class="mb-4"><strong>Tên đề tài đánh giá:</strong> Nghiên cứu ứng dụng Trí tuệ Nhân tạo trong phân loại nông sản tỉnh Đồng Nai (HS-2026-NCKH-001)</p>
+
+        <div class="table-container mb-4">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tiêu Chí Đánh Giá Nghiệp Vụ</th>
+                <th>Điểm Tối Đa</th>
+                <th>Điểm Đánh Giá Cá Nhân</th>
+                <th>Nhận Xét Chi Tiết Phản Biện</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Tính cấp thiết & Mục tiêu nghiên cứu đề tài</td>
+                <td>20 điểm</td>
+                <td><input type="number" class="form-input" value="18" max="20" style="width: 80px;"></td>
+                <td>Đề tài đáp ứng nhu cầu thực tiễn nông nghiệp công nghệ cao Đồng Nai.</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Tổng quan tình hình nghiên cứu & Phương pháp AI</td>
+                <td>25 điểm</td>
+                <td><input type="number" class="form-input" value="22" max="25" style="width: 80px;"></td>
+                <td>Phương pháp mô hình CNN phù hợp với tập dữ liệu hình ảnh nông sản.</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Năng lực nhóm nghiên cứu & Tính khả thi</td>
+                <td>25 điểm</td>
+                <td><input type="number" class="form-input" value="23" max="25" style="width: 80px;"></td>
+                <td>Chủ nhiệm và các thành viên có nhiều công bố chuyên ngành uy tín.</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Dự toán kinh phí & Đóng góp ứng dụng thực tế</td>
+                <td>30 điểm</td>
+                <td><input type="number" class="form-input" value="26" max="30" style="width: 80px;"></td>
+                <td>Kinh phí 35 triệu phù hợp với quy mô đề tài cấp trường.</td>
+              </tr>
+              <tr>
+                <td colspan="2" class="text-right"><strong>TỔNG ĐIỂM ĐÁNH GIÁ:</strong></td>
+                <td><strong>100 điểm</strong></td>
+                <td><strong class="text-danger">89 / 100 điểm</strong></td>
+                <td><strong>Xếp loại: ĐẠT (Xuất Sắc)</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Kết Luận Cá Nhân:</label>
+          <select class="form-select">
+            <option value="DAT" selected>✓ Đồng ý thông qua (Đạt xét duyệt hồ sơ)</option>
+            <option value="SUA">○ Thông qua nhưng yêu cầu chỉnh sửa</option>
+            <option value="KHONG">✗ Không thông qua (Không đạt)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Tải Tệp PDF BM02 Đã Ký (Bằng chứng nộp phiếu cá nhân):</label>
+          <input type="file" class="form-input" accept=".pdf">
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Đã nộp thành công Phiếu đánh giá BM02! Hệ thống xác nhận đủ 100% phiếu và tạo Mốc chốt bất biến.', 'success'); setTimeout(() => { window.location.href='07-bien-ban-hoi-dong.html'; }, 1500);">
+            🚀 CHÍNH THỨC NỘP PHIẾU ĐÁNH GIÁ BM02
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Chấm phiếu Hội đồng.
+  </footer>
+
+  <script src="../../shared/role-switcher.js"></script>
+  <script src="../../shared/common.js"></script>
+  <script src="m01.js"></script>
+</body>
+</html>

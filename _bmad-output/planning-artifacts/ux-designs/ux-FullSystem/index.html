@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ thống Quản lý NCKH DNTU — Central Hub</title>
+  <link rel="stylesheet" href="shared/theme.css">
+  <link rel="stylesheet" href="shared/layout.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>HỆ THỐNG QUẢN LÝ HOẠT ĐỘNG NGHIÊN CỨU KHOA HỌC (QLNCKH)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar (Top Access Simulation Bar) -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Layout Container -->
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Trung Tâm Điều Hành</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html" class="nav-link active"><span class="nav-icon">🏠</span> Tổng quan Hub</a></li>
+        <li class="nav-item"><a href="full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Atlas Màn hình</a></li>
+      </ul>
+
+      <div class="nav-section-label">5 Phân Hệ Nghiệp Vụ</div>
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="modules/module-01-de-tai-cap-truong/01-dashboard.html" class="nav-link">
+            <span class="nav-icon">🎓</span> 1. Đề tài Cấp trường
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/module-02-chuyen-giao-cong-nghe/01-de-xuat-chuyen-giao.html" class="nav-link">
+            <span class="nav-icon">🤝</span> 2. Chuyển giao & Dịch vụ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/module-03-de-tai-cap-tinh-bo/01-de-xuat-cap-tren.html" class="nav-link">
+            <span class="nav-icon">🏛️</span> 3. Đề tài Cấp Tỉnh/Bộ
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/module-04-nghiem-thu-san-pham-gio-nckh/01-ke-khai-san-pham.html" class="nav-link">
+            <span class="nav-icon">📊</span> 4. Sản phẩm & Giờ NCKH
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/module-05-to-chuc-hoi-thao/01-dang-ky-hoi-thao.html" class="nav-link">
+            <span class="nav-icon">🎤</span> 5. Tổ chức Hội thảo
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main View Workspace -->
+    <main class="app-main">
+      
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Tổng Quan 5 Phân Hệ NCKH DNTU (Frontend MVP)</h2>
+          <p>Hệ thống giao diện tương tác toàn diện bao phủ toàn bộ 5 tài liệu FRS nghiệp vụ Trường Đại học Công nghệ Đồng Nai.</p>
+        </div>
+        <div class="flex gap-2">
+          <a href="full-system-screen-atlas.html" class="btn btn-primary">
+            🗺️ Xem Bản Đồ Atlas Màn Hình
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Summary -->
+      <div class="grid grid-cols-4 gap-4 mb-4">
+        <div class="card">
+          <div class="text-muted text-sm">Tổng Phân Hệ</div>
+          <div class="card-title mt-4">5 Phân Hệ Cốt Lõi</div>
+          <p class="text-muted text-sm mt-4">Cấp trường, Chuyển giao, Cấp Bộ, Giờ NCKH, Hội thảo</p>
+        </div>
+
+        <div class="card">
+          <div class="text-muted text-sm">Tổng Số Màn Hình UI</div>
+          <div class="card-title mt-4">28 Màn Hình</div>
+          <p class="text-muted text-sm mt-4">Có gắn Mock Data & Interactive Logic</p>
+        </div>
+
+        <div class="card">
+          <div class="text-muted text-sm">Phân Quyền Actor</div>
+          <div class="card-title mt-4">8 Vai Trò Actor</div>
+          <p class="text-muted text-sm mt-4">Dễ dàng thử nghiệm bằng Role Switcher Toolbar</p>
+        </div>
+
+        <div class="card">
+          <div class="text-muted text-sm">Biểu Mẫu Điện Tử</div>
+          <div class="card-title mt-4">BM01 – BM15</div>
+          <p class="text-muted text-sm mt-4">Xem trước PDF & Mô phỏng chữ ký 2 tuyến</p>
+        </div>
+      </div>
+
+      <!-- 5 Modules Showcase Grid -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Danh Mục 5 Phân Hệ Nghiệp Vụ Quản Lý NCKH DNTU</h3>
+          <span class="badge badge-info">Phiên bản Frontend MVP</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          
+          <!-- Module 1 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h3>🎓 Phân hệ 1: Đề tài NCKH Cấp trường</h3>
+              <span class="badge badge-success">Sẵn sàng nghiệm thu</span>
+            </div>
+            <p class="text-muted text-sm mb-4">
+              Quản lý toàn bộ vòng đời đề tài NCKH cấp trường từ Đợt đăng ký, nộp BM01, xét duyệt tuyến đầu Khoa/GVHD, Hội đồng 3 giai đoạn (Hồ sơ, Thuyết minh, Nghiệm thu), chốt 100% phiếu tự động và lưu BM14.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-muted text-sm">8 Màn hình nghiệp vụ</span>
+              <a href="modules/module-01-de-tai-cap-truong/01-dashboard.html" class="btn btn-soft btn-sm">
+                Truy cập Phân hệ 1 ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h3>🤝 Phân hệ 2: Chuyển giao Công nghệ & Dịch vụ</h3>
+              <span class="badge badge-pending">Giai đoạn kế tiếp</span>
+            </div>
+            <p class="text-muted text-sm mb-4">
+              Quản lý nhu cầu chuyển giao công nghệ, đàm phán hợp đồng thương mại hóa, ghi nhận doanh thu dịch vụ NCKH với Phòng Tài chính - Kế toán và thanh lý hợp đồng.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-muted text-sm">5 Màn hình nghiệp vụ</span>
+              <a href="modules/module-02-chuyen-giao-cong-nghe/01-de-xuat-chuyen-giao.html" class="btn btn-secondary btn-sm">
+                Xem Cấu Trúc Phân Hệ 2 ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h3>🏛️ Phân hệ 3: Đề tài Cấp Tỉnh, Bộ, Nhà nước</h3>
+              <span class="badge badge-pending">Giai đoạn kế tiếp</span>
+            </div>
+            <p class="text-muted text-sm mb-4">
+              Đăng ký đề xuất đề tài cấp trên, thẩm định vốn đối ứng của Trường, theo dõi mốc báo cáo định kỳ ngoại viện với Sở/Bộ KHCN và nghiệm thu cấp Tỉnh/Bộ.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-muted text-sm">5 Màn hình nghiệp vụ</span>
+              <a href="modules/module-03-de-tai-cap-tinh-bo/01-de-xuat-cap-tren.html" class="btn btn-secondary btn-sm">
+                Xem Cấu Trúc Phân Hệ 3 ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 4 -->
+          <div class="card">
+            <div class="flex items-center justify-between mb-4">
+              <h3>📊 Phân hệ 4: Nghiệm thu Sản phẩm & Giờ NCKH</h3>
+              <span class="badge badge-pending">Giai đoạn kế tiếp</span>
+            </div>
+            <p class="text-muted text-sm mb-4">
+              Giảng viên kê khai sản phẩm (Bài báo ISI/Scopus, Bằng sáng chế, Sách/Giáo trình), Hội đồng thẩm định sản phẩm độc lập và tự động tính Bảng quy đổi giờ NCKH hằng năm (ResearchHourYearly).
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-muted text-sm">5 Màn hình nghiệp vụ</span>
+              <a href="modules/module-04-nghiem-thu-san-pham-gio-nckh/01-ke-khai-san-pham.html" class="btn btn-secondary btn-sm">
+                Xem Cấu Trúc Phân Hệ 4 ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 5 -->
+          <div class="card" style="grid-column: span 2;">
+            <div class="flex items-center justify-between mb-4">
+              <h3>🎤 Phân hệ 5: Tổ chức Hội nghị & Hội thảo Khoa học</h3>
+              <span class="badge badge-pending">Giai đoạn kế tiếp</span>
+            </div>
+            <p class="text-muted text-sm mb-4">
+              Quản lý đăng ký kế hoạch tổ chức Hội thảo (Quốc tế, Quốc gia, Chuyên đề), thẩm định dự toán kinh phí BGH, phân công phản biện kín bài báo kỷ yếu và xuất bản Proceedings.
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-muted text-sm">5 Màn hình nghiệp vụ</span>
+              <a href="modules/module-05-to-chuc-hoi-thao/01-dang-ky-hoi-thao.html" class="btn btn-secondary btn-sm">
+                Xem Cấu Trúc Phân Hệ 5 ➔
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Phòng Khoa học Công nghệ. Tất cả các quyền được bảo lưu.
+  </footer>
+
+  <script src="shared/role-switcher.js"></script>
+  <script src="shared/common.js"></script>
+</body>
+</html>

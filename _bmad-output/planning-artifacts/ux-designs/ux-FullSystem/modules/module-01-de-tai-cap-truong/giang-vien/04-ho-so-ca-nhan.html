@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Giảng Viên — Hồ Sơ Cá Nhân & Lý Lịch Khoa Học</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG THÔNG TIN GIẢNG VIÊN — HỒ SƠ CÁ NHÂN & LÝ LỊCH KHOA HỌC (RULE 2.2)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">TS. Trần Thị B</div>
+        <div class="user-role-label" id="user-display-role">Giảng viên (Khoa CNTT)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Giảng Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">📚</span> Đề Tài Của Tôi</a></li>
+        <li class="nav-item"><a href="05-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> Đợt Đăng Ký NCKH</a></li>
+        <li class="nav-item"><a href="02-lap-bm01a.html" class="nav-link"><span class="nav-icon">📝</span> Lập Hồ Sơ BM01A</a></li>
+        <li class="nav-item"><a href="03-xet-duyet-sinh-vien.html" class="nav-link"><span class="nav-icon">🎓</span> Duyệt Đề Tài SV (GVHD)</a></li>
+        <li class="nav-item"><a href="04-ho-so-ca-nhan.html" class="nav-link active"><span class="nav-icon">👤</span> Lý Lịch Khoa Học</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Hồ Sơ Định Danh & Lý Lịch Khoa Học Cá Nhân (Scientist Profile)</h2>
+          <p>Thông tin lý lịch khoa học được sử dụng để tự động điền vào các Biểu mẫu BM01–BM14 và xác nhận vai trò trong Hội đồng (Rule 2.2).</p>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Đã cập nhật Lý lịch khoa học cá nhân thành công!', 'success')">
+          💾 Cập Nhật Lý Lịch Khoa Học
+        </button>
+      </div>
+
+      <!-- Modern Avatar Profile Header Card (Rule 2.2) -->
+      <div class="card mb-4" style="padding: 0; overflow: hidden;">
+        <div class="profile-card-header">
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar-circle">TB</div>
+            <div class="profile-avatar-badge" title="Đổi ảnh đại diện">📷</div>
+          </div>
+          <div class="profile-meta-title">
+            <h3>TS. Trần Thị B</h3>
+            <p>Giảng viên Chuẩn — Bộ môn Kỹ thuật Phần mềm — Khoa Công nghệ Thông tin DNTU</p>
+            <div class="profile-badges-group">
+              <span class="badge badge-success">✓ Xác minh Email DNTU</span>
+              <span class="badge badge-info">Học vị: Tiến sĩ (2020)</span>
+              <span class="badge badge-primary">Scopus H-Index: 4</span>
+              <span class="badge badge-draft">Mã GV: GV0892</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding: 20px;" class="grid grid-cols-4 gap-4">
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; text-align: center;">
+            <div class="text-muted text-sm">Đề Tài Đã Chủ Nhiệm</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--brand-primary); margin-top: 4px;">3 Đề Tài</div>
+          </div>
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; text-align: center;">
+            <div class="text-muted text-sm">Công Bố Khoa Học</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--brand-primary); margin-top: 4px;">12 Bài Báo</div>
+          </div>
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; text-align: center;">
+            <div class="text-muted text-sm">Sinh Viên Đã Hướng Dẫn</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--brand-primary); margin-top: 4px;">18 Sinh Viên</div>
+          </div>
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 8px; text-align: center;">
+            <div class="text-muted text-sm">Hội Đồng Đã Tham Gia</div>
+            <div style="font-size: 20px; font-weight: 700; color: var(--brand-primary); margin-top: 4px;">5 Hội Đồng</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail Profile Form Sections -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">📌 I. THÔNG TIN HÀNH CHÍNH & HỌC VỊ KHOA HỌC</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label required">Họ và Tên Giảng Viên:</label>
+            <input type="text" class="form-input" value="Trần Thị B">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Email Đăng Nhập DNTU:</label>
+            <input type="email" class="form-input" value="tranthib@dntu.edu.vn" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Mã Giảng Viên (GV Code):</label>
+            <input type="text" class="form-input" value="GV0892" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Học Hàm / Học Vị Khoa Học:</label>
+            <select class="form-select">
+              <option selected>Tiến sĩ (TS)</option>
+              <option>Phó Giáo sư, Tiến sĩ (PGS.TS)</option>
+              <option>Giáo sư, Tiến sĩ (GS.TS)</option>
+              <option>Thạc sĩ (ThS)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Chuyên Ngành Đào Tạo:</label>
+            <input type="text" class="form-input" value="Khoa học Máy tính & Trí tuệ Nhân tạo">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Hướng Nghiên Cứu Chính (Chuyên môn):</label>
+            <input type="text" class="form-input" value="Trí tuệ Nhân tạo, Học máy, Phân loại hình ảnh Nông nghiệp">
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Hồ sơ cá nhân.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+</body>
+</html>

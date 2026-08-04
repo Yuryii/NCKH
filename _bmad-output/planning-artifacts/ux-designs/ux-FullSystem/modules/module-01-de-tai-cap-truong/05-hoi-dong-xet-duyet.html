@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân hệ 1: Thiết Lập Hội Đồng — QLNCKH DNTU</title>
+  <link rel="stylesheet" href="../../shared/theme.css">
+  <link rel="stylesheet" href="../../shared/layout.css">
+  <link rel="stylesheet" href="m01.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>PHÂN HỆ 1: THIẾT LẬP HỘI ĐỒNG VÀ MỞ CUỘC HỌP (FR-19, FR-20, FR-39)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Trung Tâm Điều Hành</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Trang Landing Hub</a></li>
+        <li class="nav-item"><a href="../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Atlas Màn hình</a></li>
+      </ul>
+
+      <div class="nav-section-label">Quy Trình Phân Hệ 1</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-dashboard.html" class="nav-link"><span class="nav-icon">📊</span> 01. Dashboard Tổng Quan</a></li>
+        <li class="nav-item"><a href="02-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> 02. Quản Lý Đợt Đăng Ký</a></li>
+        <li class="nav-item"><a href="03-lap-bm01.html" class="nav-link"><span class="nav-icon">📝</span> 03. Lập & Nộp BM01</a></li>
+        <li class="nav-item"><a href="04-tuyen-dau-xet-duyet.html" class="nav-link"><span class="nav-icon">🔎</span> 04. Tuyến Đầu Xét Duyệt</a></li>
+        <li class="nav-item"><a href="05-hoi-dong-xet-duyet.html" class="nav-link active"><span class="nav-icon">🏛️</span> 05. Thiết Lập Hội Đồng</a></li>
+        <li class="nav-item"><a href="06-danh-gia-hoi-dong.html" class="nav-link"><span class="nav-icon">⭐</span> 06. Chấm Phiếu Hội Đồng</a></li>
+        <li class="nav-item"><a href="07-bien-ban-hoi-dong.html" class="nav-link"><span class="nav-icon">✍️</span> 07. Biên Bản & Công Bố</a></li>
+        <li class="nav-item"><a href="08-thuc-hien-nghiem-thu.html" class="nav-link"><span class="nav-icon">🏆</span> 08. Thực Hiện & Nghiệm Thu</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="app-main">
+      
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Quản Lý Thiết Lập Hội Đồng Khoa Học (Giai Đoạn 1: Xét Duyệt Hồ Sơ)</h2>
+          <p>P.KHCN phân công 1 Chủ tịch, 1 Thư ký (không thuộc mẫu số phiếu), các Ủy viên và bấm Mở Cuộc họp thủ công (FR-19, FR-39).</p>
+        </div>
+        <button type="button" class="btn btn-primary" data-allow-roles="p-khcn" onclick="DNTUCommon.showToast('Mở Form thành lập Hội đồng đánh giá mới!', 'info')">
+          ➕ Thành Lập Hội Đồng Mới
+        </button>
+      </div>
+
+      <!-- Current Active Council Card -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Hội Đồng Xét Duyệt Hồ Sơ NCKH Đợt 1 - Khoa CNTT</h3>
+            <p class="text-muted text-sm mt-4">Mã Hội đồng: HD-2026-CNTT-01 | Giai đoạn: Xét duyệt Hồ sơ (BM01/BM02/BM03)</p>
+          </div>
+          <span class="badge badge-success">● Cuộc họp đang diễn ra</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="card">
+            <h4 class="mb-4">📋 Hồ sơ Đăng ký được Xét duyệt trong Cuộc họp:</h4>
+            <p><strong>Mã HS:</strong> HS-2026-NCKH-001</p>
+            <p><strong>Tên đề tài:</strong> Nghiên cứu ứng dụng Trí tuệ Nhân tạo trong phân loại nông sản tỉnh Đồng Nai</p>
+            <p><strong>Chủ nhiệm:</strong> TS. Trần Thị B (Khoa CNTT)</p>
+          </div>
+
+          <div class="card">
+            <h4 class="mb-4">📊 Tiến độ Nộp Phiếu Đánh giá Cá nhân (FR-21):</h4>
+            <p><strong>Tổng số người có trách nhiệm đánh giá:</strong> 5 Thành viên (gồm Chủ tịch, không gồm Thư ký)</p>
+            <p><strong>Số Phiếu đánh giá hợp lệ đã nộp:</strong> <strong class="text-success">5 / 5 Phiếu (100%)</strong></p>
+            <p><strong>Trạng thái Mốc chốt:</strong> <span class="badge badge-success">✓ Đã tự động tạo Mốc chốt phiếu bất biến</span></p>
+          </div>
+        </div>
+
+        <h4 class="mb-4">👥 Danh Sách Thành Viên & Vai Trò Hội Đồng (FR-19):</h4>
+        <div class="table-container mb-4">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Họ và Tên Thành Viên</th>
+                <th>Đơn Vị / Cơ Quan</th>
+                <th>Vai Trò Trong Hội Đồng</th>
+                <th>Trách Nhiệm Nộp Phiếu (BM02)</th>
+                <th>Trạng Thái Phiếu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>GS.TS. Hoàng Văn E</strong></td>
+                <td>P.KHCN / BGH DNTU</td>
+                <td><span class="badge badge-primary">Chủ tịch Hội đồng</span></td>
+                <td>Có trách nhiệm nộp BM02 & Ký Biên bản BM03</td>
+                <td><span class="badge badge-success">✓ Đã nộp phiếu</span></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>ThS. Vũ Thị G</strong></td>
+                <td>Phòng KHCN DNTU</td>
+                <td><span class="badge badge-info">Thư ký Hội đồng</span></td>
+                <td><strong>Không nộp BM02</strong> (Lập Biên bản BM03)</td>
+                <td><span class="badge badge-draft">Khóa nộp phiếu</span></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>TS. Đặng Văn F</strong></td>
+                <td>Trường ĐH Bách Khoa TP.HCM</td>
+                <td><span class="badge badge-secondary">Ủy viên Phản biện 1</span></td>
+                <td>Có trách nhiệm nộp BM02</td>
+                <td><span class="badge badge-success">✓ Đã nộp phiếu</span></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><strong>PGS.TS. Lê Văn K</strong></td>
+                <td>Viện CNTT - ĐHQG</td>
+                <td><span class="badge badge-secondary">Ủy viên Phản biện 2</span></td>
+                <td>Có trách nhiệm nộp BM02</td>
+                <td><span class="badge badge-success">✓ Đã nộp phiếu</span></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td><strong>TS. Nguyễn Thị M</strong></td>
+                <td>Khoa CNTT - DNTU</td>
+                <td><span class="badge badge-secondary">Ủy viên Hội đồng</span></td>
+                <td>Có trách nhiệm nộp BM02</td>
+                <td><span class="badge badge-success">✓ Đã nộp phiếu</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex justify-end gap-2" data-allow-roles="p-khcn">
+          <a href="06-danh-gia-hoi-dong.html" class="btn btn-soft">
+            ⭐ Chuyển Đến Màn Hình Chấm Phiếu (BM02) ➔
+          </a>
+          <a href="07-bien-ban-hoi-dong.html" class="btn btn-primary">
+            ✍️ Chuyển Đến Lập Biên Bản (BM03) ➔
+          </a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Thiết lập Hội đồng.
+  </footer>
+
+  <script src="../../shared/role-switcher.js"></script>
+  <script src="../../shared/common.js"></script>
+  <script src="m01.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Giảng Viên — Lập Thuyết Minh Đề Tài BM01A Chi Tiết</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG GIẢNG VIÊN — LẬP HỒ SƠ THUYẾT MINH BM01A CHUẨN ĐẦY ĐỦ (FR-7)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">TS. Trần Thị B</div>
+        <div class="user-role-label" id="user-display-role">Giảng viên (Khoa CNTT)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Giảng Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">📚</span> Đề Tài Của Tôi</a></li>
+        <li class="nav-item"><a href="05-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> Đợt Đăng Ký NCKH</a></li>
+        <li class="nav-item"><a href="02-lap-bm01a.html" class="nav-link active"><span class="nav-icon">📝</span> Lập Hồ Sơ BM01A</a></li>
+        <li class="nav-item"><a href="03-xet-duyet-sinh-vien.html" class="nav-link"><span class="nav-icon">🎓</span> Duyệt Đề Tài SV (GVHD)</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Hệ Thống</a></li>
+        <li class="nav-item"><a href="04-ho-so-ca-nhan.html" class="nav-link"><span class="nav-icon">👤</span> Lý Lịch Khoa Học</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Lập Bản Thuyết Minh Đăng Ký Đề Tài NCKH Giảng Viên (BM01A)</h2>
+          <p>Mẫu BM01.A.QT.KHCN.02 — Đầy đủ 4 Mục nội dung theo Biểu mẫu Word chính thức của Trường ĐH Công nghệ Đồng Nai.</p>
+        </div>
+      </div>
+
+      <!-- Full Form Section Matching Word Document Specifications -->
+      <div class="form-section mb-4">
+        <div class="form-section-title">📌 MỤC I. THÔNG TIN CHUNG VỀ ĐỀ TÀI NCKH (BM01A)</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label required">1. Tên Đề Tài Nghiên Cứu Khoa Học (Tiếng Việt):</label>
+            <input type="text" id="bm01a-title" class="form-input" value="Nghiên cứu ứng dụng Trí tuệ Nhân tạo trong phân loại nông sản tỉnh Đồng Nai">
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label">Tên Đề Tài (Tiếng Anh - nếu có):</label>
+            <input type="text" class="form-input" value="Research on Applying Artificial Intelligence to Agricultural Products Classification in Dong Nai Province">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">2. Họ và Tên Chủ Nhiệm Đề Tài:</label>
+            <input type="text" class="form-input" value="TS. Trần Thị B" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Mã Nhân Sự / Mã Giảng Viên:</label>
+            <input type="text" class="form-input" value="GV0892" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Học Hàm / Học Vị - Chuyên Ngành:</label>
+            <input type="text" class="form-input" value="Tiến sĩ - Khoa học Máy tính" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Đơn Vị Công Tác / Bộ Môn:</label>
+            <input type="text" class="form-input" value="Bộ môn Kỹ thuật Phần mềm — Khoa Công nghệ Thông tin" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Loại Hình Nghiên Cứu:</label>
+            <select class="form-select">
+              <option selected>Nghiên cứu Ứng dụng (Applied Research)</option>
+              <option>Nghiên cứu Cơ bản (Basic Research)</option>
+              <option>Triển khai Thực nghiệm (Experimental Development)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Lĩnh Vực Nghiên Cứu Khoa Học:</label>
+            <input type="text" class="form-input" value="Khoa học Kỹ thuật & Công nghệ Thông tin">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Thời Gian Thực Hiện (Tháng):</label>
+            <input type="number" id="bm01a-duration" class="form-input" value="12">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Tổng Kinh Phí Đề Xuất (VNĐ):</label>
+            <input type="text" id="bm01a-budget" class="form-input" value="35000000">
+          </div>
+        </div>
+
+        <div class="form-group mt-4">
+          <label class="form-label">3. Nhóm Thành Viên Phối Hợp Nghiên Cứu:</label>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Họ và Tên</th>
+                <th>Mã GV / SV</th>
+                <th>Đơn Vị Công Tác</th>
+                <th>Nội Dung Phụ Trách</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ThS. Nguyễn Văn M</td>
+                <td>GV0911</td>
+                <td>Khoa CNTT</td>
+                <td>Xây dựng mô hình Convolutional Neural Networks (CNN)</td>
+              </tr>
+              <tr>
+                <td>ThS. Lê Thị N</td>
+                <td>GV0845</td>
+                <td>Khoa Điện - Điện tử</td>
+                <td>Tích hợp vi điều khiển nhúng xử lý tín hiệu camera</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">📌 MỤC II. TÍNH CẤP THIẾT & PHƯƠNG PHÁP NGHIÊN CỨU</div>
+        <div class="form-group mb-3">
+          <label class="form-label required">1. Tính cấp thiết của đề tài:</label>
+          <textarea class="form-textarea">Nông sản chủ lực của tỉnh Đồng Nai (xoài, chôm chôm, sầu riêng) đóng vai trò nòng cốt trong xuất khẩu. Tuy nhiên khâu phân loại nông sản hiện tại chủ yếu bằng thủ công, chi phí lao động cao và tỷ lệ sai sót lớn. Việc ứng dụng Trí tuệ Nhân tạo xử lý hình ảnh thời gian thực giúp tự động hóa khâu phân loại, nâng cao giá trị thương mại.</textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label required">2. Mục tiêu nghiên cứu tổng quát & cụ thể:</label>
+          <textarea class="form-textarea">Mục tiêu tổng quát: Xây dựng hệ thống tự động nhận diện và phân loại nông sản tỉnh Đồng Nai bằng AI. Mục tiêu cụ thể: Thu thập bộ dữ liệu 10.000 hình ảnh nông sản; Huấn luyện mô hình YOLOv8 đạt độ chính xác >95%; Thử nghiệm thực tế tại doanh nghiệp nông nghiệp Đồng Nai.</textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label required">3. Cách tiếp cận & Phương pháp nghiên cứu:</label>
+          <textarea class="form-textarea">Phương pháp học sâu Deep Learning (mạng YOLOv8 & ResNet); Phương pháp kiểm thử mô hình trên hệ điều hành nhúng Edge AI; Phương pháp khảo sát đánh giá thực địa.</textarea>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">📌 MỤC III. SẢN PHẨM VÀ KẾ HOẠCH BÀO GIAO (DANH MỤC BM01A)</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label required">1. Sản phẩm Khoa học (Bài báo công bố):</label>
+            <input type="text" class="form-input" value="01 Bài báo công bố trên Tạp chí chuyên ngành / Hội thảo Quốc tế Scopus">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">2. Sản phẩm Ứng dụng (Phần mềm / Mô hình):</label>
+            <input type="text" class="form-input" value="01 Mô hình phần mềm AI nhận dạng nông sản thời gian thực">
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label required">3. Sản phẩm Đào tạo & Báo cáo tổng kết:</label>
+            <input type="text" class="form-input" value="Hướng dẫn 02 Sinh viên làm Đồ án tốt nghiệp & 01 Báo cáo tổng kết đầy đủ chuẩn BM10">
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('Thuyết minh BM01A Chính Thức DNTU', 'BM01A', { title: 'Nghiên cứu AI phân loại nông sản Đồng Nai' })">👁️ Xem Trước PDF BM01A</button>
+          <button type="button" class="btn btn-primary" onclick="submitBM01AAction()">🚀 NỘP HỒ SƠ BM01A CHO KHOA DUYỆT</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Lập BM01A.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function submitBM01AAction() {
+      const title = document.getElementById('bm01a-title').value.trim();
+      const budget = document.getElementById('bm01a-budget').value.trim();
+      const duration = document.getElementById('bm01a-duration').value.trim();
+      DNTUModule01.submitBM01A(title, budget, duration);
+      setTimeout(() => {
+        window.location.href = '01-danh-sach-de-tai.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

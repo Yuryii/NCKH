@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bản Đồ Màn Hình & Phân Quyền Hệ Thống — QLNCKH DNTU</title>
+  <link rel="stylesheet" href="shared/theme.css">
+  <link rel="stylesheet" href="shared/layout.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>BẢN ĐỒ MÀN HÌNH (SCREEN ATLAS) & MA TRẬN PHÂN QUYỀN 8 ACTORS</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Ban Giám Hiệu / Đánh Giá</div>
+        <div class="user-role-label" id="user-display-role">Hệ Thống Thẩm Định Full</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Trung Tâm Điều Hành</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub Gốc</a></li>
+        <li class="nav-item"><a href="full-system-screen-atlas.html" class="nav-link active"><span class="nav-icon">🗺️</span> Screen Atlas & RBAC</a></li>
+      </ul>
+
+      <div class="nav-section-label">Cổng Vai Trò Phân Hệ 1</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/giang-vien/01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">👨‍🏫</span> Cổng Giảng Viên</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/p-khcn/01-p-khcn-dashboard.html" class="nav-link"><span class="nav-icon">🏛️</span> Cổng Phòng KHCN</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/truong-don-vi/01-viec-can-lam.html" class="nav-link"><span class="nav-icon">👔</span> Cổng Trưởng Đơn Vị</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/chu-tich-hoi-dong/01-cuoc-hop-danh-sach.html" class="nav-link"><span class="nav-icon">👑</span> Cổng Chủ Tịch HĐ</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/thanh-vien-hoi-dong/01-cuoc-hop-danh-sach.html" class="nav-link"><span class="nav-icon">⭐</span> Cổng Thành Viên HĐ</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/thu-ky-hoi-dong/01-lap-bien-ban.html" class="nav-link"><span class="nav-icon">✍️</span> Cổng Thư Ký HĐ</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/sinh-vien/01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">🎓</span> Cổng Sinh Viên</a></li>
+        <li class="nav-item"><a href="modules/module-01-de-tai-cap-truong/quan-tri-vien/01-quan-ly-tai-khoan.html" class="nav-link"><span class="nav-icon">⚙️</span> Cổng Quản Trị Viên</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+      
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Atlas Màn Hình & Ma Trận Không Gian Vai Trò (Dedicated Portals)</h2>
+          <p>Danh mục cấu trúc Cổng vai trò riêng thuộc Phân hệ 1 (Đề tài Cấp trường) và phân quyền 8 Actor.</p>
+        </div>
+      </div>
+
+      <!-- Module 1 Dedicated Portals Catalogue Card -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Phân Hệ 1: Cấu Trúc Cổng Làm Việc Theo Vai Trò (Dedicated Role Portals)</h3>
+          <span class="badge badge-success">8 Cổng Không Gian Vai Trò (34 Màn Hình Chi Tiết)</span>
+        </div>
+
+        <div class="table-container mb-4">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Vai Trò (Actor)</th>
+                <th>Tên Cổng Thông Tin Làm Việc</th>
+                <th>Màn Hình Chi Tiết</th>
+                <th>Nghiệp Vụ FRS Trọng Tâm Mapped</th>
+                <th>Thao Tác Truy Cập Trực Tiếp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-info">Giảng viên</span></td>
+                <td><strong>Cổng Giảng Viên (Chủ Nhiệm Đề Tài)</strong></td>
+                <td>6 Màn hình (`giang-vien/`)</td>
+                <td>Lập BM01A, Quản lý đề tài, Theo dõi đợt NCKH, Duyệt đề tài SV (GVHD), Thông Báo, Lý lịch KH Avatar (Rule 2.2)</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/giang-vien/01-danh-sach-de-tai.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Giảng Viên</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-primary">P.KHCN</span></td>
+                <td><strong>Cổng Vận Hành Phòng KHCN</strong></td>
+                <td>6 Màn hình (`p-khcn/`)</td>
+                <td>Cấu hình đợt DNTU (FR-4), Mở HĐ (FR-19,39), Kết thúc & Công bố (FR-40,42), Thông báo, Audit</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/p-khcn/01-p-khcn-dashboard.html" class="btn btn-primary btn-sm">🚀 Mở Cổng P.KHCN</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-secondary">Trưởng Đơn Vị</span></td>
+                <td><strong>Cổng Xét Duyệt Trưởng Khoa / Đơn Vị</strong></td>
+                <td>4 Màn hình (`truong-don-vi/`)</td>
+                <td>Duyệt tuyến đầu BM01A (FR-15,16), Ký xác nhận báo cáo giữa kỳ BM08 (FR-31), Thông Báo Khoa</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/truong-don-vi/01-viec-can-lam.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Trưởng Khoa</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-success">Chủ Tịch HĐ</span></td>
+                <td><strong>Cổng Chủ Tịch Hội Đồng Khoa Học</strong></td>
+                <td>4 Màn hình (`chu-tich-hoi-dong/`)</td>
+                <td>Chấm phiếu cá nhân BM02 (FR-23), Duyệt ký thứ 2 trên Biên bản BM03 (FR-28), Thông Báo HĐ</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/chu-tich-hoi-dong/01-cuoc-hop-danh-sach.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Chủ Tịch HĐ</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-secondary">Thành Viên HĐ</span></td>
+                <td><strong>Cổng Thành Viên / Ủv Viên Phản Biện HĐ</strong></td>
+                <td>3 Màn hình (`thanh-vien-hoi-dong/`)</td>
+                <td>Chấm phiếu đánh giá cá nhân độc lập BM02/06/11 trong cuộc họp (FR-24), Thông Báo HĐ</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/thanh-vien-hoi-dong/01-cuoc-hop-danh-sach.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Ủy Viên HĐ</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-info">Thư Ký HĐ</span></td>
+                <td><strong>Cổng Thư Ký Hội Đồng Khoa Học</strong></td>
+                <td>3 Màn hình (`thu-ky-hoi-dong/`)</td>
+                <td>Lập Biên bản BM03 sau mốc 100% phiếu, Nộp bản ký cho Chủ tịch HĐ (FR-27), Thông Báo HĐ</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/thu-ky-hoi-dong/01-lap-bien-ban.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Thư Ký HĐ</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-draft">Sinh viên</span></td>
+                <td><strong>Cổng Sinh Viên NCKH</strong></td>
+                <td>4 Màn hình (`sinh-vien/`)</td>
+                <td>Lập BM01B, Gán GVHD (FR-8, 14), Quản lý hồ sơ định danh sinh viên (FR-36), Thông Báo SV</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/sinh-vien/01-danh-sach-de-tai.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Sinh Viên</a></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-danger">Quản Trị Viên</span></td>
+                <td><strong>Cổng Quản Trị Viên (Admin Console)</strong></td>
+                <td>4 Màn hình (`quan-tri-vien/`)</td>
+                <td>Duyệt cấp vai trò email DNTU (FR-36), Khóa/Reset mật khẩu biến đổi DOM (Rule 0, FR-38), Nhật ký Audit Admin, Thông Báo Admin</td>
+                <td><a href="modules/module-01-de-tai-cap-truong/quan-tri-vien/01-quan-ly-tai-khoan.html" class="btn btn-primary btn-sm">🚀 Mở Cổng Admin</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Atlas Màn hình.
+  </footer>
+
+  <script src="shared/role-switcher.js"></script>
+  <script src="shared/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng P.KHCN — Truy Vết Audit Trail</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG PHÒNG KHCN — TRUY VẾT AUDIT TRAIL HỘI ĐỒNG & KẾT QUẢ (NFR-AUDIT)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">Chuyên viên P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for P.KHCN Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian P.KHCN</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-p-khcn-dashboard.html" class="nav-link"><span class="nav-icon">📊</span> P.KHCN Dashboard</a></li>
+        <li class="nav-item"><a href="02-quan-ly-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> Quản Lý Đợt Đăng Ký</a></li>
+        <li class="nav-item"><a href="03-thiet-lap-hoi-dong.html" class="nav-link"><span class="nav-icon">🏛️</span> Thiết Lập Hội Đồng</a></li>
+        <li class="nav-item"><a href="04-ket-thuc-cong-bo-ket-qua.html" class="nav-link"><span class="nav-icon">📢</span> Kết Thúc & Công Bố</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Vận Hành</a></li>
+        <li class="nav-item"><a href="05-audit-nghiep-vu.html" class="nav-link active"><span class="nav-icon">🛡️</span> Truy Vết Audit Trail</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Truy Vết Audit Trail Lịch Sử Hội Đồng & Phiếu BM02 (NFR-AUDIT)</h2>
+          <p>Kiểm tra tính toàn vẹn của mốc chốt 100% phiếu BM02 hợp lệ và tiến trình ký Biên bản BM03.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Lịch Sử Tác Động Nghiệp Vụ P.KHCN</h3>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Thời Gian</th>
+                <th>Actor Thực Hiện</th>
+                <th>Hành Động Nghiệp Vụ</th>
+                <th>Mã Hồ Sơ / HĐ</th>
+                <th>Chi Tiết Ghi Nhận</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-08-04 20:15</td>
+                <td>Nguyễn Văn A (P.KHCN)</td>
+                <td><strong style="color: var(--brand-primary);">Chốt mốc 100% Phiếu BM02</strong></td>
+                <td><code>HD-2026-CNTT-01</code></td>
+                <td>Tự động khóa nộp phiếu khi đủ 5/5 phiếu hợp lệ</td>
+              </tr>
+              <tr>
+                <td>2026-08-04 19:40</td>
+                <td>ThS. Vũ Thị G (Thư ký HĐ)</td>
+                <td>Nộp Biên bản BM03</td>
+                <td><code>HS-2026-NCKH-001</code></td>
+                <td>Điểm TB: 88.6/100, Kết luận: Đạt xét duyệt</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Audit Trail P.KHCN.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+</body>
+</html>

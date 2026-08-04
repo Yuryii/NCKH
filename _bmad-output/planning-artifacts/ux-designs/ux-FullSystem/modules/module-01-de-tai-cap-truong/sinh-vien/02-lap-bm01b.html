@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Sinh Viên — Lập Thuyết Minh Đề Tài BM01B Chi Tiết</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG SINH VIÊN — LẬP HỒ SƠ THUYẾT MINH BM01B CHUẨN ĐẦY ĐỦ (FR-8)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Lê Văn C</div>
+        <div class="user-role-label" id="user-display-role">Sinh viên (Lớp 22DTH1)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for Sinh viên Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Sinh Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">🎓</span> Đề Tài Của Tôi</a></li>
+        <li class="nav-item"><a href="02-lap-bm01b.html" class="nav-link active"><span class="nav-icon">📝</span> Lập Hồ Sơ BM01B (SV)</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Hệ Thống</a></li>
+        <li class="nav-item"><a href="03-ho-so-ca-nhan.html" class="nav-link"><span class="nav-icon">👤</span> Thông Tin Sinh Viên</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Lập Bản Thuyết Minh Đăng Ký Đề Tài NCKH Sinh Viên (BM01B)</h2>
+          <p>Mẫu BM01.B.QT.KHCN.02 — Thuyết minh đề tài dành cho Sinh viên NCKH DNTU (Theo tệp mẫu Word chính thức).</p>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">📌 MỤC I. THÔNG TIN CHUNG VỀ ĐỀ TÀI SINH VIÊN (BM01B)</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label required">1. Tên Đề Tài Sinh Viên NCKH (Tiếng Việt):</label>
+            <input type="text" class="form-input" value="Xây dựng ứng dụng di động hỗ trợ sinh viên DNTU đăng ký NCKH">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">2. Sinh Viên Chủ Nhiệm (Nhóm Trưởng):</label>
+            <input type="text" class="form-input" value="Lê Văn C" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Mã Số Sinh Viên (MSSV) & Lớp:</label>
+            <input type="text" class="form-input" value="22DTH1234 — Lớp 22DTH1" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Email Sinh Viên DNTU:</label>
+            <input type="email" class="form-input" value="levanc@dntu.edu.vn" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Khoa / Bộ Môn Đang Học:</label>
+            <input type="text" class="form-input" value="Khoa Công nghệ Thông tin DNTU" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">3. Phân Công Giảng Viên Hướng Dẫn (GVHD):</label>
+            <select class="form-select">
+              <option selected>TS. Trần Thị B (Mã GV: GV0892 - Khoa CNTT)</option>
+              <option>PGS.TS. Phạm Văn D (Mã GV: GV0112 - Khoa CNTT)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Kinh Phí Đề Xuất (VNĐ):</label>
+            <input type="text" class="form-input" value="15,000,000">
+          </div>
+        </div>
+
+        <div class="form-group mt-4">
+          <label class="form-label">Thành Viên Sinh Viên Cùng Thực Hiện (Nếu có):</label>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Họ và Tên Sinh Viên</th>
+                <th>MSSV</th>
+                <th>Lớp</th>
+                <th>Phân Công Nhiệm Vụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Nguyễn Văn D</td>
+                <td>22DTH5678</td>
+                <td>22DTH1</td>
+                <td>Thiết kế giao diện UI/UX Flutter Mobile</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">📌 MỤC II. TÍNH CẤP THIẾT, MỤC TIÊU & SẢN PHẨM DỰ KIẾN</div>
+        <div class="form-group mb-3">
+          <label class="form-label required">1. Lý do chọn đề tài & Mục tiêu nghiên cứu:</label>
+          <textarea class="form-textarea">Sinh viên DNTU cần công cụ trực quan trên điện thoại thông minh để tra cứu quy định NCKH, xem các đợt mở và lập thuyết minh BM01B trực tiếp gửi GVHD duyệt.</textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label required">2. Phương pháp thực hiện & Sản phẩm dự kiến:</label>
+          <textarea class="form-textarea">Sử dụng framework Flutter & Node.js REST API; Sản phẩm dự kiến gồm: 01 Ứng dụng di động chạy trên iOS/Android và 01 Báo cáo tổng kết NCKH Sinh viên cấp Trường.</textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('BM01B Thuyết Minh Sinh Viên', 'BM01B', { title: 'Ứng dụng di động NCKH SV' })">👁️ Xem Trước PDF BM01B</button>
+          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Đã NỘP BM01B thành công! Hồ sơ được chuyển cho GVHD TS. Trần Thị B.', 'success')">🚀 NỘP HỒ SƠ CHO GVHD DUYỆT</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Lập BM01B.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+</body>
+</html>

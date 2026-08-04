@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Giảng Viên — Danh Sách Đề Tài NCKH Cấp Trường</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG THÔNG TIN GIẢNG VIÊN — QUẢN LÝ ĐỀ TÀI NCKH CẤP TRƯỜNG</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">TS. Trần Thị B</div>
+        <div class="user-role-label" id="user-display-role">Giảng viên (Khoa CNTT)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for Giảng viên Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Giảng Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link active"><span class="nav-icon">📚</span> Đề Tài Của Tôi</a></li>
+        <li class="nav-item"><a href="05-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> Đợt Đăng Ký NCKH</a></li>
+        <li class="nav-item"><a href="02-lap-bm01a.html" class="nav-link"><span class="nav-icon">📝</span> Lập Hồ Sơ BM01A</a></li>
+        <li class="nav-item"><a href="03-xet-duyet-sinh-vien.html" class="nav-link"><span class="nav-icon">🎓</span> Duyệt Đề Tài SV (GVHD)</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Hệ Thống</a></li>
+        <li class="nav-item"><a href="04-ho-so-ca-nhan.html" class="nav-link"><span class="nav-icon">👤</span> Lý Lịch Khoa Học</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Danh Sách Đề Tài Nghiên Cứu Khoa Học Của Tôi</h2>
+          <p>Quản lý các hồ sơ đăng ký đề tài NCKH giảng viên và các mốc thực hiện/nghiệm thu trong năm học 2026.</p>
+        </div>
+        <a href="02-lap-bm01a.html" class="btn btn-primary">
+          ➕ Đăng Ký Đề Tài Mới (BM01A)
+        </a>
+      </div>
+
+      <!-- Proposals List Table (Dynamically rendered from getMockStore()) -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Hồ Sơ NCKH Giảng Viên Đang Quản Lý</h3>
+          <span class="badge badge-info" id="proposal-count-badge">Đang tải...</span>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Hồ Sơ</th>
+                <th>Tên Đề Tài NCKH</th>
+                <th>Kinh Phí</th>
+                <th>Đợt Đăng Ký</th>
+                <th>Trạng Thái Tiến Độ (Rule 0)</th>
+                <th>Thao Tác Nghiệp Vụ</th>
+              </tr>
+            </thead>
+            <tbody id="giangvien-proposal-tbody">
+              <!-- Rendered dynamically via JS below -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Cổng Giảng viên.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function renderGiangVienProposals() {
+      const store = DNTUCommon.getMockStore();
+      const tbody = document.getElementById('giangvien-proposal-tbody');
+      const badge = document.getElementById('proposal-count-badge');
+      if (!tbody) return;
+
+      const gvProposals = store.proposals.filter(p => p.type === 'Giảng viên' || p.author.includes('TS. Trần Thị B'));
+      if (badge) badge.textContent = `${gvProposals.length} Đề tài`;
+
+      let html = '';
+      gvProposals.forEach(p => {
+        let statusBadge = '<span class="badge badge-pending">Chờ duyệt cấp đầu (Trưởng Khoa)</span>';
+        if (p.status === 'KHOA_ĐÃ_DUYỆT') statusBadge = '<span class="badge badge-success">✓ Trưởng Khoa đã duyệt</span>';
+        if (p.status === 'KHOA_YÊU_CẦU_SỬA') statusBadge = '<span class="badge badge-danger">⚠️ Trưởng Khoa yêu cầu sửa</span>';
+        if (p.status === 'ĐÃ_RA_QUYẾT_ĐỊNH_BM04') statusBadge = '<span class="badge badge-success">🏆 Đã ra Quyết định BM04</span>';
+
+        html += `
+          <tr>
+            <td><strong>${p.id}</strong></td>
+            <td>${p.title}</td>
+            <td>${(p.budget || 35000000).toLocaleString('vi-VN')} VNĐ</td>
+            <td>${p.periodId || 'Đợt 1 - 2026'}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="DNTUCommon.previewPDF('Hồ sơ BM01A', 'BM01A', { title: '${p.title.replace(/'/g, "\\'")}' })">👁️ Xem PDF BM01A</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderGiangVienProposals();
+    });
+  </script>
+</body>
+</html>

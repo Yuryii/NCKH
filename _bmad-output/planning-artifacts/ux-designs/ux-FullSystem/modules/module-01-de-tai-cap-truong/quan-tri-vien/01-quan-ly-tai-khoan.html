@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Quản Trị Viên — Phê Duyệt Cấp Vai Trò</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG QUẢN TRỊ VIÊN — PHÊ DUYỆT CẤP VAI TRÒ TÀI KHOẢN (FR-36)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Admin System</div>
+        <div class="user-role-label" id="user-display-role">Quản trị viên Hệ thống</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for Quản trị viên Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Quản Trị Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-quan-ly-tai-khoan.html" class="nav-link active"><span class="nav-icon">👥</span> Quản Lý Tài Khoản</a></li>
+        <li class="nav-item"><a href="02-khoa-mo-tai-khoan.html" class="nav-link"><span class="nav-icon">🔒</span> Khóa & Reset Mật Khẩu</a></li>
+        <li class="nav-item"><a href="03-audit-nghiep-vu.html" class="nav-link"><span class="nav-icon">🛡️</span> Nhật Ký Audit Admin</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Quản Trị</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Phê Duyệt Vai Trò Tài Khoản Đăng Ký Mới (FR-36)</h2>
+          <p>Admin xác minh email DNTU hợp lệ và gán vai trò tương ứng (Giảng viên, Sinh viên, P.KHCN...)</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Tài Khoản Mới Đăng Ký Chờ Phê Duyệt Vai Trò</h3>
+          <span class="badge badge-pending" id="pending-users-badge">Đang tải...</span>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Họ và Tên</th>
+                <th>Email Đăng Nhập</th>
+                <th>Mã GV/SV</th>
+                <th>Vai Trò Yêu Cầu</th>
+                <th>Thao Tác Admin (Rule 0)</th>
+              </tr>
+            </thead>
+            <tbody id="admin-pending-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Admin Console.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function renderAdminPendingUsers() {
+      const store = DNTUCommon.getMockStore();
+      const tbody = document.getElementById('admin-pending-tbody');
+      const badge = document.getElementById('pending-users-badge');
+      if (!tbody) return;
+
+      const pendingUsers = store.users.filter(u => u.status === 'PENDING_ROLE' || !u.verified);
+      if (badge) badge.textContent = `${pendingUsers.length} Tài khoản chờ duyệt`;
+
+      let html = '';
+      if (pendingUsers.length === 0) {
+        html = `<tr><td colspan="5" style="text-align: center; color: var(--ink-muted);">✓ Đã phê duyệt 100% tài khoản mới! Không còn tài khoản chờ.</td></tr>`;
+      } else {
+        pendingUsers.forEach(u => {
+          html += `
+            <tr>
+              <td><strong>${u.name}</strong></td>
+              <td>${u.email}</td>
+              <td>${u.code}</td>
+              <td><span class="badge badge-info">${u.roleTitle}</span></td>
+              <td>
+                <button type="button" class="btn btn-primary btn-sm" onclick="approveUserRole('${u.email}')">✓ Phê Duyệt Vai Trò</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      tbody.innerHTML = html;
+    }
+
+    function approveUserRole(email) {
+      const store = DNTUCommon.getMockStore();
+      const user = store.users.find(u => u.email === email);
+      if (user) {
+        user.status = 'ACTIVE';
+        user.verified = true;
+        store.auditLogs.unshift({
+          id: 'a' + Date.now(),
+          timestamp: new Date().toLocaleString('vi-VN'),
+          actor: 'Admin System',
+          role: 'Quản trị viên',
+          action: 'Phê duyệt vai trò tài khoản',
+          target: email,
+          detail: `Xác minh email DNTU và kích hoạt quyền ${user.roleTitle}`
+        });
+        DNTUCommon.saveMockStore(store);
+        DNTUCommon.showToast(`Đã PHÊ DUYỆT thành công vai trò cho ${email}!`, 'success');
+        renderAdminPendingUsers();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderAdminPendingUsers();
+    });
+  </script>
+</body>
+</html>

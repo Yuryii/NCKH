@@ -1,0 +1,135 @@
+/* ==========================================================================
+   MODULE 01: ĐỀ TÀI NCKH CẤP TRƯỜNG - STYLESHEET
+   Specific UI components for Module 01 Workflow
+   ========================================================================== */
+
+/* Step Progress Indicator Bar */
+.workflow-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface-subtle);
+  color: var(--ink-muted);
+  border: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.step-item.active .step-number {
+  background: var(--brand-primary);
+  color: #FFFFFF;
+  border-color: var(--brand-primary);
+}
+
+.step-item.completed .step-number {
+  background: var(--status-success-text);
+  color: #FFFFFF;
+  border-color: var(--status-success-text);
+}
+
+.step-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-heading);
+}
+
+.step-item.active .step-label {
+  color: var(--brand-primary);
+}
+
+/* Form Section Boxes */
+.form-section {
+  background: var(--surface-base);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.form-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--brand-primary);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--brand-primary-soft);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form Preview Paper Simulation */
+.document-paper {
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  border-radius: 4px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1E293B;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.paper-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.paper-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-top: 12px;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.signature-box {
+  border: 1px dashed #CBD5E1;
+  padding: 16px;
+  border-radius: 8px;
+  background: #F8FAFC;
+}
+
+.signature-stamp {
+  margin-top: 24px;
+  font-weight: bold;
+  color: var(--status-success-text);
+  border: 2px solid var(--status-success-text);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+}

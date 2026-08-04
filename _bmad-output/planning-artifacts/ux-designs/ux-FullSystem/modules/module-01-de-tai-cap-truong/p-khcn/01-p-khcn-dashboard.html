@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng P.KHCN — Dashboard Tổng Quan</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG THÔNG TIN QUẢN TRỊ P.KHCN — DASHBOARD TỔNG QUAN (FR-1, FR-2)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">Chuyên viên P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for P.KHCN Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian P.KHCN</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-p-khcn-dashboard.html" class="nav-link active"><span class="nav-icon">📊</span> P.KHCN Dashboard</a></li>
+        <li class="nav-item"><a href="02-quan-ly-dot-dang-ky.html" class="nav-link"><span class="nav-icon">📅</span> Quản Lý Đợt Đăng Ký</a></li>
+        <li class="nav-item"><a href="03-thiet-lap-hoi-dong.html" class="nav-link"><span class="nav-icon">🏛️</span> Thiết Lập Hội Đồng</a></li>
+        <li class="nav-item"><a href="04-ket-thuc-cong-bo-ket-qua.html" class="nav-link"><span class="nav-icon">📢</span> Kết Thúc & Công Bố</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Vận Hành</a></li>
+        <li class="nav-item"><a href="05-audit-nghiep-vu.html" class="nav-link"><span class="nav-icon">🛡️</span> Truy Vết Audit Trail</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Dashboard Quản Trị & Vận Hành Đề Tài NCKH Cấp Trường</h2>
+          <p>Phòng Khoa học & Công nghệ theo dõi toàn bộ các đợt đăng ký, tiến độ xét duyệt Hội đồng và quyết định công bố (FR-1, FR-2).</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Cards (Dynamically computed from getMockStore()) -->
+      <div class="grid grid-cols-4 gap-4 mb-4">
+        <div class="card">
+          <div class="text-muted text-sm">Đợt Đăng Ký Đang Mở</div>
+          <div style="font-size: 24px; font-weight: 700; color: var(--brand-primary); margin-top: 4px;" id="m-open-periods">1 Đợt</div>
+        </div>
+        <div class="card">
+          <div class="text-muted text-sm">Tổng Hồ Sơ Tiếp Nhận</div>
+          <div style="font-size: 24px; font-weight: 700; color: #075985; margin-top: 4px;" id="m-total-props">2 Hồ Sơ</div>
+        </div>
+        <div class="card">
+          <div class="text-muted text-sm">Hồ Sơ Đã Duyệt Khoa</div>
+          <div style="font-size: 24px; font-weight: 700; color: #854D0E; margin-top: 4px;" id="m-approved-khoa">1 Hồ Sơ</div>
+        </div>
+        <div class="card">
+          <div class="text-muted text-sm">Hồ Sơ Chờ Ra Quyết Định</div>
+          <div style="font-size: 24px; font-weight: 700; color: #166534; margin-top: 4px;" id="m-ready-decision">1 Hồ Sơ (Đạt 100%)</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — P.KHCN Dashboard.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function updateDashboardMetrics() {
+      const store = DNTUCommon.getMockStore();
+      const openPeriods = store.periods.filter(p => p.status === 'OPEN').length;
+      const totalProps = store.proposals.length;
+      const approvedKhoa = store.proposals.filter(p => p.status === 'KHOA_ĐÃ_DUYỆT').length;
+
+      document.getElementById('m-open-periods').textContent = `${openPeriods} Đợt đang mở`;
+      document.getElementById('m-total-props').textContent = `${totalProps} Hồ sơ`;
+      document.getElementById('m-approved-khoa').textContent = `${approvedKhoa} Hồ sơ`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updateDashboardMetrics();
+    });
+  </script>
+</body>
+</html>

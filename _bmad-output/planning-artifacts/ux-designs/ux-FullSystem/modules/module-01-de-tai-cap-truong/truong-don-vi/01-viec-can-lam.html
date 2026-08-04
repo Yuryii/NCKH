@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Trưởng Đơn Vị — Việc Cần Làm Khoa</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG TRƯỜNG KHOA / TRƯỜNG ĐƠN VỊ — DANH SÁCH VIỆC CẦN LÀM (FR-15, FR-16)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">PGS.TS. Phạm Văn D</div>
+        <div class="user-role-label" id="user-display-role">Trưởng Khoa CNTT</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for Trưởng Đơn vị Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Trưởng Đơn Vị</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-viec-can-lam.html" class="nav-link active"><span class="nav-icon">📋</span> Việc Cần Làm</a></li>
+        <li class="nav-item"><a href="02-duyet-bm01.html" class="nav-link"><span class="nav-icon">🔎</span> Duyệt Hồ Sơ BM01A</a></li>
+        <li class="nav-item"><a href="03-xac-nhan-bm08.html" class="nav-link"><span class="nav-icon">✍️</span> Xác Nhận Báo Cáo BM08</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Hệ Thống</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Danh Sách Việc Cần Thẩm Định Tuyến Đầu Khoa CNTT</h2>
+          <p>Trưởng Khoa xem xét duyệt các hồ sơ BM01A đăng ký mới và xác nhận Báo cáo tiến độ BM08 (FR-15, FR-31).</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Hồ Sơ Đăng Ký Đang Chờ Duyệt</h3>
+          <span class="badge badge-pending" id="pending-count-badge">Đang tải...</span>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Hồ Sơ</th>
+                <th>Tên Đề Tài NCKH</th>
+                <th>Chủ Nhiệm</th>
+                <th>Kinh Phí</th>
+                <th>Trạng Thái Duyệt Khoa (Rule 0)</th>
+                <th>Thao Tác Duyệt Khoa</th>
+              </tr>
+            </thead>
+            <tbody id="truongkhoa-todo-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Trưởng Khoa Dashboard.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function renderTruongKhoaTodoList() {
+      const store = DNTUCommon.getMockStore();
+      const tbody = document.getElementById('truongkhoa-todo-tbody');
+      const badge = document.getElementById('pending-count-badge');
+      if (!tbody) return;
+
+      const pendingProposals = store.proposals.filter(p => p.unit === 'Khoa CNTT');
+      if (badge) badge.textContent = `${pendingProposals.length} Hồ sơ Khoa`;
+
+      let html = '';
+      pendingProposals.forEach(p => {
+        const isApproved = p.status === 'KHOA_ĐÃ_DUYỆT';
+        const isRejected = p.status === 'KHOA_YÊU_CẦU_SỬA';
+        const statusBadge = isApproved
+          ? `<span class="badge badge-success">✓ Đã duyệt chấp thuận</span>`
+          : isRejected
+          ? `<span class="badge badge-danger">⚠️ Yêu cầu chỉnh sửa</span>`
+          : `<span class="badge badge-pending">Chờ Trưởng Khoa duyệt</span>`;
+
+        const actionBtn = isApproved
+          ? `<button type="button" class="btn btn-secondary btn-sm" disabled>✓ Đã Chuyển P.KHCN</button>`
+          : `<a href="02-duyet-bm01.html?id=${p.id}" class="btn btn-primary btn-sm">🔎 Thẩm Định & Duyệt BM01A ➔</a>`;
+
+        html += `
+          <tr>
+            <td><strong>${p.id}</strong></td>
+            <td>${p.title}</td>
+            <td>${p.author}</td>
+            <td>${(p.budget || 35000000).toLocaleString('vi-VN')} VNĐ</td>
+            <td>${statusBadge}</td>
+            <td>${actionBtn}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderTruongKhoaTodoList();
+    });
+  </script>
+</body>
+</html>

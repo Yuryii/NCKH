@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Trưởng Đơn Vị — Thẩm Định & Duyệt BM01A</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m01.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG TRƯỜNG KHOA — THẨM ĐỊNH & DUYỆT BẢN THUYẾT MINH BM01A (FR-15, FR-16)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">PGS.TS. Phạm Văn D</div>
+        <div class="user-role-label" id="user-display-role">Trưởng Khoa CNTT</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation for Trưởng Đơn vị Portal -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Trưởng Đơn Vị</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-viec-can-lam.html" class="nav-link"><span class="nav-icon">📋</span> Việc Cần Làm</a></li>
+        <li class="nav-item"><a href="02-duyet-bm01.html" class="nav-link active"><span class="nav-icon">🔎</span> Duyệt Hồ Sơ BM01A</a></li>
+        <li class="nav-item"><a href="03-xac-nhan-bm08.html" class="nav-link"><span class="nav-icon">✍️</span> Xác Nhận Báo Cáo BM08</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Hệ Thống</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Chi Tiết Thẩm Định Thuyết Minh BM01A Của Giảng Viên</h2>
+          <p>Mã hồ sơ: HS-2026-NCKH-001 | Chủ nhiệm: TS. Trần Thị B | Đơn vị: Khoa CNTT.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Xem Nội Dung Bản Thuyết Minh PDF (Mẫu BM01A)</h3>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="DNTUCommon.previewPDF('Bản thuyết minh BM01A', 'BM01A', { title: 'Nghiên cứu AI phân loại nông sản' })">👁️ Xem Toàn Văn PDF</button>
+        </div>
+        <div class="p-4 background-subtle">
+          <p><strong>Tên đề tài:</strong> Nghiên cứu ứng dụng Trí tuệ Nhân tạo trong phân loại nông sản tỉnh Đồng Nai</p>
+          <p><strong>Kinh phí đề xuất:</strong> 35,000,000 VNĐ | <strong>Thời gian:</strong> 12 Tháng</p>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">✍️ Ý KIẾN THẨM ĐỊNH CỦA TRƯỜNG KHOA / ĐƠN VỊ (FR-16)</div>
+        <div class="form-group">
+          <label class="form-label required">Nhận xét tính cấp thiết & Cơ sở vật chất đáp ứng:</label>
+          <textarea id="khoa-comment" class="form-textarea">Đề tài có tính ứng dụng cao đối với nông nghiệp tỉnh Đồng Nai, Khoa CNTT đảm bảo đủ phòng Lab và hạ tầng máy tính GPU hỗ trợ nhóm nghiên cứu.</textarea>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-danger" onclick="khoaRejectAction()">↩️ Yêu Cầu Chỉnh Sửa</button>
+          <button type="button" class="btn btn-primary" onclick="khoaApproveAction()">✓ CHẤP THUẬN & CHUYỂN P.KHCN</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Thẩm định BM01A.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m01.js"></script>
+
+  <script>
+    function khoaApproveAction() {
+      DNTUModule01.khoaApproveProposal('HS-2026-NCKH-001');
+      setTimeout(() => {
+        window.location.href = '01-viec-can-lam.html';
+      }, 1000);
+    }
+
+    function khoaRejectAction() {
+      const reason = document.getElementById('khoa-comment').value.trim() || 'Cần làm rõ hơn kinh phí khảo sát thực địa.';
+      DNTUModule01.khoaRejectProposal('HS-2026-NCKH-001', reason);
+      setTimeout(() => {
+        window.location.href = '01-viec-can-lam.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
