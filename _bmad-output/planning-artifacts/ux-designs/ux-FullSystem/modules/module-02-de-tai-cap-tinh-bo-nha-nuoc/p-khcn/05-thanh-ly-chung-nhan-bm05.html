@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng P.KHCN — Cấp Chứng Nhận & Thanh Lý Hợp Đồng BM05</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG P.KHCN — CẤP GIẤY CHỨNG NHẬN NGHIỆM THU & THANH LÝ HỢP ĐỒNG (BM05.QT.KHCN.04)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">Chuyên viên P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Quản Trị Dự Án Phân Hệ 2</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-p-khcn-dashboard.html" class="nav-link"><span class="nav-icon">📊</span> Dashboard Dự Án</a></li>
+        <li class="nav-item"><a href="02-quan-ly-danh-muc-de-tai.html" class="nav-link"><span class="nav-icon">🌐</span> Danh Mục Dự Án</a></li>
+        <li class="nav-item"><a href="03-thanh-lap-hoi-dong-bm03.html" class="nav-link"><span class="nav-icon">🏛️</span> Thành Lập HĐ BM03</a></li>
+        <li class="nav-item"><a href="04-bien-ban-nghiem-thu-bm04.html" class="nav-link"><span class="nav-icon">📝</span> Biên Bản HĐ BM04</a></li>
+        <li class="nav-item"><a href="05-thanh-ly-chung-nhan-bm05.html" class="nav-link active"><span class="nav-icon">📜</span> Thanh Lý & Chứng Nhận BM05</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Vận Hành</a></li>
+        <li class="nav-item"><a href="07-audit-nghiep-vu.html" class="nav-link"><span class="nav-icon">🛡️</span> Truy Vết Audit Trail</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Cấp Giấy Chứng Nhận Nghiệm Thu Cấp Cơ Sở & Thanh Lý Hợp Đồng (BM05)</h2>
+          <p>Mẫu BM05.QT.KHCN.04 — Ban hành Giấy chứng nhận hoàn thành nhiệm vụ ngoài trường khi Biên bản BM04 đã có đủ 2 chữ ký.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Dự Án Đã Hoàn Tất Chữ Ký Biên Bản BM04</h3>
+          <span class="badge badge-success">01 Dự án sẵn sàng cấp BM05</span>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Dự Án</th>
+                <th>Tên Đề Tài KHCN</th>
+                <th>Chủ Nhiệm</th>
+                <th>Xếp Loại HĐ</th>
+                <th>Trạng Thái BM04</th>
+                <th>Thao Tác Ban Hành BM05 (Rule 0)</th>
+              </tr>
+            </thead>
+            <tbody id="bm05-tbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Chứng nhận BM05.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+
+  <script>
+    function renderBM05Table() {
+      const store = DNTUModule02.getStoreM02();
+      const tbody = document.getElementById('bm05-tbody');
+      if (!tbody) return;
+
+      const proj = store.projects.find(p => p.id === 'DA-2026-BO-002') || store.projects[0];
+      const isIssued = proj.bm05Status === 'ĐÃ_THANH_LÝ_BM05';
+
+      const actionBtn = isIssued
+        ? `<button type="button" class="btn btn-secondary btn-sm" disabled>✓ Đã Cấp BM05 & Thanh Lý</button>`
+        : `<button type="button" class="btn btn-primary btn-sm" onclick="issueBM05Action('${proj.id}')">📜 Cấp Giấy Chứng Nhận & Thanh Lý BM05</button>`;
+
+      tbody.innerHTML = `
+        <tr>
+          <td><strong>${proj.id}</strong></td>
+          <td>${proj.title}</td>
+          <td>${proj.leader}</td>
+          <td><strong style="color: #166534;">ĐẠT XUẤT SẮC (92.5đ)</strong></td>
+          <td><span class="badge badge-success">✓ Đã đủ 2 chữ ký BM04</span></td>
+          <td>
+            <div class="flex gap-2">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="DNTUCommon.previewPDF('Giấy chứng nhận BM05', 'BM05.QT.KHCN.04', { title: '${proj.title}' })">👁️ Xem PDF BM05</button>
+              ${actionBtn}
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+
+    function issueBM05Action(id) {
+      DNTUModule02.issueCertificateBM05(id);
+      renderBM05Table();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderBM05Table();
+    });
+  </script>
+</body>
+</html>

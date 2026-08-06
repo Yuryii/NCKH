@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng P.KHCN — Nhật Ký Truy Vết Audit Trail Phân Hệ 2</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG P.KHCN — TRUY VẾT NHẬT KÝ AUDIT TRAIL PHÂN HỆ 2 (MODULE 02)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Nguyễn Văn A</div>
+        <div class="user-role-label" id="user-display-role">Chuyên viên P.KHCN</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Quản Trị Dự Án Phân Hệ 2</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-p-khcn-dashboard.html" class="nav-link"><span class="nav-icon">📊</span> Dashboard Dự Án</a></li>
+        <li class="nav-item"><a href="02-quan-ly-danh-muc-de-tai.html" class="nav-link"><span class="nav-icon">🌐</span> Danh Mục Dự Án</a></li>
+        <li class="nav-item"><a href="03-thanh-lap-hoi-dong-bm03.html" class="nav-link"><span class="nav-icon">🏛️</span> Thành Lập HĐ BM03</a></li>
+        <li class="nav-item"><a href="04-bien-ban-nghiem-thu-bm04.html" class="nav-link"><span class="nav-icon">📝</span> Biên Bản HĐ BM04</a></li>
+        <li class="nav-item"><a href="05-thanh-ly-chung-nhan-bm05.html" class="nav-link"><span class="nav-icon">📜</span> Thanh Lý & Chứng Nhận BM05</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Vận Hành</a></li>
+        <li class="nav-item"><a href="07-audit-nghiep-vu.html" class="nav-link active"><span class="nav-icon">🛡️</span> Truy Vết Audit Trail</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Nhật Ký Truy Vết Audit Trail Tiến Độ Giải Ngân & Nghiệm Thu Phân Hệ 2</h2>
+          <p>Ghi nhận thời vết bất biến các hành động nộp Báo cáo BM01, đề nghị BM02, ban hành BM03, ký Biên bản BM04 và cấp Chứng nhận BM05.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Nhật Ký Lịch Sử Thao Tác Nghiệp Vụ Phân Hệ 2</h3>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Thời Gian</th>
+                <th>Tài Khoản Thực Hiện</th>
+                <th>Vai Trò</th>
+                <th>Hành Động KHCN</th>
+                <th>Mục Tiêu Tác Động</th>
+                <th>Chi Tiết Vết Log Audit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-08-06 14:10</td>
+                <td><strong>Nguyễn Văn A</strong></td>
+                <td>P.KHCN</td>
+                <td>Cấp Giấy chứng nhận BM05</td>
+                <td>DA-2026-BO-002</td>
+                <td>Phát hành Giấy chứng nhận nghiệm thu & Thanh lý hợp đồng nhiệm vụ Cấp Bộ</td>
+              </tr>
+              <tr>
+                <td>2026-08-06 10:25</td>
+                <td><strong>GS.TS. Hoàng Văn E</strong></td>
+                <td>Chủ tịch HĐ</td>
+                <td>Ký thứ 2 Biên bản BM04</td>
+                <td>HD-M02-BO-002</td>
+                <td>Duyệt ký thứ 2 hoàn tất Biên bản nghiệm thu cấp cơ sở (92.5/100đ)</td>
+              </tr>
+              <tr>
+                <td>2026-08-05 16:40</td>
+                <td><strong>TS. Trần Thị B</strong></td>
+                <td>Giảng viên</td>
+                <td>Nộp Báo cáo tiến độ BM01</td>
+                <td>DA-2026-TINH-001</td>
+                <td>Nộp báo cáo tình hình thực hiện dự án Cấp Tỉnh Đồng Nai đợt 1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Audit Trail Phân hệ 2.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+</body>
+</html>

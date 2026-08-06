@@ -34,6 +34,17 @@
 > 2. Toàn bộ trạng thái được lưu trữ đồng nhất xuyên suốt các trang trong `localStorage` (`dntu_mock_store`).
 > 3. **Nút Reset Lơ Lửng Độc Lập (`.floating-reset-btn`):** Thiết kế nút bấm hình tròn lơ lửng góc dưới bên trái màn hình (`bottom: 20px; left: 20px;`), mờ nhẹ (`opacity: 0.35`). Bấm vào để xóa cache `localStorage` và khôi phục trạng thái ban đầu bất cứ lúc nào.
 
+> [!IMPORTANT]
+> **RULE QUY CHUẨN XEM TRƯỚC PDF BIỂU MẪU (PDF PREVIEW BUTTON RULE):**
+> Chỉ tạo nút "👁️ Xem Trước PDF Biểu Mẫu" ở các màn hình nhập liệu / điền form nếu trong thư mục tài liệu lưu đồ quy trình CÓ TỆP BIỂU MẪU WORD CHÍNH THỨC tương ứng (Ví dụ: BM01A, BM01B, BM01.QT.KHCN.04 đến BM05.QT.KHCN.04...). Các chức năng dạng nhập form thông thường không thuộc mẫu tệp Word chuẩn (chẳng hạn như form Đề xuất nhiệm vụ ban đầu không có tệp biểu mẫu Word trong folder tài liệu) hoặc biểu mẫu dạng thông báo thì KHÔNG tạo nút Preview PDF.
+
+> [!IMPORTANT]
+> **RULE NGUYÊN TẮC BÓC TÁCH VÀ ĐỐI SOÁT BIỂU MẪU WORD CHÍNH THỨC (STRICT OFFICIAL WORD FORM AUDIT RULE FOR ALL MODULES):**
+> Khi triển khai xây dựng form nhập liệu và render PDF preview cho các Phân hệ còn lại (Phân hệ 3, Phân hệ 4, Phân hệ 5...):
+> 1. **BẮT BUỘC ĐỌC VÀ BÓC TÁCH TRỰC TIẾP TỆP WORD MẪU (`.doc`, `.docx`):** Phải bóc tách trực tiếp (hoặc dùng engine Word COM / PowerShell) 100% nguyên văn từng mục La Mã lớn (I, II, III, IV...), từng bảng biểu, từng cột, từng chi tiết nhỏ (như phân mục 3.1, 3.2, 3.3 chi phí, các số hiệu mục 1, 2, 3, 5, 6...) từ thư mục tài liệu quy trình `docs/`.
+> 2. **KHÔNG TỰ Ý SUY DIỄN THÊM HOẶC BỎ BỚT TRƯỜNG:** Giao diện nhập form HTML và engine render PDF preview (`shared/common.js`) phải tái hiện chính xác 1:1 theo bản tệp Word chính thức.
+> 3. **BẢO ĐẢM ĐÚNG VỊ TRÍ BẢNG CHỮ KÝ:** Vị trí các bên ký (Ví dụ: Chủ nhiệm đề tài ký BÊN TRÁI, Tổ chức chủ trì ký BÊN PHẢI trong `BM01.QT.KHCN.04`; hoặc Trưởng đơn vị ký BÊN TRÁI, Chủ nhiệm ký BÊN PHẢI trong `BM01A`...) phải tuân thủ đúng 100% vị trí bảng chữ ký trong tệp Word mẫu tương ứng.
+
 > [!NOTE]
 > **RULE QUY CHUẨN THÔNG BÁO VÀ HOVER POPOVER BRIDGE:**
 > 1. **Khung Vuông Bo Góc Nút Chuông Header:** Biểu tượng chuông `🔔` trên App Header thiết kế dạng khung vuông bo góc (`width: 38px; height: 38px; border-radius: 6px;`).
@@ -62,7 +73,7 @@
 | • Cổng Vai Trò 1  |  • Page Header (Tiêu đề & Nút bấm chính)                      |
 | • Cổng Vai Trò 2  |  • Metric Cards / Bảng điều hành                              |
 | • 🔔 Thông Báo    |  • Interactive Form / Data Table                              |
-| • 👤 Hồ Sơ        |  • Action Buttons & PDF Preview                               |
+| • 👤 Hồ Sơ        |  • Action Buttons & PDF Preview (Dành riêng cho biểu mẫu Word)|
 |                   |                                                               |
 | (Co dãn 260px     |                                                               |
 |  xuống 68px)      |                                                               |
@@ -70,6 +81,32 @@
 | 🔄 Floating Reset | Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai — QLNCKH.  |  <- Footer & Floating Reset
 +-----------------------------------------------------------------------------------+
 ```
+
+---
+
+## 📐 III. QUY TRÌNH CHUẨN XÂY DỰNG CÁC PHÂN HỆ TIẾP THEO (PHÂN HỆ 3, 4, 5...)
+
+Khi triển khai bất kỳ Phân hệ nào còn lại trong hệ thống QLNCKH DNTU, BẮT BUỘC tuân thủ 100% quy trình 5 bước mẫu đã thiết lập thành công ở Phân hệ 1 và Phân hệ 2:
+
+1. **Bước 1: Phân Tích Sâu Tài Liệu FRS & Bóc Tách Biểu Mẫu Word (`docs/`)**:
+   - **Nghiên cứu Nghiệp vụ & Yêu cầu Chức năng (FRS Document)**: Đọc sâu toàn bộ tài liệu FRS (`docs/FRS-Document/`), bóc tách danh sách các mã chức năng (FR-1, FR-2...), luồng xử lý chi tiết của từng Actor, các điều kiện rẽ nhánh, trạng thái hồ sơ và trường hợp ngoại lệ.
+   - **Bóc tách 100% Biểu mẫu Word**: Sử dụng script tự động (Word COM / PowerShell) đọc trực tiếp nguyên văn các file biểu mẫu Word (`.doc`, `.docx`) trong thư mục `docs/`. Trích xuất chính xác 100% từng tiêu đề, từng mục La Mã lớn (I, II, III, IV...), bảng biểu, chi phí phân mục 3.1/3.2/3.3 và vị trí bảng chữ ký.
+
+2. **Bước 2: Cấu Trúc Thư Mục Theo 8 Cổng Vai Trò (Actor Portals)**:
+   - Mọi phân hệ mới đều được chia thành các thư mục con vai trò tương ứng: `giang-vien/`, `p-khcn/`, `truong-don-vi/`, `chu-tich-hoi-dong/`, `thanh-vien-hoi-dong/`, `thu-ky-hoi-dong/`, `sinh-vien/`, `quan-tri-vien/`.
+   - Tất cả các trang HTML thuộc phân hệ phải dùng chung thanh chuyển đổi nhanh vai trò `Role Switcher Bar` (`role-switcher.js`) và thanh công cụ tiện ích `shared/common.js`.
+
+3. **Bước 3: Tạo Trang Sơ Đồ Luồng Quy Trình Trực Quan (`quy-trinh-m0X.html`)**:
+   - Mỗi phân hệ đều phải có 01 trang Sơ đồ luồng (`quy-trinh-m0X.html`) mô phỏng trực quan từng bước quy trình từ đầu đến cuối và gắn liên kết trực tiếp tới từng màn hình tương ứng ở các Cổng vai trò.
+
+4. **Bước 4: Thiết Kế Giao Diện & Form Điền Chuẩn 100% Bản Mẫu Word & Đi Sâu Nghiệp Vụ FRS**:
+   - Đi sâu vào toàn bộ chức năng, nghiệp vụ được liệt kê trong FRS cho từng Actor.
+   - BẮT BUỘC **Đóng vai người dùng (User Empathy Testing)** trực tiếp tương tác với từng màn hình để xem giao diện có dễ dùng, đúng workflow và liền mạch giữa các vai trò hay không.
+   - Tất cả các form nhập liệu phải tuân thủ đúng tên trường và số mục theo bản mẫu Word gốc.
+   - Nút **"👁️ Xem Trước PDF Biểu Mẫu"** CHỈ xuất hiện khi có tệp biểu mẫu Word chuẩn tương ứng trong thư mục tài liệu quy trình.
+
+5. **Bước 5: Cập Nhật Index Landing Hub (`index.html`) & Screen Atlas (`full-system-screen-atlas.html`)**:
+   - Bổ sung phân hệ mới vào Ma trận phân quyền và Bảng danh mục màn hình tập trung trên `index.html` và `full-system-screen-atlas.html` để phục vụ việc kiểm thử 1-click tức thì.
 
 ---
 

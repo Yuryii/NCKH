@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Quản Trị Viên — Thông Báo Admin Phân Hệ 2</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG QUẢN TRỊ VIÊN — THÔNG BÁO BẢO MẬT HỆ THỐNG (MODULE 02)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Admin System</div>
+        <div class="user-role-label" id="user-display-role">Quản trị viên Hệ thống</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Quản Trị Viên</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-quan-ly-tai-khoan.html" class="nav-link"><span class="nav-icon">👥</span> Quản Lý Tài Khoản</a></li>
+        <li class="nav-item"><a href="02-khoa-mo-tai-khoan.html" class="nav-link"><span class="nav-icon">🔒</span> Khóa & Reset Mật Khẩu</a></li>
+        <li class="nav-item"><a href="03-audit-nghiep-vu.html" class="nav-link"><span class="nav-icon">🛡️</span> Nhật Ký Audit Admin</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link active"><span class="nav-icon">🔔</span> Thông Báo Quản Trị</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Thông Báo Hệ Thống Dành Cho Quản Trị Viên Admin (Phân Hệ 2)</h2>
+          <p>Cảnh báo an ninh và yêu cầu cấp tài khoản chuyên gia ngoài trường.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Danh Sách Thông Báo Admin Phân Hệ 2</h3>
+        </div>
+
+        <div class="notif-list" style="padding: 16px;">
+          <div class="card mb-3 background-subtle">
+            <div class="flex justify-between items-center mb-1">
+              <strong style="color: var(--brand-primary);">🔔 Yêu cầu cấp tài khoản chuyên gia ngoài trường</strong>
+              <span class="text-sm text-muted">Vừa xong</span>
+            </div>
+            <p class="text-sm" style="margin: 0;">Phòng KHCN gửi yêu cầu tạo tài khoản cho PGS.TS. Lê Văn K (Viện KHCN Đông Nam Bộ) tham gia HĐ nghiệm thu BM03.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Admin Console.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+</body>
+</html>

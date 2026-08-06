@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cổng Sinh Viên — Lập Thuyết Minh Đề Tài BM01B Chi Tiết</title>
+  <title>Cổng Sinh Viên — Lập Phiếu Đăng Ký Đề Tài BM01B</title>
   <link rel="stylesheet" href="../../../shared/theme.css">
   <link rel="stylesheet" href="../../../shared/layout.css">
   <link rel="stylesheet" href="../m01.css">
@@ -16,7 +16,7 @@
       <div class="brand-badge">DNTU</div>
       <div class="brand-title-box">
         <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
-        <p>CỔNG SINH VIÊN — LẬP HỒ SƠ THUYẾT MINH BM01B CHUẨN ĐẦY ĐỦ (FR-8)</p>
+        <p>CỔNG SINH VIÊN — PHIẾU ĐĂNG KÝ ĐỀ TÀI NCKH CẤP TRƯỜNG (BM01.B.QT.KHCN.02)</p>
       </div>
     </div>
     <div class="header-user-profile">
@@ -33,7 +33,7 @@
   <!-- App Main Container -->
   <div class="app-container">
 
-    <!-- Sidebar Navigation for Sinh viên Portal -->
+    <!-- Sidebar Navigation -->
     <aside class="app-sidebar">
       <div class="nav-section-label">Không Gian Sinh Viên</div>
       <ul class="nav-list">
@@ -55,84 +55,106 @@
 
       <div class="page-header">
         <div class="page-title-group">
-          <h2>Lập Bản Thuyết Minh Đăng Ký Đề Tài NCKH Sinh Viên (BM01B)</h2>
-          <p>Mẫu BM01.B.QT.KHCN.02 — Thuyết minh đề tài dành cho Sinh viên NCKH DNTU (Theo tệp mẫu Word chính thức).</p>
+          <h2>Phiếu Đăng Ký Đề Tài Nghiên Cứu Khoa Học Cấp Trường (BM01B)</h2>
+          <p>Mẫu BM01.B.QT.KHCN.02 — Áp dụng đối với đề tài NCKH Sinh viên DNTU.</p>
         </div>
       </div>
 
       <div class="form-section mb-4">
-        <div class="form-section-title">📌 MỤC I. THÔNG TIN CHUNG VỀ ĐỀ TÀI SINH VIÊN (BM01B)</div>
+        <div class="form-section-title">📌 THÔNG TIN ĐỀ TÀI & SINH VIÊN CHỦ NHIỆM (CHUẨN WORD BM01B)</div>
         <div class="grid grid-cols-2 gap-4">
           <div class="form-group" style="grid-column: span 2;">
-            <label class="form-label required">1. Tên Đề Tài Sinh Viên NCKH (Tiếng Việt):</label>
+            <label class="form-label required">Tên Đề Tài Nghiên Cứu Khoa Học:</label>
             <input type="text" class="form-input" value="Xây dựng ứng dụng di động hỗ trợ sinh viên DNTU đăng ký NCKH">
           </div>
           <div class="form-group">
-            <label class="form-label required">2. Sinh Viên Chủ Nhiệm (Nhóm Trưởng):</label>
-            <input type="text" class="form-input" value="Lê Văn C" readonly>
+            <label class="form-label required">Lĩnh Vực Nghiên Cứu:</label>
+            <input type="text" class="form-input" value="Công nghệ Thông tin">
           </div>
           <div class="form-group">
-            <label class="form-label required">Mã Số Sinh Viên (MSSV) & Lớp:</label>
-            <input type="text" class="form-input" value="22DTH1234 — Lớp 22DTH1" readonly>
+            <label class="form-label required">Chủ Nhiệm Đề Tài (Sinh viên):</label>
+            <input type="text" class="form-input" value="Lê Văn C (MSSV: 22DTH1234)" readonly>
           </div>
           <div class="form-group">
-            <label class="form-label required">Email Sinh Viên DNTU:</label>
+            <label class="form-label required">Khoa / Lớp:</label>
+            <input type="text" class="form-input" value="Khoa Công nghệ Thông tin — Lớp 22DTH1" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Điện Thoại Liên Hệ:</label>
+            <input type="text" class="form-input" value="0987 654 321">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Email Sinh Viên:</label>
             <input type="email" class="form-input" value="levanc@dntu.edu.vn" readonly>
           </div>
           <div class="form-group">
-            <label class="form-label required">Khoa / Bộ Môn Đang Học:</label>
-            <input type="text" class="form-input" value="Khoa Công nghệ Thông tin DNTU" readonly>
-          </div>
-          <div class="form-group">
-            <label class="form-label required">3. Phân Công Giảng Viên Hướng Dẫn (GVHD):</label>
-            <select class="form-select">
-              <option selected>TS. Trần Thị B (Mã GV: GV0892 - Khoa CNTT)</option>
-              <option>PGS.TS. Phạm Văn D (Mã GV: GV0112 - Khoa CNTT)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label required">Kinh Phí Đề Xuất (VNĐ):</label>
-            <input type="text" class="form-input" value="15,000,000">
+            <label class="form-label required">Giảng Viên Hướng Dẫn (GVHD):</label>
+            <input type="text" class="form-input" value="TS. Trần Thị B (Mã GV: GV0892 - Khoa CNTT)">
           </div>
         </div>
 
-        <div class="form-group mt-4">
-          <label class="form-label">Thành Viên Sinh Viên Cùng Thực Hiện (Nếu có):</label>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Họ và Tên Sinh Viên</th>
-                <th>MSSV</th>
-                <th>Lớp</th>
-                <th>Phân Công Nhiệm Vụ</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Nguyễn Văn D</td>
-                <td>22DTH5678</td>
-                <td>22DTH1</td>
-                <td>Thiết kế giao diện UI/UX Flutter Mobile</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="form-group mt-3">
+          <label class="form-label required">Tầm quan trọng/ tác động/ ảnh hưởng của đề tài đến sự phát triển của Nhà trường:</label>
+          <textarea class="form-textarea">Giúp chuyển đổi số quy trình đăng ký NCKH cho sinh viên DNTU, tăng tỷ lệ tham gia NCKH của sinh viên Khoa CNTT.</textarea>
         </div>
-      </div>
 
-      <div class="form-section mb-4">
-        <div class="form-section-title">📌 MỤC II. TÍNH CẤP THIẾT, MỤC TIÊU & SẢN PHẨM DỰ KIẾN</div>
-        <div class="form-group mb-3">
-          <label class="form-label required">1. Lý do chọn đề tài & Mục tiêu nghiên cứu:</label>
-          <textarea class="form-textarea">Sinh viên DNTU cần công cụ trực quan trên điện thoại thông minh để tra cứu quy định NCKH, xem các đợt mở và lập thuyết minh BM01B trực tiếp gửi GVHD duyệt.</textarea>
+        <div class="form-group mt-3">
+          <label class="form-label required">Mục tiêu nghiên cứu:</label>
+          <div class="grid grid-cols-1 gap-2 p-3 background-subtle" style="border: 1px solid var(--border-default); border-radius: 8px;">
+            <div>
+              <label class="form-label">6.1. Mục tiêu tổng quát:</label>
+              <input type="text" class="form-input" value="Phát triển ứng dụng di động đa nền tảng Flutter cho sinh viên DNTU.">
+            </div>
+            <div>
+              <label class="form-label">6.2. Mục tiêu cụ thể:</label>
+              <input type="text" class="form-input" value="Số hóa mẫu BM01B, tích hợp thông báo push notifications khi GVHD phê duyệt.">
+            </div>
+          </div>
         </div>
-        <div class="form-group mb-3">
-          <label class="form-label required">2. Phương pháp thực hiện & Sản phẩm dự kiến:</label>
-          <textarea class="form-textarea">Sử dụng framework Flutter & Node.js REST API; Sản phẩm dự kiến gồm: 01 Ứng dụng di động chạy trên iOS/Android và 01 Báo cáo tổng kết NCKH Sinh viên cấp Trường.</textarea>
+
+        <div class="form-group mt-3">
+          <label class="form-label required">Sản phẩm yêu cầu dự kiến/ các kết quả chính:</label>
+          <textarea class="form-textarea">01 Ứng dụng di động Flutter (chạy Android & iOS) + 01 Báo cáo tổng kết NCKH Sinh viên.</textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-3">
+          <div class="form-group">
+            <label class="form-label required">Thời Gian Thực Hiện (Tháng):</label>
+            <input type="number" class="form-input" value="6">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">10. Chi Phí Dự Kiến (VNĐ):</label>
+            <input type="text" class="form-input" value="15000000">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">11. Dự kiến đơn vị/ địa chỉ ứng dụng kết quả:</label>
+            <input type="text" class="form-input" value="Phòng KHCN & Các Khoa chuyên môn DNTU">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">12. Hiệu quả mang lại:</label>
+            <input type="text" class="form-input" value="Rút ngắn 50% thời gian xử lý thủ tục nộp hồ sơ NCKH của sinh viên.">
+          </div>
+        </div>
+
+        <!-- Signature Position matching BM01B Word specs -->
+        <div class="grid grid-cols-2 gap-4 mt-4 p-3 background-subtle" style="border: 1px dashed var(--brand-primary); border-radius: 8px; text-align: center;">
+          <div>
+            <strong>GIẢNG VIÊN HƯỚNG DẪN</strong>
+            <p class="text-sm text-muted">● Chờ TS. Trần Thị B duyệt</p>
+          </div>
+          <div>
+            <strong>CHỦ NHIỆM ĐỀ TÀI (SINH VIÊN)</strong>
+            <p class="text-sm text-muted">✓ Lê Văn C (Đã ký)</p>
+          </div>
+          <div style="grid-column: span 2;">
+            <strong>TRƯỜNG ĐƠN VỊ KHOA (KÝ CUỐI CÙNG)</strong>
+            <p class="text-sm text-muted">● Chờ Trưởng Khoa duyệt tuyến 2</p>
+          </div>
         </div>
 
         <div class="flex justify-end gap-2 mt-4">
-          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('BM01B Thuyết Minh Sinh Viên', 'BM01B', { title: 'Ứng dụng di động NCKH SV' })">👁️ Xem Trước PDF BM01B</button>
-          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Đã NỘP BM01B thành công! Hồ sơ được chuyển cho GVHD TS. Trần Thị B.', 'success')">🚀 NỘP HỒ SƠ CHO GVHD DUYỆT</button>
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('BM01B Thuyết Minh Sinh Viên', 'BM01B', { title: 'Ứng dụng di động NCKH SV' })">👁️ Xem Dự Thảo PDF BM01B</button>
+          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Đã NỘP BM01B thành công! Hồ sơ đã gửi đến GVHD TS. Trần Thị B.', 'success')">🚀 NỘP HỒ SƠ CHO GVHD DUYỆT</button>
         </div>
       </div>
 

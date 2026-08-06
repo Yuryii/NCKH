@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Ủy Viên HĐ — Chấm Phiếu Phản Biện Nghiệm Thu</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG UỶ VIÊN HỘI ĐỒNG — PHIẾU CHẤM PHẢN BIỆN NGHIỆM THU CẤP CƠ SỞ (MODULE 02)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">TS. Đặng Văn F</div>
+        <div class="user-role-label" id="user-display-role">Ủy viên Phản biện HĐ</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Ủy Viên HĐ</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-cuoc-hop-danh-sach.html" class="nav-link"><span class="nav-icon">🏛️</span> Cuộc Họp Phản Biện</a></li>
+        <li class="nav-item"><a href="02-cham-phieu-nghiem-thu.html" class="nav-link active"><span class="nav-icon">⭐</span> Chấm Phiếu Đánh Giá</a></li>
+        <li class="nav-item"><a href="03-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Ủy Viên</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Phiếu Nhận Xét Phản Biện Độc Lập Dự Án Cấp Tỉnh/Bộ/NN</h2>
+          <p>Thành viên phản biện độc lập đánh giá giá trị khoa học & thực tiễn sản phẩm của dự án DA-2026-BO-002.</p>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">⭐ NHẬN XÉT CHI TIẾT CỦA ỦY VIÊN PHẢN BIỆN</div>
+        <div class="form-group mb-3">
+          <label class="form-label required">1. Đánh giá tính mới, sáng tạo & Sản phẩm khoa học công bố:</label>
+          <textarea class="form-textarea">Mô hình xử lý nước thải bằng nano kim loại có tính đột phá cao. Đã công bố 02 bài báo Scopus Q1 uy tín.</textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label required">2. ĐIỂM ĐÁNH GIÁ CÁ NHÂN (TỐI ĐA 100 ĐIỂM):</label>
+          <input type="number" class="form-input" value="92" max="100">
+        </div>
+        <div class="flex justify-end gap-2">
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('Phiếu Đánh Giá Phản Biện NCKH', 'BM04.QT.KHCN.04', { title: 'Nghiên cứu chế tạo vật liệu nano' })">👁️ Xem Trước PDF Mẫu Phiếu</button>
+          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('TS. Đặng Văn F đã NỘP PHIẾU PHẢN BIỆN thành công!', 'success'); setTimeout(() => { window.location.href='01-cuoc-hop-danh-sach.html'; }, 1000);">⭐ NỘP PHIẾU PHẢN BIỆN CÁ NHÂN</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Phản biện Phân hệ 2.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+</body>
+</html>

@@ -72,10 +72,25 @@
   function resolveTargetUrl(actor) {
     const currentPath = window.location.pathname.replace(/\\/g, '/');
     
-    // Rule: If inside a module subfolder, redirect to target actor portal inside THAT SAME module
+    // Rule: Module 01 navigation
     if (currentPath.includes('/modules/module-01-de-tai-cap-truong/')) {
       const relativePath = actor.portalPath.replace('modules/module-01-de-tai-cap-truong/', '');
       return '../' + relativePath;
+    }
+
+    // Rule: Module 02 navigation
+    if (currentPath.includes('/modules/module-02-de-tai-cap-tinh-bo-nha-nuoc/')) {
+      const m02Map = {
+        'giang-vien': 'giang-vien/01-danh-sach-de-tai.html',
+        'p-khcn': 'p-khcn/01-p-khcn-dashboard.html',
+        'truong-don-vi': 'truong-don-vi/01-viec-can-lam.html',
+        'chu-tich-hoi-dong': 'chu-tich-hoi-dong/01-cuoc-hop-danh-sach.html',
+        'thanh-vien-hoi-dong': 'thanh-vien-hoi-dong/01-cuoc-hop-danh-sach.html',
+        'thu-ky-hoi-dong': 'thu-ky-hoi-dong/01-lap-bien-ban-bm04.html',
+        'sinh-vien': 'sinh-vien/01-danh-sach-de-tai.html',
+        'quan-tri-vien': 'quan-tri-vien/01-quan-ly-tai-khoan.html'
+      };
+      return '../' + (m02Map[actor.id] || 'giang-vien/01-danh-sach-de-tai.html');
     }
     
     // Rule: Root pages (index.html, full-system-screen-atlas.html) DO NOT redirect

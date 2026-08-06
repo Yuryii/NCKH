@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Giảng Viên — Báo Cáo Tiến Độ BM01 Phân Hệ 2</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG GIẢNG VIÊN — BÁO CÁO TÌNH HÌNH THỰC HIỆN ĐỀ TÀI CẤP TỈNH, BỘ, NHÀ NƯỚC (BM01.QT.KHCN.04)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">TS. Trần Thị B</div>
+        <div class="user-role-label" id="user-display-role">Giảng viên (Khoa CNTT)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Dự Án Ngoài Trường</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link"><span class="nav-icon">🌐</span> Dự Án Của Tôi</a></li>
+        <li class="nav-item"><a href="02-lap-ho-so-de-xuat.html" class="nav-link"><span class="nav-icon">📝</span> Đề Xuất Nhiệm Vụ Mới</a></li>
+        <li class="nav-item"><a href="03-bao-cao-tien-do-bm01.html" class="nav-link active"><span class="nav-icon">📊</span> Báo Cáo Tiến Độ BM01</a></li>
+        <li class="nav-item"><a href="04-de-nghi-nghiem-thu-bm02.html" class="nav-link"><span class="nav-icon">🎓</span> Đề Nghị Nghiệm Thu BM02</a></li>
+        <li class="nav-item"><a href="06-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Dự Án</a></li>
+        <li class="nav-item"><a href="05-ho-so-ca-nhan.html" class="nav-link"><span class="nav-icon">👤</span> Lý Lịch Khoa Học</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Báo Cáo Tình Hình Thực Hiện Đề Tài NCKH Cấp Tỉnh, Bộ, Nhà Nước (BM01)</h2>
+          <p>Mẫu BM01.QT.KHCN.04 — Báo cáo tiến độ nội dung, sản phẩm đạt được & tình hình giải ngân kinh phí ngoài trường.</p>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <!-- Section I -->
+        <div class="form-section-title">📌 I. THÔNG TIN CHUNG (BM01.QT.KHCN.04)</div>
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="form-group" style="grid-column: span 2;">
+            <label class="form-label required">1. Tên Đề Tài:</label>
+            <input type="text" id="bm01-title" class="form-input" value="Nghiên cứu xây dựng mô hình nông nghiệp thông minh thích ứng biến đổi khí hậu tỉnh Đồng Nai">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">2. Mã Số:</label>
+            <input type="text" id="bm01-code" class="form-input" value="DA-2026-TINH-001" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">3. Chủ Nhiệm Đề Tài:</label>
+            <input type="text" class="form-input" value="TS. Trần Thị B (Khoa CNTT DNTU)" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">5. Thời Gian Thực Hiện:</label>
+            <input type="text" class="form-input" value="Từ 01/01/2026 đến 31/12/2027 (24 Tháng)">
+          </div>
+          <div class="form-group">
+            <label class="form-label required">6. Chi Phí Phê Duyệt (VNĐ):</label>
+            <input type="text" id="bm01-budget" class="form-input" value="1.200.000.000">
+          </div>
+        </div>
+
+        <!-- Section II -->
+        <div class="form-section-title">📌 II. TÌNH HÌNH THỰC HIỆN ĐỀ TÀI</div>
+
+        <div class="form-group mb-3">
+          <label class="form-label required">1. Nội dung nghiên cứu (Bảng tiến độ thực hiện):</label>
+          <table class="data-table mb-3">
+            <thead>
+              <tr>
+                <th style="width: 5%;">STT</th>
+                <th style="width: 35%;">Nội dung nghiên cứu theo Thuyết minh đề tài</th>
+                <th style="width: 30%;">Tiến độ thực hiện theo Thuyết minh đề tài</th>
+                <th style="width: 30%;">Nội dung nghiên cứu đã thực hiện</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Khảo sát 50 trang trại nông nghiệp công nghệ cao tại Đồng Nai</td>
+                <td>Tháng 01/2026 - Tháng 06/2026</td>
+                <td><strong style="color: #166534;">✓ Đã hoàn thành 100% khảo sát thực địa</strong></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Lắp đặt trạm cảm biến IoT đo độ ẩm & vi khí hậu</td>
+                <td>Tháng 07/2026 - Tháng 12/2026</td>
+                <td><strong style="color: #854D0E;">● Đang triển khai thử nghiệm đạt 60%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label required">2. Sản phẩm đạt được:</label>
+          <table class="data-table mb-3">
+            <thead>
+              <tr>
+                <th style="width: 5%;">STT</th>
+                <th style="width: 45%;">Sản phẩm theo Thuyết minh đề tài</th>
+                <th style="width: 50%;">Sản phẩm đã đạt được</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><strong>Sản phẩm khoa học</strong></td>
+                <td>02 Bài báo Scopus Q2 công bố quốc tế</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><strong>Sản phẩm đào tạo</strong></td>
+                <td>Hỗ trợ hướng dẫn 02 Học viên Thạc sĩ bảo vệ luận văn</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><strong>Sản phẩm ứng dụng</strong></td>
+                <td>Hệ thống phần mềm IoT SmartAgri cho Sở Nông nghiệp</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><strong>Tài sản trí tuệ khác được chấp nhận đơn/được cấp bằng</strong></td>
+                <td>01 Đơn đăng ký Giải pháp Hữu ích tại Cục SHTT</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group mb-4">
+          <label class="form-label required">3. Chi phí đề tài (Báo cáo kinh phí giải ngân):</label>
+          <div class="grid grid-cols-3 gap-3 background-subtle style-card p-3" style="border: 1px solid var(--border-default); border-radius: 8px;">
+            <div>
+              <label class="form-label">3.1. Chi phí được cấp (VNĐ):</label>
+              <input type="text" class="form-input" value="1.200.000.000" readonly>
+            </div>
+            <div>
+              <label class="form-label">3.2. Chi phí đã chi (VNĐ):</label>
+              <input type="text" class="form-input" value="600.000.000">
+            </div>
+            <div>
+              <label class="form-label">3.3. Chi phí đã quyết toán (VNĐ):</label>
+              <input type="text" class="form-input" value="600.000.000">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section III -->
+        <div class="form-section-title">📌 III. KẾ HOẠCH TRIỂN KHAI TIẾP THEO (Bỏ qua mục này nếu ở giai đoạn báo cáo nghiệm thu)</div>
+        <div class="form-group mb-4">
+          <textarea class="form-textarea">Hoàn thiện mô hình học máy dự báo vi khí hậu và triển khai mở rộng 20 trạm cảm biến IoT tại các vùng chuyên canh huyện Định Quán.</textarea>
+        </div>
+
+        <!-- Section IV -->
+        <div class="form-section-title">📌 IV. KIẾN NGHỊ</div>
+        <div class="form-group mb-4">
+          <textarea class="form-textarea">Đề nghị Phòng KHCN và Tổ chức chủ trì hỗ trợ giải ngân giai đoạn 2 đúng tiến độ theo Hợp đồng.</textarea>
+        </div>
+
+        <!-- Signatures Layout matching exact Word specs -->
+        <div class="flex justify-between items-center mt-4 p-3 background-subtle" style="border: 1px dashed var(--brand-primary); border-radius: 8px;">
+          <div class="text-center" style="width: 45%;">
+            <strong>CHỦ NHIỆM ĐỀ TÀI (Ký bên trái)</strong>
+            <p class="text-sm text-muted">✓ TS. Trần Thị B (Đã ký)</p>
+          </div>
+          <div class="text-center" style="width: 45%;">
+            <strong>TỔ CHỨC CHỦ TRÌ (Ký bên phải)</strong>
+            <p class="text-sm text-muted">● Chờ Trưởng Khoa / Đơn vị ký xác nhận</p>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.showToast('Lưu bản nháp báo cáo BM01 thành công!', 'info')">💾 Lưu Bản Nháp</button>
+          <button type="button" class="btn btn-secondary" onclick="DNTUCommon.previewPDF('Báo Cáo Tiến Độ BM01', 'BM01.QT.KHCN.04', { title: document.getElementById('bm01-title').value, code: document.getElementById('bm01-code').value, budget: document.getElementById('bm01-budget').value })">👁️ Xem Dự Thảo PDF BM01</button>
+          <button type="button" class="btn btn-primary" onclick="submitBM01ProgressReport()">🚀 NỘP BÁO CÁO BM01 CHO KHOA & P.KHCN</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Báo cáo BM01.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+
+  <script>
+    function submitBM01ProgressReport() {
+      DNTUModule02.submitProgressReportBM01('DA-2026-TINH-001', {
+        title: document.getElementById('bm01-title').value,
+        budgetSpent: '600.000.000 VNĐ'
+      });
+      setTimeout(() => {
+        window.location.href = '01-danh-sach-de-tai.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Trưởng Đơn Vị — Duyệt Đề Xuất Nhiệm Vụ Mới</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG TRƯỜNG KHOA / ĐƠN VỊ — THẨM ĐỊNH ĐỀ XUẤT NHIỆM VỤ NGOÀI TRƯỜNG (MODULE 02)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">PGS.TS. Phạm Văn D</div>
+        <div class="user-role-label" id="user-display-role">Trưởng Khoa CNTT</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Trưởng Đơn Vị</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-viec-can-lam.html" class="nav-link"><span class="nav-icon">📋</span> Việc Cần Làm</a></li>
+        <li class="nav-item"><a href="02-duyet-de-xuat.html" class="nav-link active"><span class="nav-icon">✍️</span> Duyệt Đề Xuất Nhiệm Vụ</a></li>
+        <li class="nav-item"><a href="03-xac-nhan-bao-cao-bm01.html" class="nav-link"><span class="nav-icon">📊</span> Xác Nhận Báo Cáo BM01</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Đơn Vị</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Thẩm Định & Phê Duyệt Đề Xuất Đăng Ký Nhiệm Vụ KHCN Cấp Tỉnh/Bộ Mới</h2>
+          <p>Trưởng đơn vị đánh giá tính khả thi, nhân sự và điều kiện cơ sở vật chất đáp ứng của Khoa.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Chi Tiết Phiếu Đề Xuất Nhiệm Vụ Trình Duyệt</h3>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label">Tên nhiệm vụ đề xuất:</label>
+          <input type="text" class="form-input" value="Nghiên cứu ứng dụng Blockchain & IoT trong truy xuất nguồn gốc nông sản xuất khẩu tỉnh Đồng Nai" readonly>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-3">
+          <div>
+            <label class="form-label">Chủ nhiệm đề xuất:</label>
+            <input type="text" class="form-input" value="TS. Trần Thị B (Khoa CNTT)" readonly>
+          </div>
+          <div>
+            <label class="form-label">Cấp đăng ký đề xuất:</label>
+            <input type="text" class="form-input" value="Cấp Tỉnh (Sở KH&CN tỉnh Đồng Nai)" readonly>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="form-label required">Ý kiến đánh giá & Cam kết cơ sở vật chất của Trưởng Khoa:</label>
+          <textarea class="form-textarea">Khoa CNTT đảm bảo đủ năng lực nhân sự phòng thí nghiệm IoT và máy chủ xử lý dữ liệu đáp ứng yêu cầu thực hiện dự án cấp Tỉnh.</textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-danger" onclick="DNTUCommon.showToast('Đã YÊU CẦU CHỈNH SỬA phiếu đề xuất!', 'warning')">❌ Yêu Cầu Chỉnh Sửa</button>
+          <button type="button" class="btn btn-primary" onclick="DNTUCommon.showToast('Trưởng Khoa đã DUYỆT THẨM ĐỊNH phiếu đề xuất thành công!', 'success'); setTimeout(() => { window.location.href='01-viec-can-lam.html'; }, 1000);">✓ PHÊ DUYỆT TRÌNH PHÒNG KHCN</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Trưởng đơn vị Phân hệ 2.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+</body>
+</html>

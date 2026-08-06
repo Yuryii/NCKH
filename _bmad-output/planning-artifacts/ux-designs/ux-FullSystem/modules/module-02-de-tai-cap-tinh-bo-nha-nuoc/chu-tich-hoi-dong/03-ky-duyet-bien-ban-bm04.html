@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Chủ Tịch HĐ — Duyệt Ký Thứ 2 Biên Bản BM04</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG CHỦ TỊCH HỘI ĐỒNG — DUYỆT KÝ CHỮ KÝ THỨ 2 LÊN BIÊN BẢN BM04.QT.KHCN.04</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">GS.TS. Hoàng Văn E</div>
+        <div class="user-role-label" id="user-display-role">Chủ tịch Hội đồng</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Chủ Tịch HĐ</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-cuoc-hop-danh-sach.html" class="nav-link"><span class="nav-icon">🏛️</span> Cuộc Họp Nghiệm Thu</a></li>
+        <li class="nav-item"><a href="02-cham-phieu-nghiem-thu.html" class="nav-link"><span class="nav-icon">⭐</span> Chấm Phiếu Đánh Giá</a></li>
+        <li class="nav-item"><a href="03-ky-duyet-bien-ban-bm04.html" class="nav-link active"><span class="nav-icon">✍️</span> Duyệt Ký Biên Bản BM04</a></li>
+        <li class="nav-item"><a href="04-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Chủ Tịch HĐ</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Duyệt Ký Chữ Ký Thứ 2 Pháp Lý Lên Biên Bản BM04.QT.KHCN.04</h2>
+          <p>Chủ tịch Hội đồng phê duyệt kết luận cuộc họp nghiệm thu cấp cơ sở cho dự án DA-2026-BO-002.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Xem Toàn Văn Biên Bản BM04 Đã Được Thư Ký ThS. Vũ Thị G Ký Thứ 1</h3>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="DNTUCommon.previewPDF('Biên bản BM04 Cấp Bộ', 'BM04.QT.KHCN.04', { title: 'Nghiên cứu chế tạo vật liệu nano' })">👁️ Xem PDF Biên Bản BM04</button>
+        </div>
+        <div class="p-4 background-subtle">
+          <p><strong>Dự án:</strong> Nghiên cứu chế tạo vật liệu nano ứng dụng xử lý nước thải công nghiệp vùng Đông Nam Bộ</p>
+          <p><strong>Kết quả xếp loại HĐ:</strong> <strong style="color: #166534;">ĐẠT MỨC XUẤT SẮC (92.5/100 điểm)</strong></p>
+        </div>
+      </div>
+
+      <div class="form-section mb-4">
+        <div class="form-section-title">✍️ DUYỆT KÝ CHỮ KÝ THỨ 2 CỦA CHỦ TỊCH HỘI ĐỒNG (BM04)</div>
+        <p class="text-sm text-muted mb-3">Khi Chủ tịch HĐ bấm nút duyệt ký, chữ ký số DNTU sẽ được gắn lên văn bản BM04 và tự động phát thông báo chuyển P.KHCN cấp Giấy chứng nhận BM05.</p>
+
+        <div class="flex justify-end gap-2">
+          <button type="button" class="btn btn-primary" onclick="chairSignBM04Action()">✍️ DUYỆT KÝ CHỮ KÝ THỨ 2 LÊN BM04</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Chủ tịch HĐ Phân hệ 2.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+
+  <script>
+    function chairSignBM04Action() {
+      DNTUModule02.signMinutesBM04('DA-2026-BO-002', true);
+      setTimeout(() => {
+        window.location.href = '01-cuoc-hop-danh-sach.html';
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

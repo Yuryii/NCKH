@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Sinh Viên — Dự Án Cấp Tỉnh / Bộ Phối Hợp</title>
+  <link rel="stylesheet" href="../../../shared/theme.css">
+  <link rel="stylesheet" href="../../../shared/layout.css">
+  <link rel="stylesheet" href="../m02.css">
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand-logo-group">
+      <div class="brand-badge">DNTU</div>
+      <div class="brand-title-box">
+        <h1>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</h1>
+        <p>CỔNG SINH VIÊN — THAM GIA DỰ ÁN CẤP TỈNH, BỘ, NHÀ NƯỚC (MODULE 02)</p>
+      </div>
+    </div>
+    <div class="header-user-profile">
+      <div class="user-info-text">
+        <div class="user-name" id="user-display-name">Lê Văn C</div>
+        <div class="user-role-label" id="user-display-role">Sinh viên (Lớp 22DTH1)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Role Switcher Toolbar -->
+  <div id="role-switcher-mount"></div>
+
+  <!-- App Main Container -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="nav-section-label">Không Gian Sinh Viên Phối Hợp</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="01-danh-sach-de-tai.html" class="nav-link active"><span class="nav-icon">🎓</span> Dự Án Phối Hợp</a></li>
+        <li class="nav-item"><a href="03-thong-bao.html" class="nav-link"><span class="nav-icon">🔔</span> Thông Báo Tiến Độ</a></li>
+        <li class="nav-item"><a href="02-ho-so-ca-nhan.html" class="nav-link"><span class="nav-icon">👤</span> Thông Tin Sinh Viên</a></li>
+      </ul>
+
+      <div class="nav-section-label">Điều Hướng Trung Tâm</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a href="../../../index.html" class="nav-link"><span class="nav-icon">🏠</span> Landing Hub</a></li>
+        <li class="nav-item"><a href="../../../full-system-screen-atlas.html" class="nav-link"><span class="nav-icon">🗺️</span> Screen Atlas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2>Danh Sách Dự Án Cấp Tỉnh, Bộ & Doanh Nghiệp Sinh Viên Tham Gia Phối Hợp</h2>
+          <p>Sinh viên được các Giảng viên chủ nhiệm gán vào nhóm hỗ trợ kỹ thuật và thực nghiệm đề tài.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title">Dự Án Đang Tham Gia Nhóm Nghiên Cứu</h3>
+        </div>
+
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mã Dự Án</th>
+                <th>Tên Đề Tài / Dự Án KHCN</th>
+                <th>Cấp Quản Lý</th>
+                <th>GV Chủ Nhiệm</th>
+                <th>Nhiệm Vụ Sinh Viên Phụ Trách</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>DA-2026-TINH-001</strong></td>
+                <td>Nghiên cứu xây dựng mô hình nông nghiệp thông minh thích ứng biến đổi khí hậu tỉnh Đồng Nai</td>
+                <td><span class="badge badge-grant-province">Cấp Tỉnh Đồng Nai</span></td>
+                <td>TS. Trần Thị B</td>
+                <td>Hỗ trợ lập trình ứng dụng di động Flutter thu thập dữ liệu cảm biến IoT</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    Bản quyền © 2026 Trường Đại học Công nghệ Đồng Nai (DNTU) — Cổng Sinh viên Phân hệ 2.
+  </footer>
+
+  <script src="../../../shared/role-switcher.js"></script>
+  <script src="../../../shared/common.js"></script>
+  <script src="../m02.js"></script>
+</body>
+</html>
